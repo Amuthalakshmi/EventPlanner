@@ -94,14 +94,13 @@ public class EventPlannerController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/newEventManager" }, method = RequestMethod.POST)
-	public String saveEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model) {
+	public String saveEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model, RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "addEventManager";
 		}
-		eventManagerService.saveEventManager(eventManager);
-		model.addAttribute("success", eventManager.getUserName() + " added as event manager");
-		listAllEventManagers(model);
-		return "listEventManagers";
+		eventManagerService.saveEventManager(eventManager);		
+		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " added as event manager");
+		return "redirect:/listEventManagers";
 	}
 
 	/**
@@ -131,17 +130,17 @@ public class EventPlannerController {
 	 */
 	@RequestMapping(value = { "/edit-{empRefId}-eventManager" }, method = RequestMethod.POST)
 	public String updateEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model,
-			@PathVariable(value = "empRefId") int empRefId) {
+			@PathVariable(value = "empRefId") int empRefId, RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
 			return "addEventManager";
 		}
 
 		eventManagerService.updateEventManager(eventManager);
-
-		model.addAttribute("success", eventManager.getUserName() + " updated successfully");
-		listAllEventManagers(model);
-		return "listEventManagers";
+		
+		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " updated successfully");
+		return "redirect:/listEventManagers";
+		
 	}
 
 	/**
@@ -195,7 +194,6 @@ public class EventPlannerController {
 		eventService.saveEvent(event);		
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + "(" + event.getEventPlannedDate() + ") saved successfully");
-		listAllEvents(model);
 		return "redirect:/listEvents";
 		
 	}
@@ -241,9 +239,7 @@ public class EventPlannerController {
 		}
 
 		eventService.updateEvent(event);
-		model.addAttribute("success",
-				"Event: " + event.getEventName() + ", Location:" + event.getEventLocation() + " updated successfully");
-		listAllEvents(model);
+		
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + ", Location:" + event.getEventLocation() + " updated successfully");
 		return "redirect:/listEvents";
