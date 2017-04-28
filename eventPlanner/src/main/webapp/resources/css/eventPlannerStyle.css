@@ -1,0 +1,75 @@
+@-ms-viewport{
+  width: device-width;
+}
+
+html,
+body,
+.container {
+    height: 100%;
+}
+
+.EOI {    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+  display:flex;
+  flex-direction: row;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.row h3{
+	margin: 0px;
+}
+
+.center{
+	justify-content: center;
+}
+
+.right{
+	justify-content: right;
+}
+
+#txt-lg{
+  width: 80%;
+}
+  
+
+/* Tooltip */
+.tooltip > .tooltip-inner {
+    background-color: white; 
+    color: grey;       
+    padding: 5px;
+}
+
+.form-horizontal .control-label{
+    text-align: left;
+}
+
+.EventList .data:hover{
+	background-color: #337ab7 !important;
+	color: white;
+}
+
+.EventList .data:hover a {
+    color: white;
+}
+
+.horizontal.EventList {
+    width: 60%;
+}
+
+#eventSetUpForm .has-error .control-label,
+#eventSetUpForm .has-error .help-block,
+#eventSetUpForm .has-error .form-control-feedback {
+    color: #f39c12;
+}
+
+#eventSetUpForm .has-success .control-label,
+#eventSetUpForm .has-success .help-block,
+#eventSetUpForm .has-success .form-control-feedback {
+    color: #18bc9c;
+}    
