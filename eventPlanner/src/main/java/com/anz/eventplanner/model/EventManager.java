@@ -17,7 +17,7 @@ public class EventManager {
 	private int eventManagerId;
 		
 	@Column(name = "employee_id", nullable = false)
-	private int employeeId;
+	private Integer employeeId;
 	
 	@Column(name = "user_name", nullable = false)
 	private String userName;
@@ -30,11 +30,11 @@ public class EventManager {
 		this.eventManagerId = eventManagerId;
 	}
 
-	public int getEmployeeId() {
+	public Integer getEmployeeId() {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public void setEmployeeId(Integer employeeId) {
 		this.employeeId = employeeId;
 	}
 

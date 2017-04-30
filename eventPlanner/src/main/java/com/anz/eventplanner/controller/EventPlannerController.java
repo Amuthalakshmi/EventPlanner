@@ -231,19 +231,21 @@ public class EventPlannerController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/edit-{eventId}-event" }, method = RequestMethod.POST)
-	public String updateEvent(@Valid Event event, BindingResult result, ModelMap model, @PathVariable int eventId,
-			RedirectAttributes redirectAttributes) {
+	public String updateEvent(@Valid Event event, BindingResult result, ModelMap model, @PathVariable int eventId) {
 
 		if (result.hasErrors()) {
 			return "addEvent";
 		}
 
-		eventService.updateEvent(event);
-		
-		redirectAttributes.addFlashAttribute("success",
-				"Event: " + event.getEventName() + ", Location:" + event.getEventLocation() + " updated successfully");
-		return "redirect:/listEvents";
-
+		eventService.updateEvent(event);		
+		return "redirect:/edit-{eventId}-event";
 	}
+		 
+    
+	@RequestMapping(value = { "/delete-{eventId}-event" }, method = RequestMethod.GET)
+    public String deleteEvent(@PathVariable int eventId) {
+		eventService.deleteEventById(eventId);
+        return "redirect:/listEvents";
+    }
 
 }

@@ -40,6 +40,7 @@ public class EventServiceImpl implements EventService {
 			entity.setEventPlannedDate(event.getEventPlannedDate());
 			entity.setMaxParticipants(event.getMaxParticipants());
 			entity.setTargetAudience(event.getTargetAudience());
+			entity.setEventStatus(event.getEventStatus());
 		}
 	}
 

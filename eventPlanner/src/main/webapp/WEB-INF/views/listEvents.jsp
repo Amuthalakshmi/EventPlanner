@@ -43,16 +43,18 @@
 						<table class="table table-striped table-bordered">
 							<tr>
 								<th>Name</th>
+								<th>Location</th>
 								<th>Planned Date</th>
-								<th>Options</th>
+								<th>Status</th>
 							</tr>
 							<c:forEach items="${events}" var="event">
 								<tr class="data">
-									<td>${event.eventName}</td>
-									<td>${event.eventPlannedDate}</td>
 									<td><a
 										href="<c:url value='/edit-${event.eventId}-event' />">
-											Change / Update </a></td>
+											${event.eventName} </a></td>
+									<td>${event.eventLocation}</td>
+									<td>${event.eventPlannedDate}</td>
+									<td>${event.eventStatus }</td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -62,7 +64,7 @@
 					There are no Events
 				</c:otherwise>
 			</c:choose>
-		</div>		
+		</div>
 
 		<div class="row">
 			<a href="<c:url value='/newEvent' />"><input

@@ -22,16 +22,18 @@ public class Event {
 	
 	@Column(name = "planned_date")
 	private String eventPlannedDate;
-	
-	@Size(min=2, max=50)
+		
 	@Column(name = "target_audience")
 	private String targetAudience;	
 	
 	@Column(name = "max_participants")
-	private int maxParticipants;
+	private Integer maxParticipants;
 	
 	@Column(name= "event_location")
-	private String eventLocation;		
+	private String eventLocation;
+	
+	@Column(name= "event_status")
+	private String eventStatus;
 
 	public int getEventId() {
 		return eventId;
@@ -65,11 +67,11 @@ public class Event {
 		this.targetAudience = targetAudience;
 	}
 
-	public int getMaxParticipants() {
+	public Integer getMaxParticipants() {
 		return maxParticipants;
 	}
 
-	public void setMaxParticipants(int maxParticipants) {
+	public void setMaxParticipants(Integer maxParticipants) {
 		this.maxParticipants = maxParticipants;
 	}
 
@@ -79,6 +81,14 @@ public class Event {
 
 	public void setEventLocation(String eventLocation) {
 		this.eventLocation = eventLocation;
+	}
+
+	public String getEventStatus() {
+		return eventStatus;
+	}
+
+	public void setEventStatus(String eventStatus) {
+		this.eventStatus = eventStatus;
 	}
 
 	@Override
