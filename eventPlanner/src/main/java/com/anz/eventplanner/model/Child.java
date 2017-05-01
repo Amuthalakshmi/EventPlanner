@@ -23,26 +23,26 @@ public class Child {
 	private int eventId;
 
 	@Column(name = "child_name")
-	private int childName;
+	private String childName;
 
 	@Column(name = "child_age")
 	private int childAge;
 	
 	@Column(name = "child_gender")
-	private int childGender;
+	private String childGender;
 	
 	@Column(name = "child_dietary_requirement")
-	private int childDietaryRequirement;
+	private String childDietaryRequirement;
 	
 	@Column(name = "is_child_allergic")
-	private int isChildAllergic;
+	private boolean isChildAllergic;
 	
 	@Column(name = "other_details")
-	private int otherDetails;
+	private String otherDetails;
 	
 	@Column(name = "activity_id")
-	private int activityId;	
-	
+	private int activityId;
+
 	public int getChildId() {
 		return childId;
 	}
@@ -67,11 +67,11 @@ public class Child {
 		this.eventId = eventId;
 	}
 
-	public int getChildName() {
+	public String getChildName() {
 		return childName;
 	}
 
-	public void setChildName(int childName) {
+	public void setChildName(String childName) {
 		this.childName = childName;
 	}
 
@@ -83,35 +83,35 @@ public class Child {
 		this.childAge = childAge;
 	}
 
-	public int getChildGender() {
+	public String getChildGender() {
 		return childGender;
 	}
 
-	public void setChildGender(int childGender) {
+	public void setChildGender(String childGender) {
 		this.childGender = childGender;
 	}
 
-	public int getChildDietaryRequirement() {
+	public String getChildDietaryRequirement() {
 		return childDietaryRequirement;
 	}
 
-	public void setChildDietaryRequirement(int childDietaryRequirement) {
+	public void setChildDietaryRequirement(String childDietaryRequirement) {
 		this.childDietaryRequirement = childDietaryRequirement;
 	}
 
-	public int getIsChildAllergic() {
+	public boolean isChildAllergic() {
 		return isChildAllergic;
 	}
 
-	public void setIsChildAllergic(int isChildAllergic) {
+	public void setChildAllergic(boolean isChildAllergic) {
 		this.isChildAllergic = isChildAllergic;
 	}
 
-	public int getOtherDetails() {
+	public String getOtherDetails() {
 		return otherDetails;
 	}
 
-	public void setOtherDetails(int otherDetails) {
+	public void setOtherDetails(String otherDetails) {
 		this.otherDetails = otherDetails;
 	}
 

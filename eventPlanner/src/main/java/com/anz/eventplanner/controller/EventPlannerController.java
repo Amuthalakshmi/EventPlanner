@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Event;
@@ -94,11 +95,13 @@ public class EventPlannerController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/newEventManager" }, method = RequestMethod.POST)
-	public String saveEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model, RedirectAttributes redirectAttributes) {
+	public String saveEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model,
+			RedirectAttributes redirectAttributes) {
+
 		if (result.hasErrors()) {
 			return "addEventManager";
 		}
-		eventManagerService.saveEventManager(eventManager);		
+		eventManagerService.saveEventManager(eventManager);
 		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " added as event manager");
 		return "redirect:/listEventManagers";
 	}
@@ -137,10 +140,10 @@ public class EventPlannerController {
 		}
 
 		eventManagerService.updateEventManager(eventManager);
-		
+
 		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " updated successfully");
 		return "redirect:/listEventManagers";
-		
+
 	}
 
 	/**
@@ -187,15 +190,16 @@ public class EventPlannerController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/newEvent" }, method = RequestMethod.POST)
-	public String saveEvent(@Valid Event event, BindingResult result, ModelMap model,RedirectAttributes redirectAttributes) {
+	public String saveEvent(@Valid Event event, BindingResult result, ModelMap model,
+			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "addEvent";
 		}
-		eventService.saveEvent(event);		
+		eventService.saveEvent(event);
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + "(" + event.getEventPlannedDate() + ") saved successfully");
 		return "redirect:/listEvents";
-		
+
 	}
 
 	/***
@@ -208,7 +212,14 @@ public class EventPlannerController {
 	@RequestMapping(value = { "/edit-{eventId}-event" }, method = RequestMethod.GET)
 	public String editEvent(@PathVariable int eventId, ModelMap model) {
 		Event event = eventService.findById(eventId);
-		model.addAttribute("event", event);
+		model.addAttribute("event", event);		
+		
+		if(event.getEventStatus() == null){
+			model.addAttribute("canDelete", true);		
+			model.addAttribute("canChangeStatus", true);
+		} if(event.getEventStatus() != null && event.getEventStatus().equalsIgnoreCase("Initiated")){
+			model.addAttribute("canChangeStatus", true);
+		}
 
 		Map<String, String> locations = new HashMap<String, String>();
 		locations.put("WLG", "Wellington");
@@ -237,15 +248,49 @@ public class EventPlannerController {
 			return "addEvent";
 		}
 
-		eventService.updateEvent(event);		
+		eventService.updateEvent(event);
+
 		return "redirect:/edit-{eventId}-event";
 	}
-		 
-    
+
+	/***
+	 * This method will be called on form submission, handling POST request for
+	 * updating eventStatus in database. To do - validation
+	 * 
+	 * @param event
+	 * @param result
+	 * @param model
+	 * @param eventId
+	 * @return
+	 */
+	@RequestMapping(value = { "/edit-{eventId}-event" }, method = RequestMethod.POST, params = "eventStatus")
+	public String updateEventStatus(@Valid Event event, BindingResult result, ModelMap model, @PathVariable int eventId,
+			@RequestParam(value = "eventStatus", required = false) String eventStatus) {
+
+		if (result.hasErrors()) {
+			return "addEvent";
+		}
+		
+		event = eventService.findById(eventId);
+		
+		if (eventStatus.equals("start")) {
+			event.setEventStatus("Initiated");
+		} else if (eventStatus.equals("finish")) {
+			event.setEventStatus("Completed");
+		}
+		if (eventStatus.equals("drop")) {
+			event.setEventStatus("Cancelled");
+		}
+
+
+		eventService.updateEventStatus(event);
+		return "redirect:/edit-{eventId}-event";
+	}
+
 	@RequestMapping(value = { "/delete-{eventId}-event" }, method = RequestMethod.GET)
-    public String deleteEvent(@PathVariable int eventId) {
+	public String deleteEvent(@PathVariable int eventId) {
 		eventService.deleteEventById(eventId);
-        return "redirect:/listEvents";
-    }
+		return "redirect:/listEvents";
+	}
 
 }

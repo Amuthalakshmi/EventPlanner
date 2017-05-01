@@ -19,7 +19,7 @@ public class Participant {
 	private int employeeId;
 	
 	@Column(name = "user_name")
-	private int userName;
+	private String userName;
 		
 	@Column(name = "event_id",nullable = false)
 	private int eventId;	
@@ -28,11 +28,11 @@ public class Participant {
 	private int numberOfChildren;
 	
 	@Column(name = "location")
-	private int location;
+	private String location;
 	
 	@Column(name = "level")
-	private int level;			
-	
+	private int level;	
+
 	public int getParticipantId() {
 		return participantId;
 	}
@@ -49,11 +49,11 @@ public class Participant {
 		this.employeeId = employeeId;
 	}
 
-	public int getUserName() {
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(int userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
@@ -73,11 +73,11 @@ public class Participant {
 		this.numberOfChildren = numberOfChildren;
 	}
 
-	public int getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
-	public void setLocation(int location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 

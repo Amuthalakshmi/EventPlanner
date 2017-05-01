@@ -67,9 +67,12 @@
 		</div>
 
 		<div class="row">
-			<a href="<c:url value='/newEvent' />"><input
-				class="btn btn-primary btn-sm" value="New Event" /></a>
+			<a href="<c:url value='/newEvent' />">
+				<button type="button" class="btn btn-primary btn-sm">New
+					Event</button>
+			</a>
 		</div>
+		
 	</div>
 
 </body>

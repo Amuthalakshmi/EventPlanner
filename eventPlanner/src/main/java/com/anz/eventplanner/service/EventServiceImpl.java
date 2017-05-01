@@ -39,7 +39,19 @@ public class EventServiceImpl implements EventService {
 			entity.setEventLocation(event.getEventLocation());
 			entity.setEventPlannedDate(event.getEventPlannedDate());
 			entity.setMaxParticipants(event.getMaxParticipants());
-			entity.setTargetAudience(event.getTargetAudience());
+			entity.setTargetAudience(event.getTargetAudience());			
+		}
+	}
+	
+	/**
+	 * Since the method is running with Transaction, No need to call hibernate update explicitly.
+	 * Just fetch the entity from Database and update it with proper values within transaction.
+	 * It will be updated in Database once transaction ends.
+	 */
+	@Override
+	public void updateEventStatus(Event event) {
+		Event entity = dao.findById(event.getEventId());
+		if (entity != null) {			
 			entity.setEventStatus(event.getEventStatus());
 		}
 	}

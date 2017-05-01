@@ -54,11 +54,42 @@
 </head>
 <body>
 	<div class="container">
-		<div class="page-header">
-			<h1>
+
+		<div class='page-header'>
+			<div class='btn-toolbar pull-right'>
+				<div class='btn-group'>
+					<a href="<c:url value='/manager' />">
+						<button type='button'
+							class='btn btn-primary btn-sm dropdown-toggle'>Home</button>
+					</a>
+					<button class="btn btn-primary btn-sm dropdown-toggle"
+						data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu pull-right">
+						<li><a href="<c:url value='/listEvents' />">Events</a></li>
+						<li><a href="#">Reports</a></li>
+					</ul>
+				</div>
+			</div>
+			<h1 style="display: inline-block">
 				<c:choose>
 					<c:when test="${edit}">
-						${event.eventName}
+						${event.eventName} &nbsp;						
+						<form:form method="POST" modelAttribute="event">
+							<c:choose>
+								<c:when test="${canDelete}">
+									<button class="btn btn-success btn-circle" name="eventStatus"
+										value="eventStatus" onclick="this.value='start'">Start</button>
+								</c:when>
+								<c:when test="${canChangeStatus}">
+									<button class="btn btn-warning btn-circle" name="eventStatus"
+										value="eventStatus" onclick="this.value='finish'">Finish</button>
+									<button class="btn btn-danger btn-circle" name="eventStatus"
+										value="eventStatus" onclick="this.value='drop'">Drop</button>
+								</c:when>
+							</c:choose>
+						</form:form>
 					</c:when>
 					<c:otherwise>
 						Add Event
@@ -67,25 +98,31 @@
 			</h1>
 		</div>
 
-		<div id="eventSetUpForm" >
+		<div id="eventSetUpForm">
 			<form:form class="form-horizontal well" method="POST"
 				modelAttribute="event">
 				<fieldset>
 					<legend>
 						Event details
+						<c:out value="${canChangeStatus}" />
 						<c:if test="${edit}">
-							<a href="<c:url value='/delete-${event.eventId}-event' />">
-								<button type="button" class="btn btn-link pull-right">
-									Delete</button>
-							</a> &nbsp; &nbsp;
-							
-							<div class="pull-right">|</div>
-
-							<button id="editBtn" type="button"
-								class="btn btn-link pull-right" onClick="editToUpdate()">
-								Edit</button>
+							<c:if test="${canDelete}">
+								<a href="<c:url value='/delete-${event.eventId}-event' />">
+									<button type="button" class="btn btn-link pull-right">
+										Delete</button>
+								</a> &nbsp; &nbsp;
 								
-							<input id="updateBtn" class="btn btn-link pull-right" type="submit" value="Update" style="display:none"/>
+								<div class="pull-right">|</div>
+							</c:if>
+							
+							<c:if test="${canChangeStatus}">
+								<button id="editBtn" type="button"
+									class="btn btn-link pull-right" onClick="editToUpdate()">
+									Edit</button>
+							</c:if>
+
+							<input id="updateBtn" class="btn btn-link pull-right"
+								type="submit" value="Update" style="display: none" />
 						</c:if>
 					</legend>
 
@@ -97,12 +134,6 @@
 								path="eventName" placeholder="Name of the event"
 								disabled="${edit}" />
 						</div>
-						<c:if test="${edit}">
-							<button class="btn btn-success btn-circle"
-								onClick="javascript:initiateEvent()">Start</button> &nbsp; &nbsp;
-								<button class="btn btn-warning btn-circle">Finish</button> &nbsp; &nbsp;
-								<button class="btn btn-danger btn-circle">Drop</button>
-						</c:if>
 					</div>
 
 					<div class="row form-group">
@@ -122,9 +153,9 @@
 							date</label> &nbsp; &nbsp;
 						<div class="col-md-3 date">
 							<div class="input-group input-append date" id="datePicker">
-								<form:input id="eventPlannedDate" type="text" class="form-control"
-									path="eventPlannedDate" placeholder="Event date"
-									disabled="${edit}" />
+								<form:input id="eventPlannedDate" type="text"
+									class="form-control" path="eventPlannedDate"
+									placeholder="Event date" disabled="${edit}" />
 								<span class="input-group-addon add-on"><span
 									class="glyphicon glyphicon-calendar"></span></span>
 							</div>

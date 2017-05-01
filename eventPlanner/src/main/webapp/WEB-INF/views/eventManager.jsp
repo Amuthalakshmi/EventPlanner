@@ -42,28 +42,31 @@
 </head>
 <body>
 	<div class="container">
-		<div class="page-header">
-			<div class="row">
-				<div class="col-md-10">
-					<h1>
-						Event Planner <small> (with Registration) </small>
-					</h1>
-				</div>				
-				<div class="col-md-1 text-right">					
-					<a href="<c:url value='/admin' />"><input
-						class="btn btn-primary btn-sm" value="admin" /></a>					
+
+		<div class='page-header'>
+			<div class='btn-toolbar pull-right'>
+				<div class='btn-group'>
+					<a href="<c:url value='/admin' />">
+						<button type='button' class='btn btn-primary btn-sm'>admin</button>
+					</a>
 				</div>
 			</div>
+			<h1>
+				Event Planner <small> (with Registration) </small>
+			</h1>
 		</div>
 
 		<div class="row center">
-			<a href="<c:url value='/listEvents' />"><input
-				class="btn btn-primary btn-lg" value="Events" /></a>
+			<a href="<c:url value='/listEvents' />">
+				<button type="button" class="btn btn-primary btn-lg">
+					Events</button>
+			</a>
 		</div>
-		
+
 		<div class="row center">
-			<a href="<c:url value='' />"><input
-				class="btn btn-primary btn-lg" value="Reports" /></a>
+			<a href="<c:url value='' />">
+				<button type="button" class="btn btn-primary btn-lg">Report</button>
+			</a>
 		</div>
 
 	</div>
