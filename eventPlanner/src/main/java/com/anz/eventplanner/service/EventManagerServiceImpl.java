@@ -39,6 +39,7 @@ public class EventManagerServiceImpl implements EventManagerService{
 	@Override
 	public void updateEventManager(EventManager eventManager) {		
 		EventManager entity = dao.findById(eventManager.getEventManagerId());		
+		
 		if (entity != null) {
 			entity.setEmployeeId(eventManager.getEmployeeId());
 			entity.setUserName(eventManager.getUserName());

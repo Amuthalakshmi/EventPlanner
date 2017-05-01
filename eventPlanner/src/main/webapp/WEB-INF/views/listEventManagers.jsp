@@ -43,22 +43,29 @@
 		<div class="horizontal EventManagerList">
 			<c:choose>
 				<c:when test="${not empty eventManagers}">
-					<div class="row">
-						<div class="col-md-2">Employee ID</div>
-						<div class="col-md-2">User Name</div>
-						<div class="col-md-2">Options</div>
+					<div class="table-responsive">
+						<table class="table table-striped table-bordered">
+							<tr>
+								<th>Employee ID</th>
+								<th>User Name</th>
+								<th>Options</th>
+							</tr>
+							<c:forEach items="${eventManagers}" var="eventManager">
+								<tr class="data">
+									<td>${eventManager.employeeId}</td>
+									<td>${eventManager.userName}</td>
+									<td><a
+										href="<c:url value='/edit-${eventManager.eventManagerId}-eventManager' />">
+											Edit </a> / <a
+										href="<c:url value='/delete-${eventManager.eventManagerId}-eventManager' />">
+											Delete </a></td>
+
+
+
+								</tr>
+							</c:forEach>
+						</table>
 					</div>
-					<c:forEach items="${eventManagers}" var="eventManager">
-						<div class="row">
-							<div class="col-md-2">${eventManager.employeeId}</div>
-							<div class="col-md-2">${eventManager.userName}</div>
-							<div class="col-md-2">
-								<a
-									href="<c:url value='/edit-${eventManager.eventManagerId}-eventManager' />">
-									Edit </a>
-							</div>
-						</div>
-					</c:forEach>
 				</c:when>
 				<c:otherwise>
 					There are no Event managers

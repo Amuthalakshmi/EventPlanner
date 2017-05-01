@@ -32,7 +32,7 @@ public class EventManagerDAOImpl  extends AbstractDAO<Integer, EventManager> imp
 
 	@Override
 	public void deleteEventManagerById(int eventManagerId) {
-		Query query = getSession().createSQLQuery("delete from EventManager where event_manager_id=:eventManagerId");
+		Query query = getSession().createSQLQuery("delete from event_manager where event_manager_id=:eventManagerId");
 		query.setInteger("eventManagerId", eventManagerId);
 		query.executeUpdate();		
 	}

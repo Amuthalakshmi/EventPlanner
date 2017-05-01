@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="event_Manager")
+@Table(name="event_manager")
 public class EventManager {
 	
 	@Id

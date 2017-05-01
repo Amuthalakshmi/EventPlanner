@@ -35,16 +35,26 @@
 </head>
 <body>
 	<div class="container">
+
 		<div class="page-header">
-			<h1>Add Event Manager</h1>
+			<h1>
+				<c:choose>
+					<c:when test="${edit}">
+						${eventManager.userName} 
+				</c:when>
+					<c:otherwise>
+						Add Event Manager
+					</c:otherwise>
+				</c:choose>
+			</h1>
 		</div>
 
 		<div id="eventManagerForm">
-			<form:form class="form-horizontal" method="POST"
+			<form:form class="form-horizontal well" method="POST"
 				modelAttribute="eventManager">
 				<fieldset>
 					<div class="eventManagerDetails">
-						<div class="row form-group center">
+						<div class="row form-group">
 							<label class="col-md-2 control-label" for="employeeId">Employee
 								ID</label> &nbsp; &nbsp;
 							<div class="col-md-2">
@@ -53,7 +63,7 @@
 							</div>
 						</div>
 
-						<div class="row form-group center">
+						<div class="row form-group">
 							<label class="col-md-2 control-label" for="userName">User
 								Name / LAN ID </label> &nbsp; &nbsp;
 							<div class="col-md-2">
@@ -63,7 +73,7 @@
 						</div>
 
 
-						<div class="row right">
+						<div class="row center">
 							<c:choose>
 								<c:when test="${edit}">
 									<input class="btn btn-primary btn-lg" type="submit"

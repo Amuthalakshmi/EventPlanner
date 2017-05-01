@@ -131,9 +131,9 @@ public class EventPlannerController {
 	 * @param eventId
 	 * @return
 	 */
-	@RequestMapping(value = { "/edit-{empRefId}-eventManager" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/edit-{eventManagerId}-eventManager" }, method = RequestMethod.POST)
 	public String updateEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model,
-			@PathVariable(value = "empRefId") int empRefId, RedirectAttributes redirectAttributes) {
+			@PathVariable(value = "eventManagerId") int eventManagerId, RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
 			return "addEventManager";
@@ -143,7 +143,15 @@ public class EventPlannerController {
 
 		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " updated successfully");
 		return "redirect:/listEventManagers";
+	}
 
+	@RequestMapping(value = { "/delete-{eventManagerId}-eventManager" }, method = RequestMethod.GET)
+	public String deleteEventManager(@PathVariable(value = "eventManagerId") int eventManagerId,
+			RedirectAttributes redirectAttributes) {
+		EventManager eventManager = eventManagerService.findById(eventManagerId);
+		eventManagerService.deleteEventManagerById(eventManagerId);
+		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + "  removed");
+		return "redirect:/listEventManagers";
 	}
 
 	/**
@@ -212,12 +220,13 @@ public class EventPlannerController {
 	@RequestMapping(value = { "/edit-{eventId}-event" }, method = RequestMethod.GET)
 	public String editEvent(@PathVariable int eventId, ModelMap model) {
 		Event event = eventService.findById(eventId);
-		model.addAttribute("event", event);		
-		
-		if(event.getEventStatus() == null){
-			model.addAttribute("canDelete", true);		
+		model.addAttribute("event", event);
+
+		if (event.getEventStatus() == null) {
+			model.addAttribute("canDelete", true);
 			model.addAttribute("canChangeStatus", true);
-		} if(event.getEventStatus() != null && event.getEventStatus().equalsIgnoreCase("Initiated")){
+		}
+		if (event.getEventStatus() != null && event.getEventStatus().equalsIgnoreCase("Initiated")) {
 			model.addAttribute("canChangeStatus", true);
 		}
 
@@ -270,9 +279,9 @@ public class EventPlannerController {
 		if (result.hasErrors()) {
 			return "addEvent";
 		}
-		
+
 		event = eventService.findById(eventId);
-		
+
 		if (eventStatus.equals("start")) {
 			event.setEventStatus("Initiated");
 		} else if (eventStatus.equals("finish")) {
@@ -281,7 +290,6 @@ public class EventPlannerController {
 		if (eventStatus.equals("drop")) {
 			event.setEventStatus("Cancelled");
 		}
-
 
 		eventService.updateEventStatus(event);
 		return "redirect:/edit-{eventId}-event";

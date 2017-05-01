@@ -75,7 +75,7 @@
 			<h1 style="display: inline-block">
 				<c:choose>
 					<c:when test="${edit}">
-						${event.eventName} &nbsp;						
+						${event.eventName} <small> (${event.eventStatus}) </small>						
 						<form:form method="POST" modelAttribute="event">
 							<c:choose>
 								<c:when test="${canDelete}">
@@ -102,9 +102,9 @@
 			<form:form class="form-horizontal well" method="POST"
 				modelAttribute="event">
 				<fieldset>
+				<c:if test="${edit}">
 					<legend>
-						Event details
-						<c:out value="${canChangeStatus}" />
+						Event details 
 						<c:if test="${edit}">
 							<c:if test="${canDelete}">
 								<a href="<c:url value='/delete-${event.eventId}-event' />">
@@ -125,6 +125,7 @@
 								type="submit" value="Update" style="display: none" />
 						</c:if>
 					</legend>
+				</c:if>
 
 					<div class="row form-group">
 						<label class="col-md-2 control-label" for="eventName">Event

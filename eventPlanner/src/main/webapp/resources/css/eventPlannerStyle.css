@@ -51,16 +51,16 @@ body,
     text-align: left;
 }
 
-.EventList .data:hover{
+.data:hover{
 	background-color: #337ab7 !important;
 	color: white;
 }
 
-.EventList .data:hover a {
+.data:hover a {
     color: white;
 }
 
-.horizontal.EventList {
+.horizontal.EventList, .horizontal.EventManagerList  {
     width: 60%;
 }
 
