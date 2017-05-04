@@ -16,9 +16,16 @@ body,
 
 .row {
   display:flex;
-  flex-direction: row;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  flex-direction: row;  
+}
+
+.row.center {
+    padding-top: 20px;
+}
+
+.admin .row,.eventManager .row{
+	padding-bottom: 10px;
+  	padding-top: 10px;
 }
 
 .row h3{
@@ -32,10 +39,6 @@ body,
 .right{
 	justify-content: right;
 }
-
-#txt-lg{
-  width: 80%;
-}
   
 .btn-circle {
   width: 35px;
@@ -45,6 +48,14 @@ body,
   font-size: 11px;
   line-height: 1.428571429;
   border-radius: 20px;
+}
+
+.pull-left{
+	padding-left: 0;
+}
+
+.child{
+	border-right: 1px solid #e5e5e5;
 }
 
 .form-horizontal .control-label{

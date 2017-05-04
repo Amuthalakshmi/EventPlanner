@@ -32,13 +32,13 @@ public class ChildServiceImpl implements ChildService{
 		if(entity != null){
 			entity.setActivityId(child.getActivityId());
 			entity.setChildAge(child.getChildAge());
-			entity.setChildAllergic(child.isChildAllergic());
+			entity.setIsChildAllergic(child.getIsChildAllergic());
 			entity.setChildDietaryRequirement(child.getChildDietaryRequirement());
 			entity.setChildGender(child.getChildGender());
 			entity.setChildName(child.getChildName());
 			entity.setEventId(child.getEventId());
 			entity.setOtherDetails(child.getOtherDetails());
-			entity.setParentEmpId(child.getParentEmpId());
+			entity.setParentParticipantId(child.getParentParticipantId());
 		}
 	}
 

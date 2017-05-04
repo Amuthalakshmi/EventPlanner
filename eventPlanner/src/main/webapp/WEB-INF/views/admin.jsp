@@ -32,30 +32,31 @@
 </head>
 <body>
 	<div class="container">
-		<div class="page-header">
-			<h1>Event Planner - Admin</h1>
-		</div>		
+		<div class="admin">
+			<div class="page-header">
+				<h1>Event Planner - Admin</h1>
+			</div>
 
-		<div class="row center">
-			<a href="<c:url value='/listEventManagers' />"><input
-				class="btn btn-primary btn-lg" value="Event Managers" /></a>
-		</div>
-		
-		<div class="row center">
-			<a href="<c:url value='' />"><input
-				class="btn btn-primary btn-lg" value="Organisers" /></a>
-		</div>
-		
-		<div class="row center">
-			<a href="<c:url value='' />"><input
-				class="btn btn-primary btn-lg" value="Partcipants" /></a>
-		</div>
-		
-		<div class="row center">
-			<a href="<c:url value='' />"><input
-				class="btn btn-primary btn-lg" value="Volunteers" /></a>
-		</div>
+			<div class="row center">
+				<a href="<c:url value='/listEventManagers' />"><input
+					class="btn btn-primary btn-lg" value="Event Managers" /></a>
+			</div>
 
+			<div class="row center">
+				<a href="<c:url value='' />"><input
+					class="btn btn-primary btn-lg" value="Organisers" /></a>
+			</div>
+
+			<div class="row center">
+				<a href="<c:url value='' />"><input
+					class="btn btn-primary btn-lg" value="Partcipants" /></a>
+			</div>
+
+			<div class="row center">
+				<a href="<c:url value='' />"><input
+					class="btn btn-primary btn-lg" value="Volunteers" /></a>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

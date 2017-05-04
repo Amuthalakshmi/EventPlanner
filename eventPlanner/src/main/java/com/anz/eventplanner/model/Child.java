@@ -16,8 +16,8 @@ public class Child {
 	@Column(name = "child_id", nullable = false)
 	private int childId;
 
-	@Column(name = "parent_emp_id", nullable = false)
-	private int parentEmpId;
+	@Column(name = "parent_participant_id", nullable = false)
+	private int parentParticipantId;
 
 	@Column(name = "event_id", nullable = false)
 	private int eventId;
@@ -26,7 +26,7 @@ public class Child {
 	private String childName;
 
 	@Column(name = "child_age")
-	private int childAge;
+	private Integer childAge;
 	
 	@Column(name = "child_gender")
 	private String childGender;
@@ -35,7 +35,7 @@ public class Child {
 	private String childDietaryRequirement;
 	
 	@Column(name = "is_child_allergic")
-	private boolean isChildAllergic;
+	private String isChildAllergic;
 	
 	@Column(name = "other_details")
 	private String otherDetails;
@@ -51,12 +51,12 @@ public class Child {
 		this.childId = childId;
 	}
 
-	public int getParentEmpId() {
-		return parentEmpId;
+	public int getParentParticipantId() {
+		return parentParticipantId;
 	}
 
-	public void setParentEmpId(int parentEmpId) {
-		this.parentEmpId = parentEmpId;
+	public void setParentParticipantId(int parentParticipantId) {
+		this.parentParticipantId = parentParticipantId;
 	}
 
 	public int getEventId() {
@@ -75,11 +75,11 @@ public class Child {
 		this.childName = childName;
 	}
 
-	public int getChildAge() {
+	public Integer getChildAge() {
 		return childAge;
 	}
 
-	public void setChildAge(int childAge) {
+	public void setChildAge(Integer childAge) {
 		this.childAge = childAge;
 	}
 
@@ -99,13 +99,14 @@ public class Child {
 		this.childDietaryRequirement = childDietaryRequirement;
 	}
 
-	public boolean isChildAllergic() {
+	public String getIsChildAllergic() {
 		return isChildAllergic;
 	}
 
-	public void setChildAllergic(boolean isChildAllergic) {
+	public void setIsChildAllergic(String isChildAllergic) {
 		this.isChildAllergic = isChildAllergic;
 	}
+
 
 	public String getOtherDetails() {
 		return otherDetails;
@@ -125,7 +126,7 @@ public class Child {
 
 	@Override
 	public String toString() {
-		return "Child [Child ID:" + childId + ", Parent Employee ID:" + parentEmpId + ", Child Name:" + childName
+		return "Child [Child ID:" + childId + ", Parent participant ID:" + parentParticipantId + ", Child Name:" + childName
 				+ "]";
 	}
 

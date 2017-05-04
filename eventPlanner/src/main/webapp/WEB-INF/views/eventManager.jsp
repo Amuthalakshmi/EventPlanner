@@ -42,33 +42,33 @@
 </head>
 <body>
 	<div class="container">
-
-		<div class='page-header'>
-			<div class='btn-toolbar pull-right'>
-				<div class='btn-group'>
-					<a href="<c:url value='/admin' />">
-						<button type='button' class='btn btn-primary btn-sm'>admin</button>
-					</a>
+		<div class="eventManager">
+			<div class='page-header'>
+				<div class='btn-toolbar pull-right'>
+					<div class='btn-group'>
+						<a href="<c:url value='/admin' />">
+							<button type='button' class='btn btn-primary btn-sm'>admin</button>
+						</a>
+					</div>
 				</div>
+				<h1>
+					Event Planner <small> (with Registration) </small>
+				</h1>
 			</div>
-			<h1>
-				Event Planner <small> (with Registration) </small>
-			</h1>
-		</div>
 
-		<div class="row center">
-			<a href="<c:url value='/listEvents' />">
-				<button type="button" class="btn btn-primary btn-lg">
-					Events</button>
-			</a>
-		</div>
+			<div class="row center">
+				<a href="<c:url value='/listEvents' />">
+					<button type="button" class="btn btn-primary btn-lg">
+						Events</button>
+				</a>
+			</div>
 
-		<div class="row center">
-			<a href="<c:url value='' />">
-				<button type="button" class="btn btn-primary btn-lg">Report</button>
-			</a>
+			<div class="row center">
+				<a href="<c:url value='' />">
+					<button type="button" class="btn btn-primary btn-lg">Report</button>
+				</a>
+			</div>
 		</div>
-
 	</div>
 </body>
 </html>

@@ -6,7 +6,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add/Update Event Manager</title>
+<title><c:choose>
+		<c:when test="${edit}">
+						${eventManager.userName}
+					</c:when>
+		<c:otherwise>
+						Add Event Manager
+					</c:otherwise>
+	</c:choose></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"

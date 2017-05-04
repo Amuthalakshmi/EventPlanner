@@ -8,7 +8,6 @@ $(document).ready(function() {
 	});	
 });
 
-
 function editToUpdate() {
 	document.getElementById("updateBtn").style.display='block';
 	document.getElementById("editBtn").style.display='none';

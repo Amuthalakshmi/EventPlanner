@@ -72,10 +72,14 @@
 					</ul>
 				</div>
 			</div>
+
 			<h1 style="display: inline-block">
 				<c:choose>
 					<c:when test="${edit}">
-						${event.eventName} <small> (${event.eventStatus}) </small>						
+						${event.eventName} 
+						<c:if test="${not empty event.eventStatus}">
+							<small> (${event.eventStatus}) </small>
+						</c:if>
 						<form:form method="POST" modelAttribute="event">
 							<c:choose>
 								<c:when test="${canDelete}">
@@ -102,30 +106,30 @@
 			<form:form class="form-horizontal well" method="POST"
 				modelAttribute="event">
 				<fieldset>
-				<c:if test="${edit}">
-					<legend>
-						Event details 
-						<c:if test="${edit}">
-							<c:if test="${canDelete}">
-								<a href="<c:url value='/delete-${event.eventId}-event' />">
-									<button type="button" class="btn btn-link pull-right">
-										Delete</button>
-								</a> &nbsp; &nbsp;
+					<c:if test="${edit}">
+						<legend>
+							Event details
+							<c:if test="${edit}">
+								<c:if test="${canDelete}">
+									<a href="<c:url value='/delete-${event.eventId}-event' />">
+										<button type="button" class="btn btn-link pull-right">
+											Delete</button>
+									</a> &nbsp; &nbsp;
 								
 								<div class="pull-right">|</div>
-							</c:if>
-							
-							<c:if test="${canChangeStatus}">
-								<button id="editBtn" type="button"
-									class="btn btn-link pull-right" onClick="editToUpdate()">
-									Edit</button>
-							</c:if>
+								</c:if>
 
-							<input id="updateBtn" class="btn btn-link pull-right"
-								type="submit" value="Update" style="display: none" />
-						</c:if>
-					</legend>
-				</c:if>
+								<c:if test="${canChangeStatus}">
+									<button id="editBtn" type="button"
+										class="btn btn-link pull-right" onClick="editToUpdate()">
+										Edit</button>
+								</c:if>
+
+								<input id="updateBtn" class="btn btn-link pull-right"
+									type="submit" value="Update" style="display: none" />
+							</c:if>
+						</legend>
+					</c:if>
 
 					<div class="row form-group">
 						<label class="col-md-2 control-label" for="eventName">Event
@@ -192,10 +196,29 @@
 						<div class="row center">
 							<input class="btn btn-primary btn-lg" type="submit" value="Add" />
 						</div>
-					</c:if>
+					</c:if>					
+
 				</fieldset>
 			</form:form>
 		</div>
+
+		<c:if test="${not empty event.eventStatus}">
+			<form:form class="form-horizontal well" modelAttribute="event">
+				<fieldset>
+					<legend> Other details </legend>
+					<div class="forParticipants">
+						<label class="col-md-2 control-label" for="forParticipants">
+							Link for Registration </label> &nbsp; &nbsp;
+						<div class="col-md-9">
+							<input class="form-control" type="text" id="forParticipants"
+								value="http://localhost:8080/eventPlanner/${event.eventId}/register"
+								readonly="readonly">
+						</div>
+					</div>
+				</fieldset>
+			</form:form>
+		</c:if>
+
 	</div>
 </body>
 </html>
