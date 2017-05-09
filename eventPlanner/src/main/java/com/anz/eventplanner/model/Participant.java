@@ -8,30 +8,27 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="participant")
+@Table(name = "participant")
 public class Participant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "participant_id",nullable = false)
+	@Column(name = "participant_id", nullable = false)
 	private int participantId;
-	
-	@Column(name = "employee_id")
-	private int employeeId;
-	
+
 	@Column(name = "user_name")
 	private String userName;
-		
-	@Column(name = "event_id",nullable = false)
-	private int eventId;	
-	
+
+	@Column(name = "event_id", nullable = false)
+	private int eventId;
+
 	@Column(name = "number_of_children")
 	private int numberOfChildren;
-	
+
 	@Column(name = "location")
 	private String location;
-	
+
 	@Column(name = "level")
-	private int level;	
+	private int level;
 
 	public int getParticipantId() {
 		return participantId;
@@ -39,14 +36,6 @@ public class Participant {
 
 	public void setParticipantId(int participantId) {
 		this.participantId = participantId;
-	}
-
-	public int getEmployeeId() {
-		return employeeId;
-	}
-
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
 	}
 
 	public String getUserName() {
@@ -90,35 +79,34 @@ public class Participant {
 	}
 
 	@Override
-	public String toString(){
-		return "Participant [Participant ID:" + participantId + ", Employee ID:" + employeeId + ", User Name:" + userName
-				+ "]";
+	public String toString() {
+		return "Participant [Participant ID:" + participantId + ", User Name:" + userName + "]";
 	}
-	
+
 	@Override
-	public boolean equals(Object object){
-		if (this == object){
+	public boolean equals(Object object) {
+		if (this == object) {
 			return true;
 		}
-		if (object == null){
+		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Event)){
+		if (!(object instanceof Event)) {
 			return false;
 		}
 		Participant other = (Participant) object;
-		if (this.participantId != other.participantId){
+		if (this.participantId != other.participantId) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + participantId;
-		return result;		
+		return result;
 	}
 
 }

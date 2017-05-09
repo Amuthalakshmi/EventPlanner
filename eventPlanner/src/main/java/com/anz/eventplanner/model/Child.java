@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="child")
+@Table(name = "child")
 public class Child {
 
 	@Id
@@ -19,30 +19,27 @@ public class Child {
 	@Column(name = "parent_participant_id", nullable = false)
 	private int parentParticipantId;
 
-	@Column(name = "event_id", nullable = false)
-	private int eventId;
-
 	@Column(name = "child_name")
 	private String childName;
 
 	@Column(name = "child_age")
 	private Integer childAge;
-	
+
 	@Column(name = "child_gender")
 	private String childGender;
-	
+
 	@Column(name = "child_dietary_requirement")
 	private String childDietaryRequirement;
-	
+
 	@Column(name = "is_child_allergic")
 	private String isChildAllergic;
-	
+
 	@Column(name = "other_details")
 	private String otherDetails;
-	
-	@Column(name = "activity_id")
-	private int activityId;
 
+	@Column(name = "activity_id")
+	private int activityId;	
+	
 	public int getChildId() {
 		return childId;
 	}
@@ -57,14 +54,6 @@ public class Child {
 
 	public void setParentParticipantId(int parentParticipantId) {
 		this.parentParticipantId = parentParticipantId;
-	}
-
-	public int getEventId() {
-		return eventId;
-	}
-
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
 	}
 
 	public String getChildName() {
@@ -107,7 +96,6 @@ public class Child {
 		this.isChildAllergic = isChildAllergic;
 	}
 
-
 	public String getOtherDetails() {
 		return otherDetails;
 	}
@@ -126,8 +114,8 @@ public class Child {
 
 	@Override
 	public String toString() {
-		return "Child [Child ID:" + childId + ", Parent participant ID:" + parentParticipantId + ", Child Name:" + childName
-				+ "]";
+		return "Child [Child ID:" + childId + ", Parent participant ID:" + parentParticipantId + ", Child Name:"
+				+ childName + "]";
 	}
 
 	@Override
@@ -155,6 +143,5 @@ public class Child {
 		result = prime * result + childId;
 		return result;
 	}
-
 
 }

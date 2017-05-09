@@ -41,8 +41,8 @@ public class EventManagerServiceImpl implements EventManagerService{
 		EventManager entity = dao.findById(eventManager.getEventManagerId());		
 		
 		if (entity != null) {
-			entity.setEmployeeId(eventManager.getEmployeeId());
-			entity.setUserName(eventManager.getUserName());
+			entity.setEventManagerName(eventManager.getEventManagerName());
+			entity.setLANID(eventManager.getLANID());
 		}
 	}
 

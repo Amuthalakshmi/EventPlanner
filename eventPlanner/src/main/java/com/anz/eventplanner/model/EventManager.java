@@ -15,12 +15,12 @@ public class EventManager {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "event_manager_id",nullable = false)
 	private int eventManagerId;
-		
-	@Column(name = "employee_id", nullable = false)
-	private Integer employeeId;
+			
+	@Column(name= "event_manager_name")
+	private String eventManagerName;
 	
-	@Column(name = "user_name", nullable = false)
-	private String userName;
+	@Column(name = "LAN_ID", nullable = false)
+	private String LANID;
 
 	public int getEventManagerId() {
 		return eventManagerId;
@@ -29,26 +29,26 @@ public class EventManager {
 	public void setEventManagerId(int eventManagerId) {
 		this.eventManagerId = eventManagerId;
 	}
-
-	public Integer getEmployeeId() {
-		return employeeId;
-	}
-
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 	
+	public String getEventManagerName() {
+		return eventManagerName;
+	}
+
+	public void setEventManagerName(String eventManagerName) {
+		this.eventManagerName = eventManagerName;
+	}
+
+	public String getLANID() {
+		return LANID;
+	}
+
+	public void setLANID(String lANID) {
+		LANID = lANID;
+	}
+
 	@Override
 	public String toString(){
-		return "EventManager [Employee ID:" + employeeId + ", User name:" + userName + "]";
+		return "EventManager [Event Manger ID:" + eventManagerId + ", LAN ID:" + LANID + "]";
 	}
 	
 	@Override

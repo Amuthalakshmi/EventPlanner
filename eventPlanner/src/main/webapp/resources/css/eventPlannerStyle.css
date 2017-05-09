@@ -50,11 +50,7 @@ body,
   border-radius: 20px;
 }
 
-.pull-left{
-	padding-left: 0;
-}
-
-.child{
+.childpersonaldtl{
 	border-right: 1px solid #e5e5e5;
 }
 

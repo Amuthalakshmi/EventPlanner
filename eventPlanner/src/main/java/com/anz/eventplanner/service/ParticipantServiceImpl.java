@@ -30,7 +30,6 @@ public class ParticipantServiceImpl implements ParticipantService{
 	public void updateParticipant(Participant participant) {
 		Participant entity = dao.findById(participant.getParticipantId());
 		if (entity != null){
-			entity.setEmployeeId(participant.getEmployeeId());
 			entity.setEventId(participant.getEventId());
 			entity.setLevel(participant.getLevel());
 			entity.setLocation(participant.getLocation());

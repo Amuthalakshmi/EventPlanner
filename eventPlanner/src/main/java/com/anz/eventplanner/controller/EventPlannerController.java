@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Child;
+import com.anz.eventplanner.model.ChildListWrapper;
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventManager;
 import com.anz.eventplanner.model.Participant;
@@ -35,10 +36,10 @@ public class EventPlannerController {
 
 	@Autowired
 	EventManagerService eventManagerService;
-	
+
 	@Autowired
 	ChildService childService;
-	
+
 	@Autowired
 	ParticipantService participantService;
 
@@ -112,7 +113,7 @@ public class EventPlannerController {
 			return "addEventManager";
 		}
 		eventManagerService.saveEventManager(eventManager);
-		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " added as event manager");
+		redirectAttributes.addFlashAttribute("success", eventManager.getEventManagerName() + " added as event manager");
 		return "redirect:/listEventManagers";
 	}
 
@@ -151,7 +152,7 @@ public class EventPlannerController {
 
 		eventManagerService.updateEventManager(eventManager);
 
-		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + " updated successfully");
+		redirectAttributes.addFlashAttribute("success", eventManager.getEventManagerName() + " updated successfully");
 		return "redirect:/listEventManagers";
 	}
 
@@ -160,7 +161,7 @@ public class EventPlannerController {
 			RedirectAttributes redirectAttributes) {
 		EventManager eventManager = eventManagerService.findById(eventManagerId);
 		eventManagerService.deleteEventManagerById(eventManagerId);
-		redirectAttributes.addFlashAttribute("success", eventManager.getUserName() + "  removed");
+		redirectAttributes.addFlashAttribute("success", eventManager.getEventManagerName() + "  removed");
 		return "redirect:/listEventManagers";
 	}
 
@@ -310,55 +311,75 @@ public class EventPlannerController {
 		eventService.deleteEventById(eventId);
 		return "redirect:/listEvents";
 	}
-	
+
 	@RequestMapping(value = { "/{eventId}/register" }, method = RequestMethod.GET)
 	public String registration(@PathVariable(value = "eventId") int eventId, ModelMap model) {
-		
+
 		Event event = eventService.findById(eventId);
-		if (event != null){
-			switch(event.getEventStatus()){
+
+		if (event != null) {
+			model.addAttribute("event", event);
+
+			switch (event.getEventStatus()) {
 			case "Initiated":
+				model.addAttribute("showForm", true);
+
 				Participant participant = new Participant();
 				model.addAttribute("participant", participant);
-				participant.setEventId(eventId);
-				
-				Child child = new Child();		
-				model.addAttribute("child", child);
-				child.setEventId(eventId);
-				
-				return "registrationBringKidsToWork";
-				
+
+				ChildListWrapper childListWrapper = new ChildListWrapper();
+				childListWrapper.addChild(new Child());
+
+				model.addAttribute("childListWrapper", childListWrapper);
+
+				break;
+
 			case "Completed":
-				model.addAttribute("errormsg", "Completed Event");
+				model.addAttribute("showForm", false);
+				model.addAttribute("errormsg", "Event - Completed");
 				break;
-				
+
 			case "Cancelled":
-				model.addAttribute("errormsg", "Cancelled Event");
+				model.addAttribute("showForm", false);
+				model.addAttribute("errormsg", "Event - Cancelled");
 				break;
-				
-			default:				
+
+			default:
+				model.addAttribute("showForm", false);
 				break;
-			}				
+			}
 		} else {
+			model.addAttribute("showForm", false);
 			model.addAttribute("errormsg", "Not a Valid Event");
 		}
-		return "ErrorRegistration";
+
+		return "registrationBringKidsToWork";
 	}
 
 	@RequestMapping(value = { "/{eventId}/register" }, method = RequestMethod.POST)
-	public String saveRegistration(@Valid Event event, BindingResult eventResult, @Valid Participant participant, BindingResult participantResult, @Valid Child child,
-			BindingResult childResult, ModelMap model, RedirectAttributes redirectAttributes) {
+	public String saveRegistration(@Valid Event event, BindingResult eventResult, @Valid Participant participant,
+			BindingResult participantResult, @Valid ChildListWrapper childListWrapper,
+			BindingResult childListWrapperResult, ModelMap model, RedirectAttributes redirectAttributes) {
 
-		if (participantResult.hasErrors() || childResult.hasErrors()) {
+		if (participantResult.hasErrors() || childListWrapperResult.hasErrors()) {
 			return "registrationBringKidsToWork";
-		}		
-		
-		participantService.saveParticipant(participant);		
-		
-		child.setParentParticipantId(participant.getParticipantId());
-		childService.saveChild(child);		
+		}
 
-		return "redirect:/{eventId}/register";
+		participant.setEventId(event.getEventId());
+		participantService.saveParticipant(participant);
+
+		System.out.println("Child List Wrapper size: " + childListWrapper.getChildList().size());
+
+		for (int i = 0; i < childListWrapper.getChildList().size(); i++) {
+			Child child = childListWrapper.getChildList().get(i);			
+			child.setParentParticipantId(participant.getParticipantId());			
+			
+			System.out.println(child.getChildName());
+			childService.saveChild(child);
+		}
+
+		// return "redirect:/{eventId}/register";
+		return "registrationBringKidsToWork";
 	}
 
 }

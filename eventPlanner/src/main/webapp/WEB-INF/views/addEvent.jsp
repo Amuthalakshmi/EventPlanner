@@ -44,12 +44,12 @@
 </script>
 
 
-<!--  BootStral Form Validator -->
-<!-- Form Validation - To do
+<!-- BootStral Form Validator  -->
+<!-- Form Validation - To do 
 <script
 	src="http://formvalidation.io/bundles/0a3b9034e109d88d72f83c9e6c9d13b7.js"></script>
-<script src="<c:url value="/resources/js/validator.js"/>"> </script> -->
-
+<script src="<c:url value="/resources/js/validator.js"/>"> </script>
+-->
 
 </head>
 <body>
