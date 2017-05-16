@@ -1,22 +1,42 @@
-$(document).ready(function() {	
+$(document).ready(function() {
 	$('#datePicker').datepicker({
 		changeMonth : true,
 		changeYear : true,
 		format : 'yyyy-mm-dd',
-		startDate: '-0d',
-		todayHighlight: true
-	});	
+		startDate : '-0d',
+		todayHighlight : true
+	});
 });
 
-function editToUpdate() {
-	document.getElementById("updateBtn").style.display='block';
-	document.getElementById("editBtn").style.display='none';
-	
+function editEventToUpdate() {
+	document.getElementById("updateBtn").style.display = 'block';
+	document.getElementById("editBtn").style.display = 'none';
+
 	jQuery(function($) {
-		$('#eventSetUpForm').find("*").removeAttr("disabled");				        
-    });
-	
+		$('#eventSetUpForm').find("*").removeAttr("disabled");
+	});
+
 };
+
+function editParticipantToUpdate() {
+	document.getElementById("participantUpdateBtn").style.display = 'block';
+	document.getElementById("participantEditBtn").style.display = 'none';
+
+	jQuery(function($) {
+		$('#ParticipantForm').find("*").removeAttr("disabled");
+	});
+
+};
+
+function foodprefer(element) {
+	divId = element.parentNode.parentNode.parentNode.id;
+	if (element.value == 'yes') {
+		console.log(divId + 'foodpreference');
+		document.getElementById(divId + 'foodpreference').style.display = 'block';
+	} else if (element.value == 'no') {
+		document.getElementById(divId + 'foodpreference').style.display = 'none';
+	}
+}
 
 function showDiv(element) {
 	var numberOfChild = document.getElementsByClassName("child").length;
@@ -37,8 +57,7 @@ function showDiv(element) {
 
 function add() {
 	var original = document.getElementById('foreachkid');
-	var newChild = $(document.getElementsByClassName('child')[0]).clone(
-			true);
+	var newChild = $(document.getElementsByClassName('child')[0]).clone(true);
 	var numberOfChild = document.getElementsByClassName("child").length;
 	var inputTypes = [ "input", "select", "textarea" ];
 
@@ -60,13 +79,10 @@ function replaceNameAndId(newChild, numberOfChild, inputTypes) {
 	newChild.attr('id', 'child' + (numberOfChild + 1));
 
 	for (i = 0; i < inputTypes.length; i++) {
-		newChild.find(inputTypes[i]).each(
-				function() {
-					this.name = this.name.replace('List[0', 'List['
-							+ numberOfChild);
-					this.id = this.id.replace('List0', 'List'
-							+ numberOfChild);
-				});
+		newChild.find(inputTypes[i]).each(function() {
+			this.name = this.name.replace('List[0', 'List[' + numberOfChild);
+			this.id = this.id.replace('List0', 'List' + numberOfChild);
+		});
 	}
 	return newChild;
 }

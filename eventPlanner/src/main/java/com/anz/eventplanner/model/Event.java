@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="event")
 public class Event {
@@ -20,6 +22,7 @@ public class Event {
 	@Column(name = "event_name",nullable = false)
 	private String eventName;
 	
+	@DateTimeFormat(pattern="yyyy-MM-dd") 
 	@Column(name = "planned_date")
 	private String eventPlannedDate;
 		

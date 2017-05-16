@@ -11,5 +11,6 @@ public interface EventOrganiserService {
 	void updateEventOrganiser(EventOrganiser eventOrganiser);
 	void deleteEventOrganiserById(int eventOrganiserId);
 	List<EventOrganiser> findAllEventOrganiser();
-	
+	List<EventOrganiser> findAllOrganisersByCategory(String category);
+	List<EventOrganiser> findAllOrganisersByCategoryAndLocation(String category, String location);
 }

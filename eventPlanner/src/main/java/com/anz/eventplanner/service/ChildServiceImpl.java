@@ -33,7 +33,8 @@ public class ChildServiceImpl implements ChildService{
 			entity.setActivityId(child.getActivityId());
 			entity.setChildAge(child.getChildAge());
 			entity.setIsChildAllergic(child.getIsChildAllergic());
-			entity.setChildDietaryRequirement(child.getChildDietaryRequirement());
+			entity.setHasDietRequirement(child.getHasDietRequirement());
+			entity.setChildFoodPreference(child.getChildFoodPreference());
 			entity.setChildGender(child.getChildGender());
 			entity.setChildName(child.getChildName());
 			entity.setOtherDetails(child.getOtherDetails());
@@ -49,6 +50,11 @@ public class ChildServiceImpl implements ChildService{
 	@Override
 	public List<Child> findAllChild() {
 		return dao.findAllChild();
+	}
+
+	@Override
+	public List<Child> findByParentParticipantId(int parentParticipantId) {
+		return dao.findByParentParticipantId(parentParticipantId);
 	}
 
 }

@@ -32,9 +32,9 @@ public class EventOrganiserServiceImpl implements EventOrganiserService{
 		if (entity != null){
 			entity.setActivityId(eventOrganiser.getActivityId());
 			entity.setCategory(eventOrganiser.getCategory());
-			entity.setEmployeeId(eventOrganiser.getEmployeeId());
+			entity.setLANId(eventOrganiser.getLANId());
+			entity.setOrganiserName(eventOrganiser.getOrganiserName());
 			entity.setTaskId(eventOrganiser.getTaskId());
-			entity.setUserName(eventOrganiser.getUserName());
 		}
 	}
 
@@ -46,6 +46,16 @@ public class EventOrganiserServiceImpl implements EventOrganiserService{
 	@Override
 	public List<EventOrganiser> findAllEventOrganiser() {
 		return dao.findAllEventOrganiser();
+	}
+
+	@Override
+	public List<EventOrganiser> findAllOrganisersByCategory(String category) {
+		return dao.findAllOrganisersByCategory(category);
+	}
+
+	@Override
+	public List<EventOrganiser> findAllOrganisersByCategoryAndLocation(String category, String location) {
+		return dao.findAllOrganisersByCategoryAndLocation(category, location);
 	}
 
 }

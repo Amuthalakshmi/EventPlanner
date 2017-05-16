@@ -27,9 +27,12 @@ public class Child {
 
 	@Column(name = "child_gender")
 	private String childGender;
-
-	@Column(name = "child_dietary_requirement")
-	private String childDietaryRequirement;
+	
+	@Column(name = "has_diet_requirement")
+	private String hasDietRequirement;
+	
+	@Column(name = "child_food_preference")
+	private String childFoodPreference;
 
 	@Column(name = "is_child_allergic")
 	private String isChildAllergic;
@@ -79,13 +82,21 @@ public class Child {
 	public void setChildGender(String childGender) {
 		this.childGender = childGender;
 	}
-
-	public String getChildDietaryRequirement() {
-		return childDietaryRequirement;
+	
+	public String getHasDietRequirement() {
+		return hasDietRequirement;
 	}
 
-	public void setChildDietaryRequirement(String childDietaryRequirement) {
-		this.childDietaryRequirement = childDietaryRequirement;
+	public void setHasDietRequirement(String hasDietRequirement) {
+		this.hasDietRequirement = hasDietRequirement;
+	}
+
+	public String getChildFoodPreference() {
+		return childFoodPreference;
+	}
+
+	public void setChildFoodPreference(String childFoodPreference) {
+		this.childFoodPreference = childFoodPreference;
 	}
 
 	public String getIsChildAllergic() {

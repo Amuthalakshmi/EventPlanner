@@ -121,7 +121,7 @@
 
 								<c:if test="${canChangeStatus}">
 									<button id="editBtn" type="button"
-										class="btn btn-link pull-right" onClick="editToUpdate()">
+										class="btn btn-link pull-right" onClick="editEventToUpdate()">
 										Edit</button>
 								</c:if>
 
@@ -132,7 +132,7 @@
 					</c:if>
 
 					<div class="row form-group">
-						<label class="col-md-2 control-label" for="eventName">Event
+						<label class="col-md-3 control-label" for="eventName">Event
 							Name</label> &nbsp; &nbsp;
 						<div class="col-md-3">
 							<form:input id="eventName" class="form-control" type="text"
@@ -142,7 +142,7 @@
 					</div>
 
 					<div class="row form-group">
-						<label class="col-md-2 control-label" for="eventLocation">Event
+						<label class="col-md-3 control-label" for="eventLocation">Event
 							Location</label> &nbsp; &nbsp;
 						<div class="col-md-3">
 							<form:select class="form-control" path="eventLocation"
@@ -154,7 +154,7 @@
 					</div>
 
 					<div class="row form-group">
-						<label class="col-md-2 control-label" for="eventPlannedDate">Planned
+						<label class="col-md-3 control-label" for="eventPlannedDate">Planned
 							date</label> &nbsp; &nbsp;
 						<div class="col-md-3 date">
 							<div class="input-group input-append date" id="datePicker">
@@ -173,7 +173,7 @@
 					</div>
 
 					<div class="row form-group">
-						<label class="col-md-2 control-label" for="targetAudience">Target
+						<label class="col-md-3 control-label" for="targetAudience">Target
 							Audience</label> &nbsp; &nbsp;
 						<div class="col-md-3">
 							<form:input class="form-control" type="text" id="targetAudience"
@@ -183,7 +183,7 @@
 					</div>
 
 					<div class="row form-group">
-						<label class="col-md-2 control-label" for="maxParticipants">Maximum
+						<label class="col-md-3 control-label" for="maxParticipants">Maximum
 							participants</label> &nbsp; &nbsp;
 						<div class="col-md-3">
 							<form:input class="form-control" type="text"
@@ -196,7 +196,7 @@
 						<div class="row center">
 							<input class="btn btn-primary btn-lg" type="submit" value="Add" />
 						</div>
-					</c:if>					
+					</c:if>
 
 				</fieldset>
 			</form:form>
@@ -207,13 +207,35 @@
 				<fieldset>
 					<legend> Other details </legend>
 					<div class="forParticipants">
-						<label class="col-md-2 control-label" for="forParticipants">
+						<label class="col-md-3 control-label" for="forParticipants">
 							Link for Registration </label> &nbsp; &nbsp;
-						<div class="col-md-9">
+						<div class="col-md-8">
 							<input class="form-control" type="text" id="forParticipants"
-								value="http://localhost:8080/eventPlanner/${event.eventId}/register"
+								value="http://localhost:8080/eventPlanner/participant/event${event.eventId}/register"
 								readonly="readonly">
 						</div>
+					</div>
+				</fieldset>
+			</form:form>
+
+			<form:form class="form-horizontal well"
+				modelAttribute="eventOrganiser">
+				<fieldset>
+					<legend>
+						Event Organisers <a
+							href="<c:url value='/event${event.eventId}/addOrganisers' />">
+							<button type="button" class="btn btn-link pull-right">
+								Add Organisers</button>
+						</a> &nbsp; &nbsp;
+					</legend>
+					<div class="organisersOfThatEvent">
+						<ul>
+							<c:forEach items="${eventOrganisers}" var="eventOrganiser">							
+								<li><a
+									href="<c:url value='/edit-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
+										${eventOrganiser.organiserName} </a></li>
+							</c:forEach>
+						</ul>
 					</div>
 				</fieldset>
 			</form:form>

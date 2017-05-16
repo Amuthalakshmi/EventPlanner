@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Event Planner - Admin</title>
+<title>${eventOrganiser.organiserName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -22,40 +22,33 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resources/css/eventPlannerStyle.css"/> ">
 <!-- javascripts -->
-<script src="<c:url value="/resources/js/action.js"/>">
-	
-</script>
-<script src="<c:url value="/resources/js/validator.js"/>">
-	
-</script>
-
+<script src="<c:url value="/resources/js/action.js"/>"></script>
 </head>
 <body>
 	<div class="container">
-		<div class="admin">
-			<div class="page-header">
-				<h1>Event Planner - Admin</h1>
+		<div class="eventOrganiser">
+			<div class='page-header'>
+				<h1>
+					${eventOrganiser.organiserName}					
+				</h1>
 			</div>
 
-			<div class="row center">
-				<a href="<c:url value='/listEventManagers' />"><input
-					class="btn btn-primary btn-lg" value="Event Managers" /></a>
+			<div>
+				<c:choose>
+					<c:when test="${not empty eventsSpecificToOrganiser}">
+						<ul class="list-unstyled">
+							<c:forEach items="${eventsSpecificToOrganiser}" var="event">
+								<li><a href="<c:url value='/event-${event.eventId}' />">
+										${event.eventName} </a></li>
+							</c:forEach>
+						</ul>
+					</c:when>
+					<c:otherwise>
+					There are no Events
+				</c:otherwise>
+				</c:choose>
 			</div>
 
-			<div class="row center">
-				<a href="<c:url value='/listEventOrganisers' />"><input
-					class="btn btn-primary btn-lg" value="Organisers" /></a>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='' />"><input
-					class="btn btn-primary btn-lg" value="Partcipants" /></a>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='' />"><input
-					class="btn btn-primary btn-lg" value="Volunteers" /></a>
-			</div>
 		</div>
 	</div>
 </body>

@@ -40,7 +40,24 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 	@Override
 	public List<Event> findAllEventByName(String eventName) {
 		Criteria criteria = createEntityCriteria();
-		criteria.add(Restrictions.like("event_name", eventName));
+		criteria.add(Restrictions.like("eventName", eventName));
+		return (List<Event>) criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Event> findAllEventByStatus(String eventStatus) {		
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("eventStatus", eventStatus));		
+		return (List<Event>) criteria.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Event> findAllEventByStatusAndLocation(String eventStatus, String eventLocation) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("eventStatus", eventStatus));
+		criteria.add(Restrictions.eq("eventLocation", eventLocation));
 		return (List<Event>) criteria.list();
 	}	
 

@@ -69,6 +69,16 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public List<Event> findAllEventByName(String eventName) {
 		return dao.findAllEventByName(eventName);
+	}
+
+	@Override
+	public List<Event> findAllEventByStatus(String eventStatus) {
+		return dao.findAllEventByStatus(eventStatus);
+	}
+
+	@Override
+	public List<Event> findAllEventByStatusAndLocation(String eventStatus, String eventLocation) {
+		return dao.findAllEventByStatusAndLocation(eventStatus, eventLocation);
 	}	
 
 

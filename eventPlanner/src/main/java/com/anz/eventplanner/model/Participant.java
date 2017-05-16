@@ -28,8 +28,8 @@ public class Participant {
 	private String location;
 
 	@Column(name = "level")
-	private int level;
-
+	private String level;	
+	
 	public int getParticipantId() {
 		return participantId;
 	}
@@ -70,11 +70,11 @@ public class Participant {
 		this.location = location;
 	}
 
-	public int getLevel() {
+	public String getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(String level) {		
 		this.level = level;
 	}
 

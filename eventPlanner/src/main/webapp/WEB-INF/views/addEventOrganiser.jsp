@@ -8,10 +8,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><c:choose>
 		<c:when test="${edit}">
-						${eventManager.eventManagerName}
+						${eventOrganiser.organiserName}
 					</c:when>
 		<c:otherwise>
-						Add Event Manager
+						Add Event Organiser
 					</c:otherwise>
 	</c:choose></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -47,37 +47,61 @@
 			<h1>
 				<c:choose>
 					<c:when test="${edit}">
-						${eventManager.eventManagerName} 
+						${eventOrganiser.organiserName} 
 				</c:when>
 					<c:otherwise>
-						Add Event Manager
+						Add Event Organiser
 					</c:otherwise>
 				</c:choose>
 			</h1>
 		</div>
 
-		<div id="eventManagerForm">
+		<div id="eventOrganiserForm">
 			<form:form class="form-horizontal well" method="POST"
-				modelAttribute="eventManager">
+				modelAttribute="eventOrganiser">
 				<fieldset>
-					<div class="eventManagerDetails">
+					<div class="eventOrganiserDetails">
 						<div class="row form-group">
-							<label class="col-md-3 control-label" for="eventManagerName">Employee
-								Name </label> &nbsp; &nbsp;
+							<label class="col-md-3 control-label" for="organiserName">
+								Name </label>
 							<div class="col-md-4">
-								<form:input id="eventManagerName" class="form-control" type="text"
-									path="eventManagerName" placeholder="Employee Id" />
+								<form:input id="organiserName" class="form-control" type="text"
+									path="organiserName" placeholder="Name of the Organiser" />
 							</div>
 						</div>
 
 						<div class="row form-group">
-							<label class="col-md-3 control-label" for="LANID">LAN ID </label> &nbsp; &nbsp;
+							<label class="col-md-3 control-label" for="LANId">LAN ID
+							</label>
 							<div class="col-md-4">
-								<form:input id="LANID" class="form-control" type="text"
-									path="LANID" placeholder="User Name/LAN ID" />
+								<form:input id="LANId" class="form-control" type="text"
+									path="LANId" placeholder="LAN ID" />
+							</div>
+						</div>
+						
+						<div class="row form-group">
+							<label class="col-md-3 control-label" for="location">Location</label>
+							<div class="col-md-4">
+								<form:select id="category" class="form-control" path="location">
+									<form:option value="" label="-- Select a location --" />
+									<form:option value="WLG" label="Wellington" />
+									<form:option value="AUK" label="Auckland" />
+								</form:select>
 							</div>
 						</div>
 
+						<div class="row form-group">
+							<label class="col-md-3 control-label" for="category">Category</label>
+							<div class="col-md-4">
+								<form:select id="category" class="form-control" path="category">
+									<form:option value="" label="-- Select a category --" />
+									<form:option value="All Event" label="All Event" />
+									<form:option value="Event Specific" label="Event Specific" />
+									<form:option value="Event Specific - Special"
+										label="Event Specific - Special" />
+								</form:select>
+							</div>
+						</div>
 
 						<div class="row center">
 							<c:choose>

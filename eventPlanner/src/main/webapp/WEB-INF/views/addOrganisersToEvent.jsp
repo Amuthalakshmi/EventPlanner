@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Event Planner - Admin</title>
+<title>Add Event Organisers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -32,31 +32,41 @@
 </head>
 <body>
 	<div class="container">
-		<div class="admin">
-			<div class="page-header">
-				<h1>Event Planner - Admin</h1>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='/listEventManagers' />"><input
-					class="btn btn-primary btn-lg" value="Event Managers" /></a>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='/listEventOrganisers' />"><input
-					class="btn btn-primary btn-lg" value="Organisers" /></a>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='' />"><input
-					class="btn btn-primary btn-lg" value="Partcipants" /></a>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='' />"><input
-					class="btn btn-primary btn-lg" value="Volunteers" /></a>
-			</div>
+		<div class="page-header">
+			<h1>${event.eventName}
+				<small> - Add Event Specific Organisers </small>
+			</h1>
 		</div>
+
+		<div class="horizontal EventOrganiserList">
+			<c:if test="${not empty eventSpecificOrganisers}">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered">
+						<tr>
+							<th>LAN ID</th>
+							<th>Name</th>
+							<th>Options</th>
+						</tr>
+						<c:forEach items="${eventSpecificOrganisers}" var="eventOrganiser">
+							<tr class="data">
+								<td><a
+									href="<c:url value='/edit-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
+										${eventOrganiser.LANId} </a></td>
+								<td>${eventOrganiser.organiserName}</td>
+								<td><a
+									href="<c:url value='/event${event.eventId}/add${eventOrganiser.eventOrganiserId}' />">Add</a></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</c:if>
+		</div>
+
+		<div>
+			<a href="<c:url value='/event-${event.eventId}' />"><input
+				class="btn btn-primary btn-sm" value="Added Organisers" /></a>
+		</div>
+
 	</div>
 </body>
 </html>

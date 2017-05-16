@@ -16,21 +16,24 @@ public class EventOrganiser {
 	@Column(name = "event_organiser_id", nullable = false)
 	private int eventOrganiserId;
 
-	@Column(name = "employee_id", nullable = false)
-	private int employeeId;
+	@Column(name = "LAN_ID", nullable = false)
+	private String LANId;
 
-	@Column(name = "user_name", nullable = false)
-	private int userName;
+	@Column(name = "organiser_name", nullable = false)
+	private String organiserName;
 
 	@Column(name = "category")
-	private int category;
+	private String category;
+	
+	@Column(name = "location")
+	private String location;
 
 	@Column(name = "task_id")
 	private int taskId;
 
 	@Column(name = "activity_id")
 	private int activityId;
-
+	
 	public int getEventOrganiserId() {
 		return eventOrganiserId;
 	}
@@ -39,28 +42,36 @@ public class EventOrganiser {
 		this.eventOrganiserId = eventOrganiserId;
 	}
 
-	public int getEmployeeId() {
-		return employeeId;
+	public String getLANId() {
+		return LANId;
 	}
 
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
+	public void setLANId(String lANId) {
+		LANId = lANId;
 	}
 
-	public int getUserName() {
-		return userName;
+	public String getOrganiserName() {
+		return organiserName;
 	}
 
-	public void setUserName(int userName) {
-		this.userName = userName;
+	public void setOrganiserName(String organiserName) {
+		this.organiserName = organiserName;
 	}
 
-	public int getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public int getTaskId() {
@@ -81,8 +92,8 @@ public class EventOrganiser {
 
 	@Override
 	public String toString() {
-		return "Event Organiser [Event Organiser ID:" + eventOrganiserId + ", Employee ID:" + employeeId
-				+ ", User name:" + userName + "]";
+		return "Event Organiser [Event Organiser ID:" + eventOrganiserId + ", LAN ID:" + LANId
+				+ ", Name:" + organiserName + "]";
 	}
 
 	@Override

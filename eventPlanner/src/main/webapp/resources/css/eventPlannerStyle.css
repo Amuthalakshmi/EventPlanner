@@ -67,8 +67,16 @@ body,
     color: white;
 }
 
-.horizontal.EventList, .horizontal.EventManagerList  {
+.data:hover input {
+    color: white;
+}
+
+.horizontal.EventList, .horizontal.EventManagerList, .horizontal.EventOrganiserList  {
     width: 60%;
+}
+
+.table-nonfluid {
+   width: auto !important;
 }
 
 #eventSetUpForm .has-error .control-label,

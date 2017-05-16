@@ -11,5 +11,6 @@ public interface EventDAO {
 	void deleteEventById(int eventId);
 	List<Event> findAllEvent();
 	List<Event> findAllEventByName(String eventName);
-	
+	List<Event> findAllEventByStatus(String eventStatus);
+	List<Event> findAllEventByStatusAndLocation(String eventStatus, String eventLocation);
 }

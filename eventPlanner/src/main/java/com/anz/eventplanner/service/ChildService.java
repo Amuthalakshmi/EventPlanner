@@ -11,5 +11,5 @@ public interface ChildService {
 	void updateChild(Child child);
 	void deleteChildById(int childId);
 	List<Child> findAllChild();
-	
+	List<Child> findByParentParticipantId(int parentParticipantId);
 }

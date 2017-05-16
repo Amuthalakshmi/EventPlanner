@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Events List</title>
+<title>Event Organisers List</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -25,54 +25,60 @@
 <script src="<c:url value="/resources/js/action.js"/>">
 	
 </script>
+<script src="<c:url value="/resources/js/validator.js"/>">
+	
+</script>
+
 </head>
 <body>
 	<div class="container">
 		<div class="page-header">
-			<h1>All Events</h1>
+			<h1>Event Planner - Admin - Event Organisers</h1>
 		</div>
 
 		<div class="row ">
 			<c:if test="${not empty success}"> ${success} </c:if>
 		</div>
 
-		<div class="horizontal EventList">
+		<div class="horizontal EventOrganiserList">
 			<c:choose>
-				<c:when test="${not empty events}">
+				<c:when test="${not empty eventOrganisers}">
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered">
 							<tr>
+								<th>LAN ID</th>
 								<th>Name</th>
-								<th>Location</th>
-								<th>Planned Date</th>
-								<th>Status</th>
+								<th>Options</th>
 							</tr>
-							<c:forEach items="${events}" var="event">
+							<c:forEach items="${eventOrganisers}" var="eventOrganiser">
 								<tr class="data">
+									<td>${eventOrganiser.LANId}</td>
+									<td>${eventOrganiser.organiserName}</td>
 									<td><a
-										href="<c:url value='/event-${event.eventId}' />">
-											${event.eventName} </a></td>
-									<td>${event.eventLocation}</td>
-									<td>${event.eventPlannedDate}</td>
-									<td>${event.eventStatus }</td>
+										href="<c:url value='/edit-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
+											Edit </a> / <a
+										href="<c:url value='/delete-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
+											Delete </a></td>
+
+
+
 								</tr>
 							</c:forEach>
 						</table>
 					</div>
 				</c:when>
 				<c:otherwise>
-					There are no Events
+					There are no Event Organisers
 				</c:otherwise>
 			</c:choose>
 		</div>
 
-		<div class="row">
-			<a href="<c:url value='/newEvent' />">
-				<button type="button" class="btn btn-primary btn-sm">New
-					Event</button>
-			</a>
-		</div>
-		
-	</div>
 
+		<div class="row ">
+			<a href="<c:url value='/newEventOrganiser' />"><input
+				class="btn btn-primary btn-sm" value="Add Event Organiser" /></a>
+		</div>
+
+	</div>
 </body>
+</html>

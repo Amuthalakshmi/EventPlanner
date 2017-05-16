@@ -46,14 +46,14 @@
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered">
 							<tr>
-								<th>Employee ID</th>
-								<th>User Name</th>
+								<th>LAN ID</th>
+								<th>Name</th>
 								<th>Options</th>
 							</tr>
 							<c:forEach items="${eventManagers}" var="eventManager">
 								<tr class="data">
-									<td>${eventManager.employeeId}</td>
-									<td>${eventManager.userName}</td>
+									<td>${eventManager.LANID}</td>
+									<td>${eventManager.eventManagerName}</td>
 									<td><a
 										href="<c:url value='/edit-${eventManager.eventManagerId}-eventManager' />">
 											Edit </a> / <a

@@ -10,4 +10,5 @@ public interface ChildDAO {
 	void saveChild(Child child);
 	void deleteChildById(int childId);
 	List<Child> findAllChild();
+	List<Child> findByParentParticipantId(int parentParticipantId);
 }
