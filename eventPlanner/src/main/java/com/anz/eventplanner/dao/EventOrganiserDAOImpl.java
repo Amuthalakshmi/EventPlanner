@@ -3,6 +3,7 @@ package com.anz.eventplanner.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,12 @@ public class EventOrganiserDAOImpl  extends AbstractDAO<Integer, EventOrganiser>
 
 	@Override
 	public EventOrganiser findById(int eventOrganiserId) {
-		return getByKey(eventOrganiserId);
+		EventOrganiser eventOrganiser = getByKey(eventOrganiserId);
+		if(eventOrganiser!=null){
+			System.out.println("event Organiser ID");
+            Hibernate.initialize(eventOrganiser.getAssociatedTasks());
+        }
+		return eventOrganiser;
 	}
 
 	@Override
@@ -33,7 +39,11 @@ public class EventOrganiserDAOImpl  extends AbstractDAO<Integer, EventOrganiser>
 	@Override
 	public List<EventOrganiser> findAllEventOrganiser() {
 		Criteria criteria = createEntityCriteria();
-		return (List<EventOrganiser>) criteria.list();
+		List<EventOrganiser> eventOrganisers = (List<EventOrganiser>) criteria.list();
+		for(EventOrganiser eventOrganiser : eventOrganisers){
+            Hibernate.initialize(eventOrganiser.getAssociatedTasks());
+        }
+		return eventOrganisers;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -41,7 +51,11 @@ public class EventOrganiserDAOImpl  extends AbstractDAO<Integer, EventOrganiser>
 	public List<EventOrganiser> findAllOrganisersByCategory(String category) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.ilike("category", "%"+category+"%"));	
-		return (List<EventOrganiser>) criteria.list();
+		List<EventOrganiser> eventOrganisers = (List<EventOrganiser>) criteria.list();
+		for(EventOrganiser eventOrganiser : eventOrganisers){
+            Hibernate.initialize(eventOrganiser.getAssociatedTasks());
+        }
+		return eventOrganisers;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -50,7 +64,11 @@ public class EventOrganiserDAOImpl  extends AbstractDAO<Integer, EventOrganiser>
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.ilike("category", "%"+category+"%"));	
 		criteria.add(Restrictions.eq("location", location));
-		return (List<EventOrganiser>) criteria.list();
+		List<EventOrganiser> eventOrganisers = (List<EventOrganiser>) criteria.list();
+		for(EventOrganiser eventOrganiser : eventOrganisers){
+            Hibernate.initialize(eventOrganiser.getAssociatedTasks());
+        }
+		return eventOrganisers;
 	}
 
 }

@@ -1,11 +1,21 @@
 package com.anz.eventplanner.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "event_organiser")
@@ -24,16 +34,17 @@ public class EventOrganiser {
 
 	@Column(name = "category")
 	private String category;
-	
+
 	@Column(name = "location")
 	private String location;
 
-	@Column(name = "task_id")
-	private int taskId;
+	@NotEmpty
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "event_organiser_tasks", 
+			   joinColumns = { @JoinColumn(name = "event_organiser_id") }, 
+			   inverseJoinColumns = { @JoinColumn(name = "task_id") })
+	private Set<Task> associatedTasks = new HashSet<Task>();
 
-	@Column(name = "activity_id")
-	private int activityId;
-	
 	public int getEventOrganiserId() {
 		return eventOrganiserId;
 	}
@@ -74,26 +85,20 @@ public class EventOrganiser {
 		this.location = location;
 	}
 
-	public int getTaskId() {
-		return taskId;
+	public Set<Task> getAssociatedTasks() {
+		System.out.println("get Tasks");
+		return associatedTasks;
 	}
 
-	public void setTaskId(int taskId) {
-		this.taskId = taskId;
-	}
-
-	public int getActivityId() {
-		return activityId;
-	}
-
-	public void setActivityId(int activityId) {
-		this.activityId = activityId;
+	public void setAssociatedTasks(Set<Task> associatedTasks) {
+		System.out.println("set Tasks");
+		this.associatedTasks = associatedTasks;
 	}
 
 	@Override
 	public String toString() {
-		return "Event Organiser [Event Organiser ID:" + eventOrganiserId + ", LAN ID:" + LANId
-				+ ", Name:" + organiserName + "]";
+		return "Event Organiser [Event Organiser ID:" + eventOrganiserId + ", LAN ID:" + LANId + ", Name:"
+				+ organiserName + "]";
 	}
 
 	@Override

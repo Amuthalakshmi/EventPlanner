@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
-import com.anz.eventplanner.model.EventSpecificOrganiser;
+import com.anz.eventplanner.model.OrganiserAndEvent;
 import com.anz.eventplanner.service.EventService;
 
 @Controller
@@ -119,10 +119,10 @@ public class EventController {
 
 		List<EventOrganiser> eventOrganisers = eventOrganiserController.eventOrganiserService
 				.findAllOrganisersByCategoryAndLocation("All Event", event.getEventLocation());
-		List<EventSpecificOrganiser> eventSpecificOrganisers = eventOrganiserController.eventSpecificOrganiserService
-				.findAllEventSpecificOrganiserByEventId(eventId);
-		for (int i = 0; i < eventSpecificOrganisers.size(); i++) {
-			int eventOrganiserId = eventSpecificOrganisers.get(i).getEventOrganiserId();
+		List<OrganiserAndEvent> organiserAndEvents = eventOrganiserController.organiserAndEventService
+				.findAllOrganiserAndEventByEventId(eventId);
+		for (int i = 0; i < organiserAndEvents.size(); i++) {
+			int eventOrganiserId = organiserAndEvents.get(i).getEventOrganiserId();
 			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findById(eventOrganiserId);
 			eventOrganisers.add(eventOrganiser);
 		}
@@ -202,11 +202,10 @@ public class EventController {
 		List<EventOrganiser> allEventSpecificOrganisers = eventOrganiserController.eventOrganiserService
 				.findAllOrganisersByCategoryAndLocation("Event Specific", event.getEventLocation());
 
-		List<EventSpecificOrganiser> addedEventSpecificOrganisers = eventOrganiserController.eventSpecificOrganiserService
-				.findAllEventSpecificOrganiserByEventId(eventId);
+		List<OrganiserAndEvent> addedEventSpecificOrganisers = eventOrganiserController.organiserAndEventService
+				.findAllOrganiserAndEventByEventId(eventId);
 		
-		List<EventOrganiser> eventSpecificOrganisersToAdd = new ArrayList<EventOrganiser>();
-		
+		List<EventOrganiser> eventSpecificOrganisersToAdd = new ArrayList<EventOrganiser>();		
 		
 		for(int i=0; i<allEventSpecificOrganisers.size(); i++){
 			boolean addedEventOrganiser = false;
@@ -218,8 +217,7 @@ public class EventController {
 			if (addedEventOrganiser == false){
 				eventSpecificOrganisersToAdd.add(allEventSpecificOrganisers.get(i));
 			}
-		}
-		
+		}		
 
 		model.addAttribute("eventSpecificOrganisers", eventSpecificOrganisersToAdd);		
 		return "addOrganisersToEvent";
@@ -228,10 +226,10 @@ public class EventController {
 	@RequestMapping(value = { "/event{eventId}/add{eventOrganiserId}" }, method = RequestMethod.GET)
 	public String addEventOrganiser(@PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model) {
-		EventSpecificOrganiser eventSpecificOrganiser = new EventSpecificOrganiser();
-		eventSpecificOrganiser.setEventId(eventId);
-		eventSpecificOrganiser.setEventOrganiserId(eventOrganiserId);
-		eventOrganiserController.eventSpecificOrganiserService.saveEventSpecificOrganiser(eventSpecificOrganiser);
+		OrganiserAndEvent organiserAndEvent = new OrganiserAndEvent();
+		organiserAndEvent.setEventId(eventId);
+		organiserAndEvent.setEventOrganiserId(eventOrganiserId);
+		eventOrganiserController.organiserAndEventService.saveOrganiserAndEvent(organiserAndEvent);
 		return "redirect:/event{eventId}/addOrganisers";
 	}
 

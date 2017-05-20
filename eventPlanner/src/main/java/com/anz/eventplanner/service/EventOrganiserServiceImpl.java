@@ -30,11 +30,9 @@ public class EventOrganiserServiceImpl implements EventOrganiserService{
 	public void updateEventOrganiser(EventOrganiser eventOrganiser) {
 		EventOrganiser entity = dao.findById(eventOrganiser.getEventOrganiserId());
 		if (entity != null){
-			entity.setActivityId(eventOrganiser.getActivityId());
 			entity.setCategory(eventOrganiser.getCategory());
 			entity.setLANId(eventOrganiser.getLANId());
 			entity.setOrganiserName(eventOrganiser.getOrganiserName());
-			entity.setTaskId(eventOrganiser.getTaskId());
 		}
 	}
 

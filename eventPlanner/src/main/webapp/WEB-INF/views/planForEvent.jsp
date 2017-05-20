@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>${eventOrganiser.organiserName}</title>
+<title>Planning for ${event.eventName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -29,24 +29,12 @@
 		<div class="eventOrganiser">
 			<div class='page-header'>
 				<h1>
-					${eventOrganiser.organiserName}					
+					${event.eventName} <small>- Event planning</small>				
 				</h1>
 			</div>
-
+			
 			<div>
-				<c:choose>
-					<c:when test="${not empty eventsSpecificToOrganiser}">
-						<ul class="list-unstyled">
-							<c:forEach items="${eventsSpecificToOrganiser}" var="event">
-								<li><a href="<c:url value='/organiser${eventOrganiser.eventOrganiserId}/plan/event${event.eventId}' />">
-										${event.eventName} </a></li>
-							</c:forEach>
-						</ul>
-					</c:when>
-					<c:otherwise>
-					There are no Events
-				</c:otherwise>
-				</c:choose>
+				
 			</div>
 
 		</div>

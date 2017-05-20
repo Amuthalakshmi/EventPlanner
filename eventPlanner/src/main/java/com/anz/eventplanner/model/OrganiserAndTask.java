@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "event_organiser_events")
-public class EventSpecificOrganiser {
+@Table(name = "event_organiser_tasks")
+public class OrganiserAndTask {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +19,8 @@ public class EventSpecificOrganiser {
 	@Column(name = "event_organiser_id", nullable = false)
 	private int eventOrganiserId;
 
-	@Column(name = "event_id", nullable = false)
-	private int eventId;
+	@Column(name = "task_id", nullable = false)
+	private int taskId;
 	
 	public int getId() {
 		return Id;
@@ -38,18 +38,18 @@ public class EventSpecificOrganiser {
 		this.eventOrganiserId = eventOrganiserId;
 	}
 
-	public int getEventId() {
-		return eventId;
+	public int getTaskId() {
+		return taskId;
 	}
 
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
+	public void setTaskId(int taskId) {
+		this.taskId = taskId;
 	}
 
 	@Override
 	public String toString() {
-		return "Event Specific Organiser [ID:" + Id + ", Event Organiser ID:" + eventOrganiserId + ", Event ID:"
-				+ eventId + "]";
+		return "Event Specific Organiser [ID:" + Id + ", Event Organiser ID:" + eventOrganiserId + ", Task ID:"
+				+ taskId + "]";
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class EventSpecificOrganiser {
 		if (!(object instanceof Event)) {
 			return false;
 		}
-		EventSpecificOrganiser other = (EventSpecificOrganiser) object;
+		OrganiserAndTask other = (OrganiserAndTask) object;
 		if (this.Id != other.Id) {
 			return false;
 		}
