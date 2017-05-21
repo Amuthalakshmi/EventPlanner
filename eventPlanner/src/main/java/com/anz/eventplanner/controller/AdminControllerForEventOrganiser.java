@@ -54,7 +54,9 @@ public class AdminControllerForEventOrganiser {
 		EventOrganiser eventOrganiser = new EventOrganiser();		
 		List<Event> events = eventController.eventService.findAllEventByStatus("Initiated");		
 		model.addAttribute("eventOrganiser", eventOrganiser);
-		model.addAttribute("events", events);
+		if (events != null){
+			model.addAttribute("events", events);	
+		}		
 		model.addAttribute("edit", false);
 		return "addEventOrganiser";
 	}

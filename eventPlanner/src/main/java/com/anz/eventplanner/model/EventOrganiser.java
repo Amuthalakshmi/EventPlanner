@@ -15,8 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
 @Table(name = "event_organiser")
 public class EventOrganiser {
@@ -37,9 +35,11 @@ public class EventOrganiser {
 
 	@Column(name = "location")
 	private String location;
+	
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy="associatedOrganisers")
+	private Set<Event> associatedEvents = new HashSet<Event>();
 
-	@NotEmpty
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "event_organiser_tasks", 
 			   joinColumns = { @JoinColumn(name = "event_organiser_id") }, 
 			   inverseJoinColumns = { @JoinColumn(name = "task_id") })
@@ -85,13 +85,19 @@ public class EventOrganiser {
 		this.location = location;
 	}
 
+	public Set<Event> getAssociatedEvents() {
+		return associatedEvents;
+	}
+
+	public void setAssociatedEvents(Set<Event> associatedEvents) {
+		this.associatedEvents = associatedEvents;
+	}
+
 	public Set<Task> getAssociatedTasks() {
-		System.out.println("get Tasks");
 		return associatedTasks;
 	}
 
 	public void setAssociatedTasks(Set<Task> associatedTasks) {
-		System.out.println("set Tasks");
 		this.associatedTasks = associatedTasks;
 	}
 

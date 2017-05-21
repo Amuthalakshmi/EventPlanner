@@ -1,23 +1,20 @@
 package com.anz.eventplanner.dao;
 
+import java.util.Collection;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.anz.eventplanner.model.Task;
 
 @Repository("taskDAO")
-public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO{
+public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO {
 
 	@Override
 	public Task findById(int taskId) {
 		Task task = getByKey(taskId);
-		if(task != null){
-			Hibernate.initialize(task.getAssociatedOrganisers());
+		if (task != null) {
+			initializeCollection(task.getAssociatedOrganisers());
 		}
 		return task;
 	}
@@ -29,32 +26,37 @@ public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO{
 
 	@Override
 	public void deleteTaskById(int taskId) {
-		Query query = getSession().createSQLQuery("delete from Task where task_id=:taskId");
-		query.setInteger("taskId", taskId);
-		query.executeUpdate();
+		Task task = (Task) getEntityManager().createQuery("SELECT t FROM Task t WHERE t.taskId = :taskId ")
+				.setParameter("taskId", taskId).getSingleResult();
+		delete(task);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> findAllTask() {
-		Criteria criteria = createEntityCriteria();
-		List<Task> tasks = (List<Task>) criteria.list();
-		for(Task task:tasks){
-			Hibernate.initialize(task.getAssociatedOrganisers());
-		}
-		return tasks;
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Task> findAllTaskByEvent(int eventId) {
-		Criteria criteria = createEntityCriteria();
-		criteria.add(Restrictions.eq("eventId", eventId));
-		List<Task> tasks = (List<Task>) criteria.list();
-		for(Task task:tasks){
-			Hibernate.initialize(task.getAssociatedOrganisers());
+		List<Task> tasks = (List<Task>) getEntityManager().createQuery("SELECT t FROM Task t").getResultList();
+		for (Task task : tasks) {
+			initializeCollection(task.getAssociatedOrganisers());
 		}
 		return tasks;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Task> findAllTaskByEvent(int eventId) {
+		List<Task> tasks = (List<Task>) getEntityManager()
+				.createQuery("SELECT t FROM Task t WHERE t.eventId = :eventId").setParameter("eventId", eventId)
+				.getResultList();
+		for (Task task : tasks) {
+			initializeCollection(task.getAssociatedOrganisers());
+		}
+		return tasks;
+	}
+
+	protected void initializeCollection(Collection<?> collection) {
+		if (collection == null) {
+			return;
+		}
+		collection.iterator().hasNext();
+	}
 }

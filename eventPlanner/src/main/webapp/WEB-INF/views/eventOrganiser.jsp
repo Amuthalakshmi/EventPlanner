@@ -34,10 +34,11 @@
 			</div>
 
 			<div>
+			
 				<c:choose>
-					<c:when test="${not empty eventsSpecificToOrganiser}">
+					<c:when test="${not empty eventOrganiser.associatedEvents}">
 						<ul class="list-unstyled">
-							<c:forEach items="${eventsSpecificToOrganiser}" var="event">
+							<c:forEach items="${eventOrganiser.associatedEvents}" var="event">
 								<li><a href="<c:url value='/organiser${eventOrganiser.eventOrganiserId}/plan/event${event.eventId}' />">
 										${event.eventName} </a></li>
 							</c:forEach>

@@ -230,7 +230,7 @@
 					</legend>
 					<div class="organisersOfThatEvent">
 						<ul>
-							<c:forEach items="${eventOrganisers}" var="eventOrganiser">							
+							<c:forEach items="${event.associatedOrganisers}" var="eventOrganiser">							
 								<li><a
 									href="<c:url value='/edit-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
 										${eventOrganiser.organiserName} </a></li>

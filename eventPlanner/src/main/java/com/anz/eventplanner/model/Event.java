@@ -1,10 +1,18 @@
 package com.anz.eventplanner.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -37,6 +45,12 @@ public class Event {
 	
 	@Column(name= "event_status")
 	private String eventStatus;
+		
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinTable(name = "event_organiser_events", 
+			   joinColumns = { @JoinColumn(name = "event_id") }, 
+			   inverseJoinColumns = { @JoinColumn(name = "event_organiser_id") })
+	private Set<EventOrganiser> associatedOrganisers = new HashSet<EventOrganiser>();
 
 	public int getEventId() {
 		return eventId;
@@ -92,6 +106,14 @@ public class Event {
 
 	public void setEventStatus(String eventStatus) {
 		this.eventStatus = eventStatus;
+	}
+
+	public Set<EventOrganiser> getAssociatedOrganisers() {
+		return associatedOrganisers;
+	}
+
+	public void setAssociatedOrganisers(Set<EventOrganiser> associatedOrganisers) {
+		this.associatedOrganisers = associatedOrganisers;
 	}
 
 	@Override

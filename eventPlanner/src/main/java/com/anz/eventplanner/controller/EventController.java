@@ -1,6 +1,5 @@
 package com.anz.eventplanner.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
-import com.anz.eventplanner.model.OrganiserAndEvent;
 import com.anz.eventplanner.service.EventService;
 
 @Controller
@@ -83,7 +81,7 @@ public class EventController {
 			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "addEvent";
-		}
+		}		
 		eventService.saveEvent(event);
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + "(" + event.getEventPlannedDate() + ") saved successfully");
@@ -101,8 +99,8 @@ public class EventController {
 	@RequestMapping(value = { "/event-{eventId}" }, method = RequestMethod.GET)
 	public String editEvent(@PathVariable int eventId, ModelMap model) {
 		Event event = eventService.findById(eventId);
-		model.addAttribute("event", event);
-
+		model.addAttribute("event", event);		
+		
 		if (event.getEventStatus() == null) {
 			model.addAttribute("canDelete", true);
 			model.addAttribute("canChangeStatus", true);
@@ -116,18 +114,6 @@ public class EventController {
 		locations.put("AUK", "Auckland");
 
 		model.put("locations", locations);
-
-		List<EventOrganiser> eventOrganisers = eventOrganiserController.eventOrganiserService
-				.findAllOrganisersByCategoryAndLocation("All Event", event.getEventLocation());
-		List<OrganiserAndEvent> organiserAndEvents = eventOrganiserController.organiserAndEventService
-				.findAllOrganiserAndEventByEventId(eventId);
-		for (int i = 0; i < organiserAndEvents.size(); i++) {
-			int eventOrganiserId = organiserAndEvents.get(i).getEventOrganiserId();
-			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findById(eventOrganiserId);
-			eventOrganisers.add(eventOrganiser);
-		}
-
-		model.addAttribute("eventOrganisers", eventOrganisers);
 
 		model.addAttribute("edit", true);
 		return "addEvent";
@@ -177,6 +163,12 @@ public class EventController {
 
 		if (eventStatus.equals("start")) {
 			event.setEventStatus("Initiated");
+			List<EventOrganiser> organisersAllEventList = eventOrganiserController.eventOrganiserService.findAllOrganisersByCategory("All Event");		
+			for(EventOrganiser eventOrganiser: organisersAllEventList){
+				event.getAssociatedOrganisers().add(eventOrganiser);
+			}
+			eventService.updateEvent(event);
+			
 		} else if (eventStatus.equals("finish")) {
 			event.setEventStatus("Completed");
 		}
@@ -197,39 +189,15 @@ public class EventController {
 	@RequestMapping(value = { "/event{eventId}/addOrganisers" }, method = RequestMethod.GET)
 	public String toAddEventOrganiser(@PathVariable(value = "eventId") int eventId, ModelMap model) {
 		Event event = eventService.findById(eventId);
-		model.addAttribute("event", event);
-		
-		List<EventOrganiser> allEventSpecificOrganisers = eventOrganiserController.eventOrganiserService
-				.findAllOrganisersByCategoryAndLocation("Event Specific", event.getEventLocation());
-
-		List<OrganiserAndEvent> addedEventSpecificOrganisers = eventOrganiserController.organiserAndEventService
-				.findAllOrganiserAndEventByEventId(eventId);
-		
-		List<EventOrganiser> eventSpecificOrganisersToAdd = new ArrayList<EventOrganiser>();		
-		
-		for(int i=0; i<allEventSpecificOrganisers.size(); i++){
-			boolean addedEventOrganiser = false;
-			for(int j=0; j<addedEventSpecificOrganisers.size(); j++){
-				if(allEventSpecificOrganisers.get(i).getEventOrganiserId() == addedEventSpecificOrganisers.get(j).getEventOrganiserId()){
-					addedEventOrganiser = true;
-				}
-			}
-			if (addedEventOrganiser == false){
-				eventSpecificOrganisersToAdd.add(allEventSpecificOrganisers.get(i));
-			}
-		}		
-
-		model.addAttribute("eventSpecificOrganisers", eventSpecificOrganisersToAdd);		
+		model.addAttribute("event", event);		
+		model.addAttribute("eventSpecificOrganisers", event.getAssociatedOrganisers());		
 		return "addOrganisersToEvent";
 	}
 
 	@RequestMapping(value = { "/event{eventId}/add{eventOrganiserId}" }, method = RequestMethod.GET)
 	public String addEventOrganiser(@PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model) {
-		OrganiserAndEvent organiserAndEvent = new OrganiserAndEvent();
-		organiserAndEvent.setEventId(eventId);
-		organiserAndEvent.setEventOrganiserId(eventOrganiserId);
-		eventOrganiserController.organiserAndEventService.saveOrganiserAndEvent(organiserAndEvent);
+				
 		return "redirect:/event{eventId}/addOrganisers";
 	}
 

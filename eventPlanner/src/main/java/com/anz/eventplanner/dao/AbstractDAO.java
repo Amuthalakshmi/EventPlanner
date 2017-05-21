@@ -3,10 +3,8 @@ package com.anz.eventplanner.dao;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public abstract class AbstractDAO<PK extends Serializable, T> {
 	private final Class<T> persistentClass;
@@ -17,28 +15,27 @@ public abstract class AbstractDAO<PK extends Serializable, T> {
 				.getActualTypeArguments()[1];
 	}
 
-	@Autowired
-	private SessionFactory sessionFactory;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-	protected Session getSession() {
-		return sessionFactory.getCurrentSession();
+	protected EntityManager getEntityManager() {
+		return this.entityManager;
 	}
 
-	@SuppressWarnings("unchecked")
 	public T getByKey(PK key) {
-		return (T) getSession().get(persistentClass, key);
+		return (T) getEntityManager().find(persistentClass, key);
 	}
 
 	public void persist(T entity) {
-		getSession().persist(entity);
+		entityManager.persist(entity);
+	}
+	
+	public void update(T entity){
+		entityManager.merge(entity);
 	}
 
 	public void delete(T entity) {
-		getSession().delete(entity);
-	}
-
-	protected Criteria createEntityCriteria() {
-		return getSession().createCriteria(persistentClass);
+		entityManager.remove(entity);
 	}
 
 }
