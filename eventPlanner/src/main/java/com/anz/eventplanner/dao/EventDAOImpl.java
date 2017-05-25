@@ -34,7 +34,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Event> findAllEvent() {
-		List<Event> events = (List<Event>) getEntityManager().createQuery("SELECT e FROM Event e").getResultList();
+		List<Event> events = (List<Event>) getEntityManager().createQuery("SELECT e FROM Event e ORDER BY e.eventId").getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
 		}
@@ -45,7 +45,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 	@Override
 	public List<Event> findAllEventByName(String eventName) {
 		List<Event> events = (List<Event>) getEntityManager()
-				.createQuery("SELECT e FROM Event e WHERE e.eventName LIKE :eventName")
+				.createQuery("SELECT e FROM Event e WHERE e.eventName LIKE :eventName ORDER BY e.eventId")
 				.setParameter("eventName", eventName).getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
@@ -57,7 +57,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 	@Override
 	public List<Event> findAllEventByStatus(String eventStatus) {
 		List<Event> events = (List<Event>) getEntityManager()
-				.createQuery("SELECT e FROM Event e WHERE e.eventStatus = :eventStatus")
+				.createQuery("SELECT e FROM Event e WHERE e.eventStatus = :eventStatus ORDER BY e.eventId")
 				.setParameter("eventStatus", eventStatus).getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
@@ -71,7 +71,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 		List<Event> events = (List<Event>) getEntityManager()
 				.createQuery(
 						"SELECT e FROM Event e WHERE e.eventStatus = :eventStatus AND e.eventLocation = :eventLocation")
-				.setParameter("eventLocation", eventLocation).getResultList();
+				.setParameter("eventStatus", eventStatus).setParameter("eventLocation", eventLocation).getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
 		}

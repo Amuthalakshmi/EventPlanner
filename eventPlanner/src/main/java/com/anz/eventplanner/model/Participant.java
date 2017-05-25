@@ -1,10 +1,18 @@
 package com.anz.eventplanner.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,9 +26,6 @@ public class Participant {
 	@Column(name = "user_name")
 	private String userName;
 
-	@Column(name = "event_id", nullable = false)
-	private int eventId;
-
 	@Column(name = "number_of_children")
 	private int numberOfChildren;
 
@@ -28,8 +33,15 @@ public class Participant {
 	private String location;
 
 	@Column(name = "level")
-	private String level;	
+	private String level;
+
+	@OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
+	private List<Child> children = new ArrayList<Child>();
 	
+	@ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
+    @JoinColumn(name = "event_id", referencedColumnName="event_id")
+    private Event event;
+
 	public int getParticipantId() {
 		return participantId;
 	}
@@ -44,14 +56,6 @@ public class Participant {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public int getEventId() {
-		return eventId;
-	}
-
-	public void setEventId(int eventId) {
-		this.eventId = eventId;
 	}
 
 	public int getNumberOfChildren() {
@@ -74,8 +78,24 @@ public class Participant {
 		return level;
 	}
 
-	public void setLevel(String level) {		
+	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public List<Child> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Child> children) {
+		this.children = children;
+	}
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	@Override
@@ -91,7 +111,7 @@ public class Participant {
 		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Event)) {
+		if (!(object instanceof Participant)) {
 			return false;
 		}
 		Participant other = (Participant) object;

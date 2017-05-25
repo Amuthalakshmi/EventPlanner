@@ -1,7 +1,5 @@
 package com.anz.eventplanner.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Child;
-import com.anz.eventplanner.model.ChildListWrapper;
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.Participant;
 import com.anz.eventplanner.service.ChildService;
@@ -50,13 +46,10 @@ public class ParticipantController {
 				model.addAttribute("showForm", true);
 
 				Participant participant = new Participant();
+				Child child = new Child();
+				participant.getChildren().add(child);
 				model.addAttribute("participant", participant);
 
-				ChildListWrapper childListWrapper = new ChildListWrapper();
-				childListWrapper.addChild(new Child());
-
-				model.addAttribute("childListWrapper", childListWrapper);
-				
 				break;
 
 			case "Completed":
@@ -83,22 +76,20 @@ public class ParticipantController {
 	}
 
 	@RequestMapping(value = { "/event{eventId}/register" }, method = RequestMethod.POST)
-	public String saveRegistration(@Valid Event event, BindingResult eventResult, @Valid Participant participant,
-			BindingResult participantResult, @Valid ChildListWrapper childListWrapper,
-			BindingResult childListWrapperResult, ModelMap model, RedirectAttributes redirectAttributes) {
-		 
-		if (participantResult.hasErrors() || childListWrapperResult.hasErrors()) {
+	public String saveRegistration(@PathVariable(value = "eventId") int eventId, @Valid Participant participant,
+			BindingResult participantResult, ModelMap model) {
+
+		if (participantResult.hasErrors()) {
 			return "registrationBringKidsToWork";
 		}
+		
+		participant.setEvent(eventController.eventService.findById(eventId));
 
-		participant.setEventId(event.getEventId());
-		participantService.saveParticipant(participant);
-
-		for (int i = 0; i < childListWrapper.getChildList().size(); i++) {
-			Child child = childListWrapper.getChildList().get(i);
-			child.setParentParticipantId(participant.getParticipantId());
-			childService.saveChild(child);
+		for (Child child : participant.getChildren()) {
+			child.setParent(participant);
 		}
+
+		participantService.saveParticipant(participant);
 
 		return "registrationBringKidsToWork";
 	}
@@ -109,31 +100,18 @@ public class ParticipantController {
 	}
 
 	/**
-	 * This method will provide a medium to update existing Event Managers
-	 * 
-	 * @param employeeId
+	 * This method will provide a medium to update existing registration 
+	 * @param participantId
+	 * @param eventId
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = { "/event{eventId}/{participantId}" }, method = RequestMethod.GET)
-	public String editRegistration(@PathVariable(value = "participantId") int participantId,
-			@PathVariable(value = "eventId") int eventId, ModelMap model) {
-		Event event = eventController.eventService.findById(eventId);
-		model.addAttribute("event", event);
-
-		model.addAttribute("showForm", true);
-
+	@RequestMapping(value = { "/{participantId}" }, method = RequestMethod.GET)
+	public String editRegistration(@PathVariable(value = "participantId") int participantId, ModelMap model) {
 		Participant participant = participantService.findById(participantId);
 		model.addAttribute("participant", participant);
 
-		ChildListWrapper childListWrapper = new ChildListWrapper();
-		List<Child> children = childService.findByParentParticipantId(participantId);
-		childListWrapper.setChildList(children);
-		model.addAttribute("childListWrapper", childListWrapper);
-
-		System.out.println("Edit" + childListWrapper);
-		System.out.println("Edit" + participant);
-
+		model.addAttribute("showForm", true);
 		model.addAttribute("edit", true);
 		return "registrationBringKidsToWork";
 	}
@@ -145,28 +123,17 @@ public class ParticipantController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = { "/event{eventId}/{participantId}" }, method = RequestMethod.POST)
-	public String updateRegistration(@PathVariable(value = "participantId") int participantId,
-			@PathVariable(value = "eventId") int eventId, @PathVariable(value = "participantId") int parentParticipantId, @ModelAttribute Participant participant,
-			BindingResult participantResult, @ModelAttribute("childListWrapper") ChildListWrapper childListWrapper,
-			BindingResult childListWrapperResult, ModelMap model) {
-		
-		System.out.println("Update" + childListWrapper);
-		System.out.println("Update" + participant);
+	@RequestMapping(value = { "/{participantId}" }, method = RequestMethod.POST)
+	public String updateRegistration(@PathVariable(value = "participantId") int participantId, @ModelAttribute Participant participant,
+			BindingResult participantResult, ModelMap model) {
 
-		List<Child> children = childListWrapper.getChildList();	
-
-		if (participantResult.hasErrors() || childListWrapperResult.hasErrors()) {
+		if (participantResult.hasErrors()) {
 			return "registrationBringKidsToWork";
 		}
 
 		participantService.updateParticipant(participant);
 
-		for (int i = 0; i < children.size(); i++) {
-			childService.updateChild(children.get(i));
-		}
-
-		return "redirect:/participant/event{eventId}/{participantId}";
+		return "redirect:/participant/{participantId}";
 
 	}
 

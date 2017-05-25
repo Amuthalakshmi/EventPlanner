@@ -1,6 +1,8 @@
 package com.anz.eventplanner.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,9 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -29,10 +34,11 @@ public class Event {
 	@Size(min=5, max=100)
 	@Column(name = "event_name",nullable = false)
 	private String eventName;
-	
-	@DateTimeFormat(pattern="yyyy-MM-dd") 
-	@Column(name = "planned_date")
-	private String eventPlannedDate;
+		 
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Column(name = "planned_date")	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	private LocalDate eventPlannedDate;
 		
 	@Column(name = "target_audience")
 	private String targetAudience;	
@@ -46,11 +52,17 @@ public class Event {
 	@Column(name= "event_status")
 	private String eventStatus;
 		
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
 	@JoinTable(name = "event_organiser_events", 
 			   joinColumns = { @JoinColumn(name = "event_id") }, 
 			   inverseJoinColumns = { @JoinColumn(name = "event_organiser_id") })
 	private Set<EventOrganiser> associatedOrganisers = new HashSet<EventOrganiser>();
+	
+	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
+	private List<Participant> participants = new ArrayList<Participant>();
+	
+	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
+	private List<Task> tasks = new ArrayList<Task>();
 
 	public int getEventId() {
 		return eventId;
@@ -68,11 +80,11 @@ public class Event {
 		this.eventName = eventName;
 	}
 
-	public String getEventPlannedDate() {
+	public LocalDate getEventPlannedDate() {
 		return eventPlannedDate;
 	}
 
-	public void setEventPlannedDate(String eventPlannedDate) {
+	public void setEventPlannedDate(LocalDate eventPlannedDate) {		
 		this.eventPlannedDate = eventPlannedDate;
 	}
 
@@ -114,6 +126,31 @@ public class Event {
 
 	public void setAssociatedOrganisers(Set<EventOrganiser> associatedOrganisers) {
 		this.associatedOrganisers = associatedOrganisers;
+	}
+	
+	public void addAssociatedOrganisers(EventOrganiser eventOrganiser){
+		if(!getAssociatedOrganisers().contains(eventOrganiser)){
+			getAssociatedOrganisers().add(eventOrganiser);
+		}
+		if(!eventOrganiser.getAssociatedEvents().contains(this)){
+			eventOrganiser.getAssociatedEvents().add(this);
+		}		 
+	}
+
+	public List<Participant> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<Participant> participants) {
+		this.participants = participants;
+	}
+
+	public List<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 
 	@Override

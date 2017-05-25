@@ -1,8 +1,10 @@
 package com.anz.eventplanner.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -81,7 +83,7 @@ public class EventController {
 			RedirectAttributes redirectAttributes) {
 		if (result.hasErrors()) {
 			return "addEvent";
-		}		
+		}
 		eventService.saveEvent(event);
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + "(" + event.getEventPlannedDate() + ") saved successfully");
@@ -99,8 +101,8 @@ public class EventController {
 	@RequestMapping(value = { "/event-{eventId}" }, method = RequestMethod.GET)
 	public String editEvent(@PathVariable int eventId, ModelMap model) {
 		Event event = eventService.findById(eventId);
-		model.addAttribute("event", event);		
-		
+		model.addAttribute("event", event);
+
 		if (event.getEventStatus() == null) {
 			model.addAttribute("canDelete", true);
 			model.addAttribute("canChangeStatus", true);
@@ -138,7 +140,7 @@ public class EventController {
 
 		eventService.updateEvent(event);
 
-		return "redirect://event-{eventId}";
+		return "redirect:/event-{eventId}";
 	}
 
 	/***
@@ -163,12 +165,12 @@ public class EventController {
 
 		if (eventStatus.equals("start")) {
 			event.setEventStatus("Initiated");
-			List<EventOrganiser> organisersAllEventList = eventOrganiserController.eventOrganiserService.findAllOrganisersByCategory("All Event");		
-			for(EventOrganiser eventOrganiser: organisersAllEventList){
-				event.getAssociatedOrganisers().add(eventOrganiser);
+			List<EventOrganiser> organisersAllEventList = eventOrganiserController.eventOrganiserService
+					.findAllOrganisersByCategoryAndLocation("All Event", event.getEventLocation());
+			for (EventOrganiser eventOrganiser : organisersAllEventList) {
+				event.addAssociatedOrganisers(eventOrganiser);
 			}
 			eventService.updateEvent(event);
-			
 		} else if (eventStatus.equals("finish")) {
 			event.setEventStatus("Completed");
 		}
@@ -177,7 +179,7 @@ public class EventController {
 		}
 
 		eventService.updateEventStatus(event);
-		return "redirect://event-{eventId}";
+		return "redirect:/event-{eventId}";
 	}
 
 	@RequestMapping(value = { "/delete-{eventId}-event" }, method = RequestMethod.GET)
@@ -189,16 +191,56 @@ public class EventController {
 	@RequestMapping(value = { "/event{eventId}/addOrganisers" }, method = RequestMethod.GET)
 	public String toAddEventOrganiser(@PathVariable(value = "eventId") int eventId, ModelMap model) {
 		Event event = eventService.findById(eventId);
-		model.addAttribute("event", event);		
-		model.addAttribute("eventSpecificOrganisers", event.getAssociatedOrganisers());		
+
+		List<EventOrganiser> eventSpecificOrganisers = eventOrganiserController.eventOrganiserService
+				.findAllOrganisersByCategoryAndLocation("Event Specific", event.getEventLocation());
+		Iterator<EventOrganiser> iterator = eventSpecificOrganisers.iterator();
+		
+		while (iterator.hasNext()) {
+			EventOrganiser eventOrganiser = iterator.next();
+			Set<Event> associatedEvents = eventOrganiser.getAssociatedEvents();
+			if (associatedEvents != null & !associatedEvents.isEmpty()) {
+				for (Event e : associatedEvents) {
+					if (e.equals(event)) {
+						iterator.remove();
+					}
+				}
+			}
+		}
+
+		model.addAttribute("event", event);
+		model.addAttribute("eventSpecificOrganisers", eventSpecificOrganisers);
 		return "addOrganisersToEvent";
 	}
 
 	@RequestMapping(value = { "/event{eventId}/add{eventOrganiserId}" }, method = RequestMethod.GET)
 	public String addEventOrganiser(@PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model) {
-				
+		EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findById(eventOrganiserId);
+		Event event = eventService.findById(eventId);
+		event.getAssociatedOrganisers().add(eventOrganiser);
+		eventService.updateEvent(event);
 		return "redirect:/event{eventId}/addOrganisers";
+	}
+
+	@RequestMapping(value = { "/event{eventId}/removeOrganiser{eventOrganiserId}" }, method = RequestMethod.GET)
+	public String removeEventOrganiser(@PathVariable(value = "eventId") int eventId,
+			@PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model) {
+		EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findById(eventOrganiserId);
+		Event event = eventService.findById(eventId);
+		Set<EventOrganiser> associatedOrganisers = event.getAssociatedOrganisers();
+		
+		Iterator<EventOrganiser> iterator = associatedOrganisers.iterator();
+		while (iterator.hasNext()) {
+			EventOrganiser eo = iterator.next();
+			if (eo.equals(eventOrganiser)) {
+				associatedOrganisers.remove(eventOrganiser);
+				break;
+			}
+		}		
+
+		eventService.updateEvent(event);
+		return "redirect:/event-{eventId}";
 	}
 
 }

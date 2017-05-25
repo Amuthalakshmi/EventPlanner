@@ -49,11 +49,6 @@
 
 			<div class="row center">
 				<a href="<c:url value='' />"><input
-					class="btn btn-primary btn-lg" value="Partcipants" /></a>
-			</div>
-
-			<div class="row center">
-				<a href="<c:url value='' />"><input
 					class="btn btn-primary btn-lg" value="Volunteers" /></a>
 			</div>
 		</div>

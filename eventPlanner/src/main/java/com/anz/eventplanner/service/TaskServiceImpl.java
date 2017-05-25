@@ -29,19 +29,30 @@ public class TaskServiceImpl implements TaskService{
 	@Override
 	public void updateTask(Task task) {
 		Task entity = dao.findById(task.getTaskId());
-		if (entity != null){
-			entity.setTaskBlog(task.getTaskBlog());
+		if (entity != null){			
 			entity.setTaskDescription(task.getTaskDescription());
-			entity.setTaskName(task.getTaskName());
-			entity.setTaskStatus(task.getTaskStatus());
+			entity.setTaskName(task.getTaskName());						
+		}
+	}
+	
+	@Override
+	public void updateTaskBlog(Task task) {
+		Task entity = dao.findById(task.getTaskId());
+		if (entity != null){
+			if(entity.getTaskBlog() != null){
+				entity.setTaskBlog(entity.getTaskBlog() + '\n' + task.getTaskBlog());
+			} else {
+				entity.setTaskBlog(task.getTaskBlog());
+			}
+			entity.setTaskStatus(task.getTaskStatus());			
 		}
 	}
 
 	@Override
 	public void deleteTaskById(int taskId) {
 		dao.deleteTaskById(taskId);
-	}
-
+	}	
+	
 	@Override
 	public List<Task> findAllTask() {
 		return dao.findAllTask();

@@ -22,8 +22,8 @@ import com.anz.eventplanner.service.EventOrganiserService;
 public class AdminControllerForEventOrganiser {
 
 	@Autowired
-	EventOrganiserService eventOrganiserService;	
-	
+	EventOrganiserService eventOrganiserService;
+
 	@Autowired
 	EventController eventController;
 
@@ -51,12 +51,12 @@ public class AdminControllerForEventOrganiser {
 	 */
 	@RequestMapping(value = { "/newEventOrganiser" }, method = RequestMethod.GET)
 	public String newEventOrganiser(ModelMap model) {
-		EventOrganiser eventOrganiser = new EventOrganiser();		
-		List<Event> events = eventController.eventService.findAllEventByStatus("Initiated");		
+		EventOrganiser eventOrganiser = new EventOrganiser();
+		List<Event> events = eventController.eventService.findAllEventByStatus("Initiated");
 		model.addAttribute("eventOrganiser", eventOrganiser);
-		if (events != null){
-			model.addAttribute("events", events);	
-		}		
+		if (events != null) {
+			model.addAttribute("events", events);
+		}
 		model.addAttribute("edit", false);
 		return "addEventOrganiser";
 	}
@@ -80,6 +80,16 @@ public class AdminControllerForEventOrganiser {
 			return "addEventOrganiser";
 		}
 		eventOrganiserService.saveEventOrganiser(eventOrganiser);
+
+		if (eventOrganiser.getCategory().equalsIgnoreCase("All Event")) {
+			List<Event> events = eventController.eventService.findAllEventByStatusAndLocation("Initiated",
+					eventOrganiser.getLocation());
+			for (Event event : events) {
+				event.addAssociatedOrganisers(eventOrganiser);
+				eventController.eventService.updateEvent(event);
+			}
+		}
+		
 		redirectAttributes.addFlashAttribute("success",
 				eventOrganiser.getOrganiserName() + " added as event organiser");
 		return "redirect:/listEventOrganisers";

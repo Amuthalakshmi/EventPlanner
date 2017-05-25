@@ -1,5 +1,8 @@
 package com.anz.eventplanner.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
+import com.anz.eventplanner.model.Task;
 import com.anz.eventplanner.service.EventOrganiserService;
 import com.anz.eventplanner.service.TaskService;
 
@@ -41,9 +45,34 @@ public class EventOrganiserController {
 	@RequestMapping(value={"/organiser{eventOrganiserId}/plan/event{eventId}"},method = RequestMethod.GET)
 	public String planEvent(@PathVariable(value = "eventId") int eventId, @PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model){
 		Event event = eventController.eventService.findById(eventId);		
-		model.addAttribute("event",event);		 
+		model.addAttribute("event",event);
+		List<Task> associatedTasks = event.getTasks();
+		List<Task> openTasks = new ArrayList<Task>();
+		List<Task> closedTasks = new ArrayList<Task>();
+		List<Task> startedTasks = new ArrayList<Task>();
 		
+		for(Task task: associatedTasks){
+			switch(task.getTaskStatus()){
+			case "Open":
+				openTasks.add(task);
+				break;
+			case "Started":
+				startedTasks.add(task);
+				break;
+			case "Close":
+				closedTasks.add(task);
+				break;
+			default:
+				break;
+			}
+		}
+		model.addAttribute("openTasks",openTasks);
+		model.addAttribute("startedTasks",startedTasks);
+		model.addAttribute("closedTasks",closedTasks);
+		model.addAttribute("eoId",eventOrganiserId);		
 		return "planForEvent";
 	}
+	
+	
 
 }

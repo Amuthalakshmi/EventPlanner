@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -36,14 +34,8 @@ public class EventOrganiser {
 	@Column(name = "location")
 	private String location;
 	
-	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy="associatedOrganisers")
+	@ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER, mappedBy="associatedOrganisers")	
 	private Set<Event> associatedEvents = new HashSet<Event>();
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "event_organiser_tasks", 
-			   joinColumns = { @JoinColumn(name = "event_organiser_id") }, 
-			   inverseJoinColumns = { @JoinColumn(name = "task_id") })
-	private Set<Task> associatedTasks = new HashSet<Task>();
 
 	public int getEventOrganiserId() {
 		return eventOrganiserId;
@@ -92,13 +84,14 @@ public class EventOrganiser {
 	public void setAssociatedEvents(Set<Event> associatedEvents) {
 		this.associatedEvents = associatedEvents;
 	}
-
-	public Set<Task> getAssociatedTasks() {
-		return associatedTasks;
-	}
-
-	public void setAssociatedTasks(Set<Task> associatedTasks) {
-		this.associatedTasks = associatedTasks;
+	
+	public void addAssociatedEvents(Event event){
+		if(!getAssociatedEvents().contains(event)){
+			getAssociatedEvents().add(event);
+		}
+		if(!event.getAssociatedOrganisers().contains(this)){
+			event.getAssociatedOrganisers().add(this);
+		}		 
 	}
 
 	@Override
@@ -115,7 +108,7 @@ public class EventOrganiser {
 		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Event)) {
+		if (!(object instanceof EventOrganiser)) {
 			return false;
 		}
 		EventOrganiser other = (EventOrganiser) object;

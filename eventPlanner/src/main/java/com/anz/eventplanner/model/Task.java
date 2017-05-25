@@ -1,18 +1,15 @@
 package com.anz.eventplanner.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "task")
@@ -22,9 +19,6 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "task_id", nullable = false)
 	private Integer taskId;
-
-	@Column(name = "event_id", nullable = false)
-	private Integer eventId;
 
 	@Column(name = "task_name")
 	private String taskName;
@@ -37,10 +31,10 @@ public class Task {
 
 	@Column(name = "task_blog")
 	private String taskBlog;
-
-	@NotEmpty
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy="associatedTasks")
-	private Set<EventOrganiser> associatedOrganisers = new HashSet<EventOrganiser>();
+	
+	@ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
+    @JoinColumn(name = "event_id", referencedColumnName="event_id")
+    private Event event;
 
 	public Integer getTaskId() {
 		return taskId;
@@ -48,14 +42,6 @@ public class Task {
 
 	public void setTaskId(Integer taskId) {
 		this.taskId = taskId;
-	}
-
-	public Integer getEventId() {
-		return eventId;
-	}
-
-	public void setEventId(Integer eventId) {
-		this.eventId = eventId;
 	}
 
 	public String getTaskName() {
@@ -90,12 +76,12 @@ public class Task {
 		this.taskBlog = taskBlog;
 	}
 
-	public Set<EventOrganiser> getAssociatedOrganisers() {
-		return associatedOrganisers;
+	public Event getEvent() {
+		return event;
 	}
 
-	public void setAssociatedOrganisers(Set<EventOrganiser> associatedOrganisers) {
-		this.associatedOrganisers = associatedOrganisers;
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	@Override
@@ -111,7 +97,7 @@ public class Task {
 		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Event)) {
+		if (!(object instanceof Task)) {
 			return false;
 		}
 		Task other = (Task) object;

@@ -19,7 +19,7 @@ public class EventManagerDAOImpl extends AbstractDAO<Integer, EventManager> impl
 	@Override
 	public List<EventManager> findByUserName(String userName) {
 		List<EventManager> eventManagers = (List<EventManager>) getEntityManager()
-				.createQuery("SELECT em FROM EventManager em WHERE em.userName LIKE userName")
+				.createQuery("SELECT em FROM EventManager em WHERE em.userName LIKE userName ORDER BY em.eventManagerId")
 				.setParameter("userName", userName).getResultList();
 		return eventManagers;
 	}
@@ -41,7 +41,7 @@ public class EventManagerDAOImpl extends AbstractDAO<Integer, EventManager> impl
 	@Override
 	public List<EventManager> findAllEventManager() {
 		List<EventManager> eventManagers = (List<EventManager>) getEntityManager()
-				.createQuery("SELECT em FROM EventManager em").getSingleResult();
+				.createQuery("SELECT em FROM EventManager em ORDER BY em.eventManagerId").getResultList();
 		return eventManagers;
 	}
 

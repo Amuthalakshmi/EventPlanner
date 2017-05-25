@@ -14,7 +14,6 @@ public class EventOrganiserDAOImpl extends AbstractDAO<Integer, EventOrganiser> 
 	public EventOrganiser findById(int eventOrganiserId) {
 		EventOrganiser eventOrganiser = getByKey(eventOrganiserId);
 		if (eventOrganiser != null) {
-			initializeCollection(eventOrganiser.getAssociatedTasks());
 			initializeCollection(eventOrganiser.getAssociatedEvents());
 		}
 		return eventOrganiser;
@@ -37,9 +36,8 @@ public class EventOrganiserDAOImpl extends AbstractDAO<Integer, EventOrganiser> 
 	@Override
 	public List<EventOrganiser> findAllEventOrganiser() {
 		List<EventOrganiser> eventOrganisers = (List<EventOrganiser>) getEntityManager()
-				.createQuery("SELECT eo FROM EventOrganiser eo").getResultList();
+				.createQuery("SELECT eo FROM EventOrganiser eo ORDER BY eo.eventOrganiserId").getResultList();
 		for (EventOrganiser eventOrganiser : eventOrganisers) {
-			initializeCollection(eventOrganiser.getAssociatedTasks());
 			initializeCollection(eventOrganiser.getAssociatedEvents());
 		}
 		return eventOrganisers;
@@ -49,10 +47,10 @@ public class EventOrganiserDAOImpl extends AbstractDAO<Integer, EventOrganiser> 
 	@Override
 	public List<EventOrganiser> findAllOrganisersByCategory(String category) {
 		List<EventOrganiser> eventOrganisers = (List<EventOrganiser>) getEntityManager()
-				.createQuery("SELECT eo FROM EventOrganiser eo WHERE eo.category LIKE CONCAT('%',:category,'%')")
+				.createQuery(
+						"SELECT eo FROM EventOrganiser eo WHERE eo.category LIKE CONCAT('%',:category,'%') ORDER BY eo.eventOrganiserId")
 				.setParameter("category", category).getResultList();
 		for (EventOrganiser eventOrganiser : eventOrganisers) {
-			initializeCollection(eventOrganiser.getAssociatedTasks());
 			initializeCollection(eventOrganiser.getAssociatedEvents());
 		}
 		return eventOrganisers;
@@ -63,10 +61,9 @@ public class EventOrganiserDAOImpl extends AbstractDAO<Integer, EventOrganiser> 
 	public List<EventOrganiser> findAllOrganisersByCategoryAndLocation(String category, String location) {
 		List<EventOrganiser> eventOrganisers = (List<EventOrganiser>) getEntityManager()
 				.createQuery(
-						"SELECT eo FROM EventOrganiser eo WHERE eo.category LIKE CONCAT('%',:category,'%') AND eo.location = :location")
-				.setParameter("category", category).setParameter("location", location).getSingleResult();
+						"SELECT eo FROM EventOrganiser eo WHERE eo.category LIKE CONCAT('%',:category,'%') AND eo.location = :location  ORDER BY eo.eventOrganiserId")
+				.setParameter("category", category).setParameter("location", location).getResultList();
 		for (EventOrganiser eventOrganiser : eventOrganisers) {
-			initializeCollection(eventOrganiser.getAssociatedTasks());
 			initializeCollection(eventOrganiser.getAssociatedEvents());
 		}
 		return eventOrganisers;

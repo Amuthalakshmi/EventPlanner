@@ -230,10 +230,14 @@
 					</legend>
 					<div class="organisersOfThatEvent">
 						<ul>
-							<c:forEach items="${event.associatedOrganisers}" var="eventOrganiser">							
+							<c:forEach items="${event.associatedOrganisers}"
+								var="eventOrganiser">
 								<li><a
 									href="<c:url value='/edit-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
-										${eventOrganiser.organiserName} </a></li>
+										${eventOrganiser.organiserName} </a> &nbsp; &nbsp; <c:if
+										test="${eventOrganiser.category ne 'All Event'}">
+										<a href="<c:url value='/event${event.eventId}/removeOrganiser${eventOrganiser.eventOrganiserId}' />"> remove </a>
+									</c:if></li>
 							</c:forEach>
 						</ul>
 					</div>

@@ -118,125 +118,114 @@
 							</div>
 
 							<div class="kidsdetails">
-								<form:form class="form-horizontal well" method="POST"
-									modelAttribute="childListWrapper">
-									<fieldset>
-										<legend>Kid's Details</legend>
+														
+								<legend>Kid's Details</legend>
 
-										<div class="foreachkid" id="foreachkid">
-											<c:forEach items="${childListWrapper.childList}"
-												varStatus="i">
-												 
-												<div class="child" id="child${i.index + 1}">
-													<div class="row">
-														<h4 class="col-md-2">Child ${i.index + 1}</h4>
-														<form:input type="hidden" path="childList[${i.index}].childId"/>
-														<form:input type="hidden" path="childList[${i.index}].parentParticipantId"/>														
-													</div>
+								<div class="foreachkid" id="foreachkid">
+									<c:forEach items="${participant.children}" varStatus="i">
 
-													<div class="row form-group">
-														<label class="control-label col-md-3" for="childName">Full
-															name of the child</label>
-														<div class="col-md-4">
-															<form:input id="childName" class="form-control"
-																type="text" path="childList[${i.index}].childName"
-																placeholder="Name of the child" disabled="${edit}" />
-														</div>
-													</div>
+										<div class="child" id="child${i.index + 1}">
+											<div class="row">
+												<h4 class="col-md-2">Child ${i.index + 1}</h4>
+											</div>
 
-													<div class="row form-group">
-														<label class="control-label col-md-3" for="childAge">
-															Age </label>
-														<div class="col-md-4">
-															<form:input id="childAge" class="form-control"
-																type="text" path="childList[${i.index}].childAge"
-																placeholder="Age of the child" disabled="${edit}" />
-														</div>
-													</div>
+											<div class="row form-group">
+												<label class="control-label col-md-3" for="childName">Full
+													name of the child</label>
+												<div class="col-md-4">
+													<form:input id="childName" class="form-control" type="text"
+														path="children[${i.index}].childName"
+														placeholder="Name of the child" disabled="${edit}" />
+												</div>
+											</div>
+
+											<div class="row form-group">
+												<label class="control-label col-md-3" for="childAge">
+													Age </label>
+												<div class="col-md-4">
+													<form:input id="childAge" class="form-control" type="text"
+														path="children[${i.index}].childAge"
+														placeholder="Age of the child" disabled="${edit}" />
+												</div>
+											</div>
 
 
-													<div class="row form-group">
-														<label class="control-label col-md-3">Gender </label>
-														<div class="col-md-4">
-															<form:radiobutton
-																path="childList[${i.index}].childGender" value="male"
-																disabled="${edit}" />
-															male <br />
-															<form:radiobutton
-																path="childList[${i.index}].childGender" value="female"
-																disabled="${edit}" />
-															female <br />
-															<form:radiobutton
-																path="childList[${i.index}].childGender"
-																value="prefer not to disclose" disabled="${edit}" />
-															prefer not to disclose
-														</div>
-													</div>
+											<div class="row form-group">
+												<label class="control-label col-md-3">Gender </label>
+												<div class="col-md-4">
+													<form:radiobutton path="children[${i.index}].childGender"
+														value="male" disabled="${edit}" />
+													male <br />
+													<form:radiobutton path="children[${i.index}].childGender"
+														value="female" disabled="${edit}" />
+													female <br />
+													<form:radiobutton path="children[${i.index}].childGender"
+														value="prefer not to disclose" disabled="${edit}" />
+													prefer not to disclose
+												</div>
+											</div>
 
-													<div class="row form-group">
-														<label class="control-label col-md-3">Dietary
-															Requirement </label>
-														<div class="col-md-4">
-															<form:radiobutton
-																path="childList[${i.index}].hasDietRequirement"
-																value="yes" onclick="foodprefer(this)"
-																disabled="${edit}" />
-															Yes &nbsp;&nbsp;
-															<form:radiobutton
-																path="childList[${i.index}].hasDietRequirement"
-																onclick="foodprefer(this)" value="no" disabled="${edit}" />
-															No
-														</div>
-													</div>
+											<div class="row form-group">
+												<label class="control-label col-md-3">Dietary
+													Requirement </label>
+												<div class="col-md-4">
+													<form:radiobutton
+														path="children[${i.index}].hasDietRequirement" value="yes"
+														onclick="foodprefer(this)" disabled="${edit}" />
+													Yes &nbsp;&nbsp;
+													<form:radiobutton
+														path="children[${i.index}].hasDietRequirement"
+														onclick="foodprefer(this)" value="no" disabled="${edit}" />
+													No
+												</div>
+											</div>
 
-													<div id="child${i.index + 1}foodpreference"
-														style="display: none">
-														<div class="row form-group">
-															<label class="control-label col-md-3">Food
-																Preference</label>
-															<div class="col-md-4">
-																<form:select class="form-control"
-																	path="childList[${i.index}].childFoodPreference"
-																	disabled="${edit}">
-																	<form:option value="" label="-- Choose an option --" />
-																	<form:option value="Vegan" label="Vegan" />
-																	<form:option value="Vegetarian" label="Vegetarian" />
-																	<form:option value="Non-Vegetarian"
-																		label="Non Vegetarian" />
-																	<form:option value="Glutenfree" label="Gluten free" />
-																	<form:option value="others" label="others specify" />
-																</form:select>
-															</div>
-														</div>
-
-														<div class="row form-group">
-															<label class="control-label col-md-3">Allergic </label>
-															<div class="col-md-4">
-																<form:radiobutton
-																	path="childList[${i.index}].isChildAllergic"
-																	value="yes" disabled="${edit}" />
-																Yes &nbsp;&nbsp;
-																<form:radiobutton
-																	path="childList[${i.index}].isChildAllergic" value="no"
-																	disabled="${edit}" />
-																No
-															</div>
-														</div>
-
-														<div class="row form-group">
-															<label class="control-label col-md-3">Details </label>
-															<div class="col-md-4">
-																<form:textarea class="form-control"
-																	path="childList[${i.index}].otherDetails"
-																	placeholder="Please specify" disabled="${edit}" />
-															</div>
-														</div>
+											<div id="child${i.index + 1}foodpreference"
+												style="display: none">
+												<div class="row form-group">
+													<label class="control-label col-md-3">Food
+														Preference</label>
+													<div class="col-md-4">
+														<form:select class="form-control"
+															path="children[${i.index}].childFoodPreference"
+															disabled="${edit}">
+															<form:option value="" label="-- Choose an option --" />
+															<form:option value="Vegan" label="Vegan" />
+															<form:option value="Vegetarian" label="Vegetarian" />
+															<form:option value="Non-Vegetarian"
+																label="Non Vegetarian" />
+															<form:option value="Glutenfree" label="Gluten free" />
+															<form:option value="others" label="others specify" />
+														</form:select>
 													</div>
 												</div>
-											</c:forEach>
+
+												<div class="row form-group">
+													<label class="control-label col-md-3">Allergic </label>
+													<div class="col-md-4">
+														<form:radiobutton
+															path="children[${i.index}].isChildAllergic" value="yes"
+															disabled="${edit}" />
+														Yes &nbsp;&nbsp;
+														<form:radiobutton
+															path="children[${i.index}].isChildAllergic" value="no"
+															disabled="${edit}" />
+														No
+													</div>
+												</div>
+
+												<div class="row form-group">
+													<label class="control-label col-md-3">Details </label>
+													<div class="col-md-4">
+														<form:textarea class="form-control"
+															path="children[${i.index}].otherDetails"
+															placeholder="Please specify" disabled="${edit}" />
+													</div>
+												</div>
+											</div>
 										</div>
-									</fieldset>
-								</form:form>
+									</c:forEach>
+								</div>
 							</div>
 
 							<c:if test="${not edit}">

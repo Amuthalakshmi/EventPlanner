@@ -2,7 +2,7 @@ $(document).ready(function() {
 	$('#datePicker').datepicker({
 		changeMonth : true,
 		changeYear : true,
-		format : 'yyyy-mm-dd',
+		format : 'dd-mm-yyyy',
 		startDate : '-0d',
 		todayHighlight : true
 	});
@@ -27,6 +27,15 @@ function editParticipantToUpdate() {
 	});
 
 };
+
+function editTaskToUpdate() {
+	document.getElementById("taskUpdateBtn").style.display = 'block';
+	document.getElementById("taskEditBtn").style.display = 'none';
+	
+	jQuery(function($) {
+		$('#TaskForm').find("*").removeAttr("disabled");
+	});
+}
 
 function foodprefer(element) {
 	divId = element.parentNode.parentNode.parentNode.id;
@@ -80,8 +89,8 @@ function replaceNameAndId(newChild, numberOfChild, inputTypes) {
 
 	for (i = 0; i < inputTypes.length; i++) {
 		newChild.find(inputTypes[i]).each(function() {
-			this.name = this.name.replace('List[0', 'List[' + numberOfChild);
-			this.id = this.id.replace('List0', 'List' + numberOfChild);
+			this.name = this.name.replace('children[0', 'children[' + numberOfChild);
+			this.id = this.id.replace('children0', 'children' + numberOfChild);
 		});
 	}
 	return newChild;

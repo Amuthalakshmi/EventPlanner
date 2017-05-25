@@ -103,7 +103,7 @@ public class Activity {
 		if (object == null){
 			return false;
 		}
-		if (!(object instanceof Event)){
+		if (!(object instanceof Activity)){
 			return false;
 		}
 		Activity other = (Activity) object;

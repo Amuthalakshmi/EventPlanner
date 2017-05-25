@@ -13,9 +13,6 @@ public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO {
 	@Override
 	public Task findById(int taskId) {
 		Task task = getByKey(taskId);
-		if (task != null) {
-			initializeCollection(task.getAssociatedOrganisers());
-		}
 		return task;
 	}
 
@@ -34,10 +31,7 @@ public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Task> findAllTask() {
-		List<Task> tasks = (List<Task>) getEntityManager().createQuery("SELECT t FROM Task t").getResultList();
-		for (Task task : tasks) {
-			initializeCollection(task.getAssociatedOrganisers());
-		}
+		List<Task> tasks = (List<Task>) getEntityManager().createQuery("SELECT t FROM Task t GROUP BY t.tastStatus ORDER BY t.taskId").getResultList();
 		return tasks;
 	}
 
@@ -45,11 +39,8 @@ public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO {
 	@Override
 	public List<Task> findAllTaskByEvent(int eventId) {
 		List<Task> tasks = (List<Task>) getEntityManager()
-				.createQuery("SELECT t FROM Task t WHERE t.eventId = :eventId").setParameter("eventId", eventId)
+				.createQuery("SELECT t FROM Task t WHERE t.eventId = :eventId ORDER BY t.taskId").setParameter("eventId", eventId)
 				.getResultList();
-		for (Task task : tasks) {
-			initializeCollection(task.getAssociatedOrganisers());
-		}
 		return tasks;
 	}
 

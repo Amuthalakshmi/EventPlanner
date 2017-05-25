@@ -1,10 +1,14 @@
 package com.anz.eventplanner.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -15,9 +19,6 @@ public class Child {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "child_id", nullable = false)
 	private int childId;
-
-	@Column(name = "parent_participant_id", nullable = false)
-	private int parentParticipantId;
 
 	@Column(name = "child_name")
 	private String childName;
@@ -43,20 +44,16 @@ public class Child {
 	@Column(name = "activity_id")
 	private int activityId;	
 	
+    @ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
+    @JoinColumn(name = "parent_participant_id", referencedColumnName="participant_id")
+    private Participant parent;
+	
 	public int getChildId() {
 		return childId;
 	}
 
 	public void setChildId(int childId) {
 		this.childId = childId;
-	}
-
-	public int getParentParticipantId() {
-		return parentParticipantId;
-	}
-
-	public void setParentParticipantId(int parentParticipantId) {
-		this.parentParticipantId = parentParticipantId;
 	}
 
 	public String getChildName() {
@@ -123,9 +120,17 @@ public class Child {
 		this.activityId = activityId;
 	}
 
+	public Participant getParent() {
+		return parent;
+	}
+
+	public void setParent(Participant parent) {
+		this.parent = parent;
+	}
+
 	@Override
 	public String toString() {
-		return "Child [Child ID:" + childId + ", Parent participant ID:" + parentParticipantId + ", Child Name:"
+		return "Child [Child ID:" + childId + ", Parent participant ID:" + parent.getParticipantId() + ", Child Name:"
 				+ childName + "]";
 	}
 
@@ -137,7 +142,7 @@ public class Child {
 		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Event)) {
+		if (!(object instanceof Child)) {
 			return false;
 		}
 		Child other = (Child) object;

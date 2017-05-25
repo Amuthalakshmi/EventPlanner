@@ -29,7 +29,7 @@ public class ChildDAOImpl extends AbstractDAO<Integer, Child> implements ChildDA
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Child> findAllChild() {
-		List<Child> children = (List<Child>) getEntityManager().createQuery("SELECT c FROM Child c").getResultList();
+		List<Child> children = (List<Child>) getEntityManager().createQuery("SELECT c FROM Child c ORDER BY c.childId").getResultList();
 		return children;
 	}
 
@@ -37,7 +37,7 @@ public class ChildDAOImpl extends AbstractDAO<Integer, Child> implements ChildDA
 	@Override
 	public List<Child> findByParentParticipantId(int parentParticipantId) {
 		List<Child> children = (List<Child>) getEntityManager()
-				.createQuery("SELECT c FROM Child c WHERE c.parentParticipantId = :parentParticipantId")
+				.createQuery("SELECT c FROM Child c WHERE c.parentParticipantId = :parentParticipantId  ORDER BY c.childId")
 				.setParameter("parentParticipantId", parentParticipantId).getResultList();
 		return children;
 	}

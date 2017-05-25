@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -53,7 +54,7 @@
 										href="<c:url value='/event-${event.eventId}' />">
 											${event.eventName} </a></td>
 									<td>${event.eventLocation}</td>
-									<td>${event.eventPlannedDate}</td>
+									<td><joda:format value="${event.eventPlannedDate}" pattern="dd-MM-yyyy"/></td>
 									<td>${event.eventStatus }</td>
 								</tr>
 							</c:forEach>

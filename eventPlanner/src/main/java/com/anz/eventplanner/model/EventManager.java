@@ -59,7 +59,7 @@ public class EventManager {
 		if (object == null){
 			return false;
 		}
-		if (!(object instanceof Event)){
+		if (!(object instanceof EventManager)){
 			return false;
 		}
 		EventManager other = (EventManager) object;

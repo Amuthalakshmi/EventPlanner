@@ -93,7 +93,7 @@ public class Volunteer {
 		if (object == null) {
 			return false;
 		}
-		if (!(object instanceof Event)) {
+		if (!(object instanceof Volunteer)) {
 			return false;
 		}
 		Volunteer other = (Volunteer) object;

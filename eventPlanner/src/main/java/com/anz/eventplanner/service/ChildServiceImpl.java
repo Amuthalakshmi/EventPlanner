@@ -38,7 +38,6 @@ public class ChildServiceImpl implements ChildService{
 			entity.setChildGender(child.getChildGender());
 			entity.setChildName(child.getChildName());
 			entity.setOtherDetails(child.getOtherDetails());
-			entity.setParentParticipantId(child.getParentParticipantId());
 		}
 	}
 
