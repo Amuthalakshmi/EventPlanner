@@ -11,5 +11,4 @@ public interface TaskService {
 	void updateTaskBlog(Task task);
 	void deleteTaskById(int taskId);
 	List<Task> findAllTask();	
-	List<Task> findAllTaskByEvent(int eventId);
 }

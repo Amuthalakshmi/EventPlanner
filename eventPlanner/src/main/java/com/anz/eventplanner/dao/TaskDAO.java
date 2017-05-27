@@ -9,6 +9,5 @@ public interface TaskDAO {
 	void saveTask(Task task);
 	void deleteTaskById(int taskId);	
 	List<Task> findAllTask();
-	List<Task> findAllTaskByEvent(int eventId);
 }
 ;

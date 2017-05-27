@@ -58,9 +58,4 @@ public class TaskServiceImpl implements TaskService{
 		return dao.findAllTask();
 	}
 
-	@Override
-	public List<Task> findAllTaskByEvent(int eventId) {
-		return dao.findAllTaskByEvent(eventId);
-	}
-
 }

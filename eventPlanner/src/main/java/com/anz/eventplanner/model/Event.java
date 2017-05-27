@@ -1,8 +1,6 @@
 package com.anz.eventplanner.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -59,10 +57,13 @@ public class Event {
 	private Set<EventOrganiser> associatedOrganisers = new HashSet<EventOrganiser>();
 	
 	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
-	private List<Participant> participants = new ArrayList<Participant>();
+	private Set<Participant> participants = new HashSet<Participant>();
 	
 	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
-	private List<Task> tasks = new ArrayList<Task>();
+	private Set<Task> associatedTasks = new HashSet<Task>();
+	
+	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
+	private Set<Activity> associatedActivities = new HashSet<Activity>();
 
 	public int getEventId() {
 		return eventId;
@@ -137,20 +138,28 @@ public class Event {
 		}		 
 	}
 
-	public List<Participant> getParticipants() {
+	public Set<Participant> getParticipants() {
 		return participants;
 	}
 
-	public void setParticipants(List<Participant> participants) {
+	public void setParticipants(Set<Participant> participants) {
 		this.participants = participants;
 	}
 
-	public List<Task> getTasks() {
-		return tasks;
+	public Set<Task> getAssociatedTasks() {
+		return associatedTasks;
 	}
 
-	public void setTasks(List<Task> tasks) {
-		this.tasks = tasks;
+	public void setAssociatedTasks(Set<Task> associatedTasks) {
+		this.associatedTasks = associatedTasks;
+	}
+
+	public Set<Activity> getAssociatedActivities() {
+		return associatedActivities;
+	}
+
+	public void setAssociatedActivities(Set<Activity> associatedActivities) {
+		this.associatedActivities = associatedActivities;
 	}
 
 	@Override

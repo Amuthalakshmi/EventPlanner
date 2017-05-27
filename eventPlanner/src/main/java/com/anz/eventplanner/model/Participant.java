@@ -1,7 +1,7 @@
 package com.anz.eventplanner.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,7 +36,7 @@ public class Participant {
 	private String level;
 
 	@OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
-	private List<Child> children = new ArrayList<Child>();
+	private Set<Child> children = new HashSet<Child>();
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
     @JoinColumn(name = "event_id", referencedColumnName="event_id")
@@ -82,11 +82,11 @@ public class Participant {
 		this.level = level;
 	}
 
-	public List<Child> getChildren() {
+	public Set<Child> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<Child> children) {
+	public void setChildren(Set<Child> children) {
 		this.children = children;
 	}
 

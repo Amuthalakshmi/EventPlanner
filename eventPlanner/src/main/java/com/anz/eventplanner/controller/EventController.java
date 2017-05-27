@@ -154,7 +154,8 @@ public class EventController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/event-{eventId}" }, method = RequestMethod.POST, params = "eventStatus")
-	public String updateEventStatus(@Valid Event event, BindingResult result, ModelMap model, @PathVariable int eventId,
+	public String updateEventStatus(@Valid Event event, BindingResult result, ModelMap model,
+			@PathVariable(value = "eventId") int eventId,
 			@RequestParam(value = "eventStatus", required = false) String eventStatus) {
 
 		if (result.hasErrors()) {
@@ -195,7 +196,7 @@ public class EventController {
 		List<EventOrganiser> eventSpecificOrganisers = eventOrganiserController.eventOrganiserService
 				.findAllOrganisersByCategoryAndLocation("Event Specific", event.getEventLocation());
 		Iterator<EventOrganiser> iterator = eventSpecificOrganisers.iterator();
-		
+
 		while (iterator.hasNext()) {
 			EventOrganiser eventOrganiser = iterator.next();
 			Set<Event> associatedEvents = eventOrganiser.getAssociatedEvents();
@@ -229,7 +230,7 @@ public class EventController {
 		EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findById(eventOrganiserId);
 		Event event = eventService.findById(eventId);
 		Set<EventOrganiser> associatedOrganisers = event.getAssociatedOrganisers();
-		
+
 		Iterator<EventOrganiser> iterator = associatedOrganisers.iterator();
 		while (iterator.hasNext()) {
 			EventOrganiser eo = iterator.next();
@@ -237,7 +238,7 @@ public class EventController {
 				associatedOrganisers.remove(eventOrganiser);
 				break;
 			}
-		}		
+		}
 
 		eventService.updateEvent(event);
 		return "redirect:/event-{eventId}";

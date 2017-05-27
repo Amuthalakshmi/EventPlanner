@@ -35,15 +35,6 @@ public class TaskDAOImpl extends AbstractDAO<Integer, Task> implements TaskDAO {
 		return tasks;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Task> findAllTaskByEvent(int eventId) {
-		List<Task> tasks = (List<Task>) getEntityManager()
-				.createQuery("SELECT t FROM Task t WHERE t.eventId = :eventId ORDER BY t.taskId").setParameter("eventId", eventId)
-				.getResultList();
-		return tasks;
-	}
-
 	protected void initializeCollection(Collection<?> collection) {
 		if (collection == null) {
 			return;

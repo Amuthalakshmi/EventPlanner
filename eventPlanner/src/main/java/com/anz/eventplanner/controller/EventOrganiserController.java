@@ -1,7 +1,7 @@
 package com.anz.eventplanner.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,11 +45,11 @@ public class EventOrganiserController {
 	@RequestMapping(value={"/organiser{eventOrganiserId}/plan/event{eventId}"},method = RequestMethod.GET)
 	public String planEvent(@PathVariable(value = "eventId") int eventId, @PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model){
 		Event event = eventController.eventService.findById(eventId);		
-		model.addAttribute("event",event);
-		List<Task> associatedTasks = event.getTasks();
-		List<Task> openTasks = new ArrayList<Task>();
-		List<Task> closedTasks = new ArrayList<Task>();
-		List<Task> startedTasks = new ArrayList<Task>();
+		model.addAttribute("event",event);		
+		Set<Task> associatedTasks = event.getAssociatedTasks();
+		Set<Task> openTasks = new HashSet<Task>();
+		Set<Task> closedTasks = new HashSet<Task>();
+		Set<Task> startedTasks = new HashSet<Task>();
 		
 		for(Task task: associatedTasks){
 			switch(task.getTaskStatus()){
@@ -66,6 +66,7 @@ public class EventOrganiserController {
 				break;
 			}
 		}
+		
 		model.addAttribute("openTasks",openTasks);
 		model.addAttribute("startedTasks",startedTasks);
 		model.addAttribute("closedTasks",closedTasks);

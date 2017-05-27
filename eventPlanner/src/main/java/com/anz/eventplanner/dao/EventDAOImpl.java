@@ -15,6 +15,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 		Event event = getByKey(eventId);
 		if (event != null) {
 			initializeCollection(event.getAssociatedOrganisers());
+			initializeCollection(event.getAssociatedTasks());
 		}
 		return event;
 	}
@@ -37,6 +38,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 		List<Event> events = (List<Event>) getEntityManager().createQuery("SELECT e FROM Event e ORDER BY e.eventId").getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
+			initializeCollection(event.getAssociatedTasks());
 		}
 		return events;
 	}
@@ -49,6 +51,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 				.setParameter("eventName", eventName).getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
+			initializeCollection(event.getAssociatedTasks());
 		}
 		return events;
 	}
@@ -61,6 +64,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 				.setParameter("eventStatus", eventStatus).getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
+			initializeCollection(event.getAssociatedTasks());
 		}
 		return events;
 	}
@@ -74,6 +78,7 @@ public class EventDAOImpl extends AbstractDAO<Integer, Event> implements EventDA
 				.setParameter("eventStatus", eventStatus).setParameter("eventLocation", eventLocation).getResultList();
 		for (Event event : events) {
 			initializeCollection(event.getAssociatedOrganisers());
+			initializeCollection(event.getAssociatedTasks());
 		}
 		return events;
 	}
