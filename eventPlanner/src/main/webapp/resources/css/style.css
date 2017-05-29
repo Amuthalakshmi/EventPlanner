@@ -1,0 +1,95 @@
+.dark-blue-header {
+	background: url("../images/header_dark_gradient.jpg") repeat-x scroll 0 0 transparent;
+	height: 48px;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 28%;
+}
+
+.light-blue-header {
+	background: url("../images/header_light_gradient.png") repeat-x scroll 10% 3% #004165;
+	height: 58px;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 72%;
+}
+
+.full-nav-bg {
+	background: url("../images/bg_primary_nav.png") repeat scroll 1000px 0 #fff;
+	height: 60px;
+	position: absolute;
+	top: 48px;
+	width: 100%;
+}
+
+.container {
+	background-color: transparent;
+	width: 972px;
+	position: relative;
+	font-size: 81.5%;
+}
+
+.header {
+	background: url("../images/ANZ_nonretinalogo.png") no-repeat scroll 0 0 transparent !important;
+	font-family: Helvetica,Arial,sans-serif !important;
+	height: 48px !important;
+}
+
+.nav-top {
+	position: absolute;
+	margin-top: 14px;
+	right: 20px;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.nav-top li a {
+	display: block;
+	color: #fff;
+	font-size: 0.923em;
+	font-weight: bold;
+}
+
+.nav-top li a:active, .nav-top li a:hover {
+	text-decoration: underline;
+}
+
+.navbar.navbar-light {
+	position: absolute;
+	top: 53px;
+	margin-top: -2px;
+	width: 100%;
+}
+
+.navbar.navbar-light.center {
+    text-align: center;
+}
+
+.navbar.navbar-light.center .nav-inner .nav.navbar-nav {
+    float: none;
+    display: inline-block;
+}
+
+.navbar-nav .nav-item {
+	font-size: 1.1em;
+	font-family: Helvetica,Arial,sans-serif !important;
+	font-weight: bold;
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
+.navbar-nav .nav-link { 
+    font-size: 1.1em;    
+}
+
+.navbar-light .navbar-nav .nav-link {
+	color: #004165;
+}
+
+.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link.active{
+    color: #007dba;
+}

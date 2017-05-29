@@ -57,7 +57,7 @@ public class Event {
 	private Set<EventOrganiser> associatedOrganisers = new HashSet<EventOrganiser>();
 	
 	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
-	private Set<Participant> participants = new HashSet<Participant>();
+	private Set<Participant> associatedParticipants = new HashSet<Participant>();
 	
 	@OneToMany(mappedBy = "event", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Set<Task> associatedTasks = new HashSet<Task>();
@@ -138,12 +138,12 @@ public class Event {
 		}		 
 	}
 
-	public Set<Participant> getParticipants() {
-		return participants;
+	public Set<Participant> getAssociatedParticipants() {
+		return associatedParticipants;
 	}
 
-	public void setParticipants(Set<Participant> participants) {
-		this.participants = participants;
+	public void setAssociatedParticipants(Set<Participant> associatedParticipants) {
+		this.associatedParticipants = associatedParticipants;
 	}
 
 	public Set<Task> getAssociatedTasks() {

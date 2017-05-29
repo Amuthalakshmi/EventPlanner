@@ -19,9 +19,14 @@ public class AdminController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = { "/", "/admin" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/admin" }, method = RequestMethod.GET)
 	public String admin(ModelMap model) {
 		return "admin";
+	}
+	
+	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
+	public String homepage(ModelMap model) {
+		return "home";
 	}
 	
 }
