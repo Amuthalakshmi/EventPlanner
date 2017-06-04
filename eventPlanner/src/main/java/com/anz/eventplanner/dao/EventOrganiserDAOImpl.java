@@ -3,6 +3,8 @@ package com.anz.eventplanner.dao;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.stereotype.Repository;
 
 import com.anz.eventplanner.model.EventOrganiser;
@@ -15,6 +17,19 @@ public class EventOrganiserDAOImpl extends AbstractDAO<Integer, EventOrganiser> 
 		EventOrganiser eventOrganiser = getByKey(eventOrganiserId);
 		if (eventOrganiser != null) {
 			initializeCollection(eventOrganiser.getAssociatedEvents());
+		}
+		return eventOrganiser;
+	}
+
+	@Override
+	public EventOrganiser findByLANId(String LANId) {
+		EventOrganiser eventOrganiser = null;
+		try {
+			eventOrganiser = (EventOrganiser) getEntityManager()
+					.createQuery("SELECT eo FROM EventOrganiser eo WHERE eo.LANId = :LANId ")
+					.setParameter("LANId", LANId).getSingleResult();
+		} catch (NoResultException nre) {
+
 		}
 		return eventOrganiser;
 	}

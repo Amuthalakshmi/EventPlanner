@@ -20,6 +20,11 @@ public class EventOrganiserServiceImpl implements EventOrganiserService{
 	public EventOrganiser findById(int eventOrganiserId) {
 		return dao.findById(eventOrganiserId);
 	}
+	
+	@Override
+	public EventOrganiser findByLANId(String LANId){
+		return dao.findByLANId(LANId);
+	}
 
 	@Override
 	public void saveEventOrganiser(EventOrganiser eventOrganiser) {

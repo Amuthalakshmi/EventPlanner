@@ -20,7 +20,7 @@ public class EventManager {
 	private String eventManagerName;
 	
 	@Column(name = "LAN_ID", nullable = false)
-	private String LANID;
+	private String LANId;
 
 	public int getEventManagerId() {
 		return eventManagerId;
@@ -39,16 +39,16 @@ public class EventManager {
 	}
 
 	public String getLANID() {
-		return LANID;
+		return LANId;
 	}
 
-	public void setLANID(String lANID) {
-		LANID = lANID;
+	public void setLANID(String LANId) {
+		this.LANId = LANId;
 	}
 
 	@Override
 	public String toString(){
-		return "EventManager [Event Manger ID:" + eventManagerId + ", LAN ID:" + LANID + "]";
+		return "EventManager [Event Manger ID:" + eventManagerId + ", LAN ID:" + LANId + "]";
 	}
 	
 	@Override

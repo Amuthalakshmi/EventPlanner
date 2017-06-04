@@ -7,6 +7,7 @@ import com.anz.eventplanner.model.EventManager;
 public interface EventManagerService {
 	
 	EventManager findById(int eventManagerId);
+	EventManager findByLANId(String LANId);
 	List<EventManager> findByUserName(String userName);
 	void saveEventManager(EventManager eventManager);
 	void updateEventManager(EventManager eventManager);

@@ -21,7 +21,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
+import com.anz.eventplanner.model.Participant;
 import com.anz.eventplanner.service.EventService;
+import com.anz.eventplanner.service.ParticipantService;
 
 @Controller
 public class EventController {
@@ -30,23 +32,16 @@ public class EventController {
 	EventService eventService;
 
 	@Autowired
+	UserController userController;
+
+	@Autowired
 	EventOrganiserController eventOrganiserController;
 
 	@Autowired
 	MessageSource messageSource;
-
-	/**
-	 * This method lists all events
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = { "/listEvents" }, method = RequestMethod.GET)
-	public String listAllEvents(ModelMap model) {
-		List<Event> events = eventService.findAllEvent();
-		model.addAttribute("events", events);
-		return "listEvents";
-	}
+	
+	@Autowired
+	ParticipantService participantService;
 
 	/**
 	 * This method provide the form to add a new Event
@@ -56,6 +51,16 @@ public class EventController {
 	 */
 	@RequestMapping(value = { "/newEvent" }, method = RequestMethod.GET)
 	public String newEvent(ModelMap model) {
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+
 		Event event = new Event();
 
 		Map<String, String> locations = new HashMap<String, String>();
@@ -87,8 +92,7 @@ public class EventController {
 		eventService.saveEvent(event);
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + "(" + event.getEventPlannedDate() + ") saved successfully");
-		return "redirect:/listEvents";
-
+		return "redirect:/manager";
 	}
 
 	/***
@@ -100,6 +104,16 @@ public class EventController {
 	 */
 	@RequestMapping(value = { "/event-{eventId}" }, method = RequestMethod.GET)
 	public String editEvent(@PathVariable int eventId, ModelMap model) {
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		Event event = eventService.findById(eventId);
 		model.addAttribute("event", event);
 
@@ -186,13 +200,22 @@ public class EventController {
 	@RequestMapping(value = { "/delete-{eventId}-event" }, method = RequestMethod.GET)
 	public String deleteEvent(@PathVariable int eventId) {
 		eventService.deleteEventById(eventId);
-		return "redirect:/listEvents";
+		return "redirect:/manager";
 	}
 
 	@RequestMapping(value = { "/event{eventId}/addOrganisers" }, method = RequestMethod.GET)
 	public String toAddEventOrganiser(@PathVariable(value = "eventId") int eventId, ModelMap model) {
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		Event event = eventService.findById(eventId);
-
 		List<EventOrganiser> eventSpecificOrganisers = eventOrganiserController.eventOrganiserService
 				.findAllOrganisersByCategoryAndLocation("Event Specific", event.getEventLocation());
 		Iterator<EventOrganiser> iterator = eventSpecificOrganisers.iterator();

@@ -3,6 +3,8 @@ package com.anz.eventplanner.dao;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.stereotype.Repository;
 
 import com.anz.eventplanner.model.EventManager;
@@ -15,11 +17,25 @@ public class EventManagerDAOImpl extends AbstractDAO<Integer, EventManager> impl
 		return getByKey(eventManagerId);
 	}
 
+	@Override
+	public EventManager findByLANId(String LANId) {
+		EventManager eventManager = null;
+		try {
+			eventManager = (EventManager) getEntityManager()
+					.createQuery("SELECT em FROM EventManager em WHERE em.LANId = :LANId").setParameter("LANId", LANId)
+					.getSingleResult();
+		} catch (NoResultException nre) {
+
+		}
+		return eventManager;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EventManager> findByUserName(String userName) {
 		List<EventManager> eventManagers = (List<EventManager>) getEntityManager()
-				.createQuery("SELECT em FROM EventManager em WHERE em.userName LIKE userName ORDER BY em.eventManagerId")
+				.createQuery(
+						"SELECT em FROM EventManager em WHERE em.userName LIKE userName ORDER BY em.eventManagerId")
 				.setParameter("userName", userName).getResultList();
 		return eventManagers;
 	}

@@ -7,6 +7,7 @@ import com.anz.eventplanner.model.EventOrganiser;
 public interface EventOrganiserService {
 	
 	EventOrganiser findById(int eventOrganiserId);
+	EventOrganiser findByLANId(String LANId);
 	void saveEventOrganiser(EventOrganiser eventOrganiser);
 	void updateEventOrganiser(EventOrganiser eventOrganiser);
 	void deleteEventOrganiserById(int eventOrganiserId);

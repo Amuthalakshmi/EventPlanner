@@ -10,6 +10,7 @@ public interface EventService {
 	void saveEvent(Event event);
 	void updateEvent(Event event);
 	void updateEventStatus(Event event);
+	void updateRegisteredParticipants(Event event);
 	void deleteEventById(int eventId);
 	List<Event> findAllEvent();
 	List<Event> findAllEventByName(String eventName);

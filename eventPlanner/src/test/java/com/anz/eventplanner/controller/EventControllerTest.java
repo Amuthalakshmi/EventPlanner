@@ -49,8 +49,7 @@ public class EventControllerTest {
 
 	@Test
 	public void listAllEvents() {
-		when(service.findAllEvent()).thenReturn(events);
-		Assert.assertEquals(eventController.listAllEvents(model), "listevents");
+		when(service.findAllEvent()).thenReturn(events);		
 		Assert.assertEquals(model.get("events"), events);
 		verify(service, atLeastOnce()).findAllEvent();
 	}

@@ -43,13 +43,22 @@ public class Event {
 	
 	@Column(name = "max_participants")
 	private Integer maxParticipants;
+		
+	@Column(name = "registered_participants")
+	private Integer registeredParticipants;
 	
 	@Column(name= "event_location")
 	private String eventLocation;
 	
+	@Column(name= "event_branch")
+	private String eventBranch;
+	
 	@Column(name= "event_status")
 	private String eventStatus;
-		
+	
+	@Column(name= "event_description")
+	private String eventDescription;
+	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
 	@JoinTable(name = "event_organiser_events", 
 			   joinColumns = { @JoinColumn(name = "event_id") }, 
@@ -105,6 +114,14 @@ public class Event {
 		this.maxParticipants = maxParticipants;
 	}
 
+	public Integer getRegisteredParticipants() {
+		return registeredParticipants;
+	}
+
+	public void setRegisteredParticipants(Integer registeredParticipants) {
+		this.registeredParticipants = registeredParticipants;
+	}
+
 	public String getEventLocation() {
 		return eventLocation;
 	}
@@ -113,12 +130,28 @@ public class Event {
 		this.eventLocation = eventLocation;
 	}
 
+	public String getEventBranch() {
+		return eventBranch;
+	}
+
+	public void setEventBranch(String eventBranch) {
+		this.eventBranch = eventBranch;
+	}
+
 	public String getEventStatus() {
 		return eventStatus;
 	}
 
 	public void setEventStatus(String eventStatus) {
 		this.eventStatus = eventStatus;
+	}
+
+	public String getEventDescription() {
+		return eventDescription;
+	}
+
+	public void setEventDescription(String eventDescription) {
+		this.eventDescription = eventDescription;
 	}
 
 	public Set<EventOrganiser> getAssociatedOrganisers() {
