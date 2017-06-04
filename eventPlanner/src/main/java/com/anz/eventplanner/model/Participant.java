@@ -1,6 +1,7 @@
 package com.anz.eventplanner.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,8 +24,8 @@ public class Participant {
 	@Column(name = "participant_id", nullable = false)
 	private int participantId;
 
-	@Column(name = "user_name")
-	private String userName;
+	@Column(name = "LAN_ID")
+	private String LANId;
 
 	@Column(name = "number_of_children")
 	private int numberOfChildren;
@@ -34,9 +35,12 @@ public class Participant {
 
 	@Column(name = "level")
 	private String level;
+	
+	@Column(name = "registration_status")
+	private String registrationStatus;
 
-	@OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
-	private Set<Child> children = new HashSet<Child>();
+	@OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+	private List<Child> children = new ArrayList<Child>();
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
     @JoinColumn(name = "event_id", referencedColumnName="event_id")
@@ -50,12 +54,12 @@ public class Participant {
 		this.participantId = participantId;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getLANId() {
+		return LANId;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setLANId(String LANId) {
+		this.LANId = LANId;
 	}
 
 	public int getNumberOfChildren() {
@@ -82,11 +86,19 @@ public class Participant {
 		this.level = level;
 	}
 
-	public Set<Child> getChildren() {
+	public String getRegistrationStatus() {
+		return registrationStatus;
+	}
+
+	public void setRegistrationStatus(String registrationStatus) {
+		this.registrationStatus = registrationStatus;
+	}
+
+	public List<Child> getChildren() {
 		return children;
 	}
 
-	public void setChildren(Set<Child> children) {
+	public void setChildren(List<Child> children) {
 		this.children = children;
 	}
 
@@ -100,7 +112,7 @@ public class Participant {
 
 	@Override
 	public String toString() {
-		return "Participant [Participant ID:" + participantId + ", User Name:" + userName + "]";
+		return "Participant [Participant ID:" + participantId + ", LAN ID:" + LANId + "]";
 	}
 
 	@Override

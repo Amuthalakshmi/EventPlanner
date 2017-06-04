@@ -43,9 +43,9 @@ public class Child {
 
 	@Column(name = "activity_id")
 	private int activityId;	
-	
-    @ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
-    @JoinColumn(name = "parent_participant_id", referencedColumnName="participant_id")
+		
+    @ManyToOne(cascade= {CascadeType.MERGE}, fetch=FetchType.EAGER, optional = false)
+    @JoinColumn(name = "parent_participant_id", referencedColumnName="participant_id")    
     private Participant parent;
 	
 	public int getChildId() {

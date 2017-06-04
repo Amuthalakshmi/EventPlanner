@@ -1,5 +1,7 @@
 package com.anz.eventplanner.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.anz.eventplanner.model.Child;
 import com.anz.eventplanner.model.Event;
+import com.anz.eventplanner.model.EventOrganiser;
 import com.anz.eventplanner.model.Participant;
 import com.anz.eventplanner.service.ChildService;
 import com.anz.eventplanner.service.ParticipantService;
 
 @Controller
-@RequestMapping("/participant")
 public class ParticipantController {
 	@Autowired
 	EventController eventController;
+	
+	@Autowired
+	EventOrganiserController eventOrganiserController;
+	
+	@Autowired
+	UserController userController;
 
 	@Autowired
 	ChildService childService;
@@ -35,7 +43,16 @@ public class ParticipantController {
 
 	@RequestMapping(value = { "/event{eventId}/register" }, method = RequestMethod.GET)
 	public String registration(@PathVariable(value = "eventId") int eventId, ModelMap model) {
-
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		Event event = eventController.eventService.findById(eventId);
 
 		if (event != null) {
@@ -83,20 +100,15 @@ public class ParticipantController {
 			return "registrationBringKidsToWork";
 		}
 		
-		participant.setEvent(eventController.eventService.findById(eventId));
-
-		for (Child child : participant.getChildren()) {
-			child.setParent(participant);
-		}
+		participant.setEvent(eventController.eventService.findById(eventId));		
+		
+		for (Child child : participant.getChildren()) {			
+			child.setParent(participant);;
+		}		
 
 		participantService.saveParticipant(participant);
-
+		
 		return "registrationBringKidsToWork";
-	}
-
-	@RequestMapping(value = { "/list-registration" }, method = RequestMethod.GET)
-	public String listevents() {
-		return null;
 	}
 
 	/**
@@ -108,6 +120,16 @@ public class ParticipantController {
 	 */
 	@RequestMapping(value = { "/{participantId}" }, method = RequestMethod.GET)
 	public String editRegistration(@PathVariable(value = "participantId") int participantId, ModelMap model) {
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		Participant participant = participantService.findById(participantId);
 		model.addAttribute("participant", participant);
 
