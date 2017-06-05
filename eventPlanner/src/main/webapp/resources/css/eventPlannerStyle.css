@@ -3,7 +3,6 @@
 }
 
 html, body, .container, button, input, optgroup, select, textarea {
-    height: 100%;
     font-family: Verdana,Arial,Helvetica,sans-serif !important;
     color: #004165;
 }

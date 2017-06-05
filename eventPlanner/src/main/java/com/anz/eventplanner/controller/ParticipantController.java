@@ -1,5 +1,6 @@
 package com.anz.eventplanner.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -40,7 +41,46 @@ public class ParticipantController {
 
 	@Autowired
 	MessageSource messageSource;
-
+	
+	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
+	public String registration(ModelMap model) {
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("registeredEvents", participation.size());
+		
+		List<Participant> confirmedRegistrations = new ArrayList<Participant>();
+		List<Participant> waitListedRegisrations = new ArrayList<Participant>();
+		List<Participant> cancelledRegistrations = new ArrayList<Participant>();
+		
+		for(Participant p:participation){
+			switch(p.getRegistrationStatus()){
+			case "Confirmed":
+				confirmedRegistrations.add(p);
+				break;
+			case "Wait-list":
+				waitListedRegisrations.add(p);
+				break;
+			case "Cancelled":
+				cancelledRegistrations.add(p);
+				break;
+			default:
+				break;
+			}
+		}
+		
+		model.addAttribute("confirmedRegistrations",confirmedRegistrations);
+		model.addAttribute("waitListedRegisrations",waitListedRegisrations);
+		model.addAttribute("cancelledRegistrations",cancelledRegistrations);
+		
+		return "registration";
+	}
+	
 	@RequestMapping(value = { "/event{eventId}/register" }, method = RequestMethod.GET)
 	public String registration(@PathVariable(value = "eventId") int eventId, ModelMap model) {
 		String LANId = userController.user.getLANId();
@@ -100,15 +140,26 @@ public class ParticipantController {
 			return "registrationBringKidsToWork";
 		}
 		
-		participant.setEvent(eventController.eventService.findById(eventId));		
+		Event event = eventController.eventService.findById(eventId);
+		participant.setEvent(event);	
+		
+		event.setRegisteredParticipants(event.getRegisteredParticipants() + participant.getNumberOfChildren());
+		eventController.eventService.updateRegisteredParticipants(event);
+		
+		if(event.getRegisteredParticipants() <= event.getMaxParticipants()){
+			participant.setRegistrationStatus("Confirmed");
+		} else if (event.getRegisteredParticipants() > event.getMaxParticipants()){
+			participant.setRegistrationStatus("Wait-list");
+		}
 		
 		for (Child child : participant.getChildren()) {			
 			child.setParent(participant);;
 		}		
 
 		participantService.saveParticipant(participant);
+		model.addAttribute("participantId", participant.getParticipantId());
 		
-		return "registrationBringKidsToWork";
+		return "redirect:/{participantId}";
 	}
 
 	/**
@@ -155,8 +206,21 @@ public class ParticipantController {
 
 		participantService.updateParticipant(participant);
 
-		return "redirect:/participant/{participantId}";
+		return "redirect:/{participantId}";
+	}
+	
+	@RequestMapping(value = { "/{participantId}/cancel" }, method = RequestMethod.GET)
+	public String cancelRegistration(@PathVariable(value = "participantId") int participantId, @ModelAttribute Participant participant,
+			BindingResult participantResult, ModelMap model) {
 
+		if (participantResult.hasErrors()) {
+			return "registrationBringKidsToWork";
+		}
+
+		participant.setRegistrationStatus("Cancelled");
+		participantService.updateRegistrationStatus(participant);
+
+		return "redirect:/{participantId}";
 	}
 
 }

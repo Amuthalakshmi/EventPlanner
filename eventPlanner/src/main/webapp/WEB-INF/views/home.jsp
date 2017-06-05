@@ -78,8 +78,15 @@
 										<div class="d-flex w-100 justify-content-between">
 											<h5 class="mb-1">${event.eventName}
 												<span class="badge badge-default">
-													${event.maxParticipants-fn:length(event.associatedParticipants)}
-													spots left </span>
+												<c:choose>
+													<c:when test="${event.maxParticipants > event.registeredParticipants}">
+														${event.maxParticipants-event.registeredParticipants}
+													</c:when>
+													<c:otherwise>
+														0
+													</c:otherwise>
+												</c:choose>
+												spots left </span>
 											</h5>
 											<a href="<c:url value='/event${event.eventId}/register' />">
 											<button class="btn btn-success btn-sm float-right">

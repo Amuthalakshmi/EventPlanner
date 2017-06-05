@@ -145,7 +145,7 @@
 														Delete</button>
 												</a> &nbsp; &nbsp;
 								
-												<div class="float-right">|</div>
+												<div id="sep" class="float-right">|</div>
 											</c:if>
 
 											<c:if test="${canChangeStatus}">

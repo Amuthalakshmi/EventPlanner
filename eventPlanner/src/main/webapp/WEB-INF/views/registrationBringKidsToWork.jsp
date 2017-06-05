@@ -9,8 +9,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><c:if test="${not empty event.eventName}"> ${event.eventName} - </c:if>
-	Registration</title>
+<title><c:choose>
+		<c:when test="${edit}">
+			${participant.event.eventName} (${participant.registrationStatus})
+		</c:when>
+		<c:otherwise>
+			<c:if test="${not empty event.eventName}"> ${event.eventName} - </c:if> Register
+		</c:otherwise>
+	</c:choose></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -73,6 +79,19 @@
 				<div class="tab-pane fade show active" id="registration"
 					role="tabpanel">
 
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a
+							href="<c:url value='/registration' />">Registration</a></li>
+						<li class="breadcrumb-item active"><c:choose>
+								<c:when test="${edit}">
+									${participant.event.eventName} (${participant.registrationStatus})
+								</c:when>
+								<c:otherwise>
+									${event.eventName} (Register)
+								</c:otherwise>
+							</c:choose></li>
+					</ol>
+
 					<c:choose>
 						<c:when test="${showForm}">
 							<div id="ParticipantForm" class="card card-block bg-faded">
@@ -81,23 +100,35 @@
 										<legend>
 											Personal Details
 											<c:if test="${edit}">
-												<button id="participantEditBtn" type="button"
-													class="btn btn-link pull-right"
-													onClick="editParticipantToUpdate()">Edit</button>
+												<c:if
+													test="${participant.registrationStatus ne 'Cancelled'}">
+													
+													<a href="<c:url value='/${participantId}/cancel' />">
+														<button class="btn btn-link float-right" type="button">
+															Cancel registration</button>
+													</a>&nbsp; &nbsp;
+													
+													<div id="sep" class="float-right">|</div>
+													
+													<button id="participantEditBtn" type="button"
+														class="btn btn-link float-right"
+														onClick="editParticipantToUpdate()">Edit</button>
 
-												<input id="participantUpdateBtn"
-													class="btn btn-link pull-right" type="submit"
-													value="Update" style="display: none" />
+													<input id="participantUpdateBtn"
+														class="btn btn-link float-right" type="submit"
+														value="Update" style="display: none" />
+												</c:if>
 											</c:if>
 										</legend>
 										<div class="separator"></div>
+
 										<div id="personaldetailsform" class="personaldetails">
 											<div class="row form-group">
-												<label class="control-label col-md-3" for="LANId">LAN Id</label>
+												<label class="control-label col-md-3" for="LANId">LAN
+													Id</label>
 												<div class="col-md-4">
-													<form:input id="LANId"
-														class="form-control form-control-sm" type="text"
-														path="LANId" disabled="${edit}" />
+													<form:input id="LANId" class="form-control form-control-sm"
+														type="text" path="LANId" disabled="${edit}" />
 												</div>
 											</div>
 
@@ -154,6 +185,7 @@
 											<legend>Kid's Details</legend>
 
 											<div class="foreachkid" id="foreachkid">
+
 												<c:forEach items="${participant.children}" varStatus="i">
 
 													<div class="child card card-block bg-faded"
@@ -182,23 +214,21 @@
 															</div>
 														</div>
 
-
 														<div class="row form-group">
 															<label class="control-label col-md-3">Gender </label>
 															<div class="col-md-4">
-																<div class="btn-group" data-toggle="buttons">
-																	<label class="btn btn-secondary btn-sm"> <form:radiobutton
-																			path="children[${i.index}].childGender" value="male"
-																			autocomplete="off" disabled="${edit}" /> male
-																	</label> <label class="btn btn-secondary btn-sm"> <form:radiobutton
-																			path="children[${i.index}].childGender"
-																			value="female" autocomplete="off" disabled="${edit}" />
-																		female
-																	</label> <label class="btn btn-secondary btn-sm"> <form:radiobutton
-																			path="children[${i.index}].childGender" value="other"
-																			autocomplete="off" disabled="${edit}" /> other
-																	</label>
-																</div>
+																<form:radiobutton
+																	path="children[${i.index}].childGender" value="male"
+																	disabled="${edit}" />
+																male
+																<form:radiobutton
+																	path="children[${i.index}].childGender" value="female"
+																	disabled="${edit}" />
+																female
+																<form:radiobutton
+																	path="children[${i.index}].childGender" value="other"
+																	disabled="${edit}" />
+																other
 															</div>
 														</div>
 
@@ -206,17 +236,16 @@
 															<label class="control-label col-md-3">Dietary
 																Requirement </label>
 															<div id="dietReq" class="col-md-4">
-																<div class="btn-group" data-toggle="buttons">
-																	<label class="btn btn-secondary btn-sm"> <form:radiobutton
-																			path="children[${i.index}].hasDietRequirement"
-																			value="yes" autocomplete="off" disabled="${edit}" />
-																		Yes
-																	</label> <label class="btn btn-secondary btn-sm"> <form:radiobutton
-																			path="children[${i.index}].hasDietRequirement"
-																			value="no" autocomplete="off" disabled="${edit}" />
-																		No
-																	</label>
-																</div>
+																<form:radiobutton
+																	path="children[${i.index}].hasDietRequirement"
+																	value="yes" onclick="foodprefer(this)"
+																	disabled="${edit}" />
+																Yes &nbsp;&nbsp;
+																<form:radiobutton
+																	path="children[${i.index}].hasDietRequirement"
+																	onclick="foodprefer(this)" value="no"
+																	disabled="${edit}" />
+																No
 															</div>
 														</div>
 
@@ -243,18 +272,14 @@
 															<div class="row form-group">
 																<label class="control-label col-md-3">Allergic </label>
 																<div class="col-md-4">
-																	<div class="btn-group" data-toggle="buttons">
-																		<label class="btn btn-secondary btn-sm"> <form:radiobutton
-																				path="children[${i.index}].isChildAllergic"
-																				value="yes" autocomplete="off" disabled="${edit}" />
-																			Yes
-																		</label> <label class="btn btn-secondary btn-sm"> <form:radiobutton
-																				path="children[${i.index}].isChildAllergic"
-																				value="no" autocomplete="off" disabled="${edit}" />
-																			No
-																		</label>
-																	</div>
-
+																	<form:radiobutton
+																		path="children[${i.index}].isChildAllergic"
+																		value="yes" disabled="${edit}" />
+																	Yes &nbsp;&nbsp;
+																	<form:radiobutton
+																		path="children[${i.index}].isChildAllergic" value="no"
+																		disabled="${edit}" />
+																	No
 																</div>
 															</div>
 
@@ -271,7 +296,6 @@
 												</c:forEach>
 											</div>
 										</div>
-
 										<c:if test="${not edit}">
 											<div class="row center">
 												<button class="btn btn-primary">Complete
@@ -281,6 +305,7 @@
 									</fieldset>
 								</form:form>
 							</div>
+
 						</c:when>
 						<c:otherwise>
 							<div class="row">
@@ -289,11 +314,8 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div class="tab-pane fade" id="gallery" role="tabpanel">GALLERY</div>
 			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>

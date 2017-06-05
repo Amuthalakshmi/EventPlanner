@@ -89,6 +89,7 @@ public class EventController {
 		if (result.hasErrors()) {
 			return "addEvent";
 		}
+		event.setRegisteredParticipants(0);
 		eventService.saveEvent(event);
 		redirectAttributes.addFlashAttribute("success",
 				"Event: " + event.getEventName() + "(" + event.getEventPlannedDate() + ") saved successfully");

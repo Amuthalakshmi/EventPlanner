@@ -71,9 +71,65 @@
 			<div class="tab-content">
 				<div class="tab-pane fade show active" id="registration"
 					role="tabpanel">
-					
-					
-				
+					<c:choose>
+						<c:when test="${registeredEvents > 0}">
+							<c:if test="${not empty confirmedRegistrations}">
+								<h6>
+									Confirmed Registrations <span
+										class="badge badge-default badge-pill">${fn:length(confirmedRegistrations)}</span>
+								</h6>
+								<ul class="list-group">
+									<c:forEach items="${confirmedRegistrations}" var="participant">
+										<li class="list-group-item list-group-item-action"><a
+											href="<c:url value='/${participant.participantId}'/>">
+												${participant.event.eventName} (<joda:format
+													value="${participant.event.eventPlannedDate}"
+													pattern="dd-MM-yyyy" />)
+										</a></li>
+									</c:forEach>
+								</ul>
+							</c:if>
+
+							<c:if test="${not empty waitListedRegisrations}">
+								<h6>
+									Wait-listed Registrations <span
+										class="badge badge-default badge-pill">${fn:length(waitListedRegisrations)}</span>
+								</h6>
+								<ul class="list-group">
+									<c:forEach items="${waitListedRegisrations}" var="participant">
+										<li class="list-group-item list-group-item-action"><a
+											href="<c:url value='/${participant.participantId}'/>">
+												${participant.event.eventName} (<joda:format
+													value="${participant.event.eventPlannedDate}"
+													pattern="dd-MM-yyyy" />)
+										</a></li>
+									</c:forEach>
+								</ul>
+							</c:if>
+
+							<c:if test="${not empty cancelledRegistrations}">
+								<h6>
+									Cancelled Registrations <span
+										class="badge badge-default badge-pill">${fn:length(cancelledRegistrations)}</span>
+								</h6>
+								<ul class="list-group">
+									<c:forEach items="${cancelledRegistrations}" var="participant">
+										<li class="list-group-item list-group-item-action"><a
+											href="<c:url value='/${participant.participantId}'/>">
+												${participant.event.eventName} (<joda:format
+													value="${participant.event.eventPlannedDate}"
+													pattern="dd-MM-yyyy" />)
+										</a></li>
+									</c:forEach>
+								</ul>
+							</c:if>
+
+						</c:when>
+						<c:otherwise>
+						No registration
+					</c:otherwise>
+					</c:choose>
+
 				</div>
 			</div>
 		</div>

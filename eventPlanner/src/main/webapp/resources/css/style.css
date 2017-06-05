@@ -141,3 +141,10 @@ legend {
 	font-size: 0.8em;
 }
 
+.form-group {
+    margin-bottom: .5em;
+}
+
+#sep {
+    padding-top: .15em;
+}

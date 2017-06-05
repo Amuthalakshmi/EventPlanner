@@ -1,24 +1,3 @@
-$(document)
-		.ready(
-				function() {
-					$("#dietReq :input")
-							.change(
-									function() {
-										divId = this.parentNode.parentNode.parentNode.parentNode.parentNode.id;
-										dietReq = $(this).val();
-										if (dietReq == 'yes') {
-											console.log(divId
-													+ 'foodpreference');
-											document.getElementById(divId
-													+ 'foodpreference').style.display = 'block';
-										} else if (dietReq == 'no') {
-											document.getElementById(divId
-													+ 'foodpreference').style.display = 'none';
-										}
-									});
-
-				});
-
 function editEventToUpdate() {
 	document.getElementById("updateBtn").style.display = 'block';
 	document.getElementById("editBtn").style.display = 'none';
@@ -46,6 +25,16 @@ function editTaskToUpdate() {
 	jQuery(function($) {
 		$('#TaskForm').find("*").removeAttr("disabled");
 	});
+}
+
+function foodprefer(element) {
+	divId = element.parentNode.parentNode.parentNode.id;
+	if (element.value == 'yes') {
+		console.log(divId + 'foodpreference');
+		document.getElementById(divId + 'foodpreference').style.display = 'block';
+	} else if (element.value == 'no') {
+		document.getElementById(divId + 'foodpreference').style.display = 'none';
+	}
 }
 
 function showDiv(element) {

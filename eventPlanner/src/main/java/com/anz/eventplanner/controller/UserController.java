@@ -56,8 +56,15 @@ public class UserController {
 		}		
 		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
 		model.addAttribute("participation", participation);
-
+		
 		List<Event> events = eventService.findAllEventByStatus("Initiated");
+		
+		for(Participant p:participation){
+			if(events.contains(p.getEvent())){
+				events.remove(p.getEvent());
+			}
+		}
+		
 		model.addAttribute("events", events);
 		return "home";
 	}

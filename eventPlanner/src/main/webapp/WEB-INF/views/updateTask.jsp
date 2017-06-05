@@ -78,14 +78,7 @@
 							href="<c:url value='/organiser${eventOrganiserId}' />">Operation</a></li>
 						<li class="breadcrumb-item"><a
 							href="<c:url value='/organiser${eventOrganiserId}/plan/event${event.eventId}' />">${event.eventName}</a></li>
-						<li class="breadcrumb-item active"><c:choose>
-								<c:when test="${edit}">
-									${task.taskName}
-								</c:when>
-								<c:otherwise>
-									Add task
-								</c:otherwise>
-							</c:choose></li>
+						<li class="breadcrumb-item active">${task.taskName}</li>
 					</ol>
 				</div>
 			</div>
