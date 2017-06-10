@@ -1,3 +1,11 @@
+html,
+body,
+.container {
+	height: 100%;
+	font-family: Verdana,Arial,Helvetica,sans-serif !important;
+	color: #004165;
+}
+
 .dark-blue-header {
 	background: url("../images/header_dark_gradient.jpg") repeat-x scroll 0 0 transparent;
 	height: 48px;
@@ -9,7 +17,7 @@
 
 .light-blue-header {
 	background: url("../images/header_light_gradient.png") repeat-x scroll 10% 3% #004165;
-	height: 58px;
+	height: 57px;
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -18,7 +26,7 @@
 
 .full-nav-bg {
 	background: url("../images/bg_primary_nav.png") repeat scroll 1000px 0 #fff;
-	height: 60px;
+	height: 58px;
 	position: absolute;
 	top: 48px;
 	width: 100%;
@@ -58,38 +66,85 @@ ul {
 	text-decoration: underline;
 }
 
-.navbar.navbar-light {
-	position: absolute;
-	top: 53px;
-	margin-top: -2px;
-	width: 100%;
-}
-
-.navbar.navbar-light.center {
-    text-align: center;
-}
-
-.navbar.navbar-light.center .nav-inner .nav.navbar-nav {
-    float: none;
-    display: inline-block;
-}
-
-.navbar-nav .nav-item {
-	font-size: 1.1em;
+.navigation .nav a {
+	font-size: 1.228em;
 	font-family: Helvetica,Arial,sans-serif !important;
 	font-weight: bold;
-	padding-left: 2em;
-	padding-right: 2em;
-}
-
-.navbar-nav .nav-link { 
-    font-size: 1.1em;    
-}
-
-.navbar-light .navbar-nav .nav-link {
 	color: #004165;
+	padding: 1em;
 }
 
-.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link.active{
-    color: #007dba;
+.nav-item .nav-link:hover, .nav-item .nav-link.active {
+	color: #007dba;
+}
+
+.nav.flex-column.nav-tabs {
+	border: none;
+}
+
+.tab-content {
+	padding-top: 2em;
+}
+
+.list-group-item {
+	border: none;
+}
+
+.separator {
+	overflow: hidden;
+	height: 1px;
+	background-color: #fff;
+	border-top: 1px solid #c2cbce;
+	width: 100%;
+	margin: 10px 0;
+}
+
+/*.card, .card-header {
+ * 	border: none;
+ * 	background: none;
+ * }
+ */
+ 
+.card .card-header a:before {
+	content: '-';
+}
+
+.card .card-header a.collapsed:before {
+	content: '+';
+}
+
+.card {
+    margin-bottom: 1em;
+}
+
+.breadcrumb {
+	padding-left: 0;
+	background: none;
+	padding-top: 0;
+}
+
+.breadcrumb-item a {
+	text-decoration: none;
+}
+
+.form-control-sm {
+	font-size: .95em;
+	font-family: Verdana,Arial,Helvetica,sans-serif !important;
+}
+
+legend {
+	font-size: 1.1rem;	
+}
+
+.btn-link {
+	font-family: Verdana,Arial,Helvetica,sans-serif !important;
+	font-size: 0.8em;
+}
+
+.form-group {
+    margin-bottom: .5em;
+}
+
+#sep {
+    padding-top: .15em;
 }

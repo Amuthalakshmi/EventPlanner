@@ -2,10 +2,9 @@
   width: device-width;
 }
 
-html,
-body,
-.container {
-    height: 100%;
+html, body, .container, button, input, optgroup, select, textarea {
+    font-family: Verdana,Arial,Helvetica,sans-serif !important;
+    color: #004165;
 }
 
 .EOI {    
@@ -21,11 +20,6 @@ body,
 
 .row.center {
     padding-top: 20px;
-}
-
-.admin .row,.eventManager .row{
-	padding-bottom: 10px;
-  	padding-top: 10px;
 }
 
 .row h3{
@@ -69,10 +63,6 @@ body,
 
 .data:hover input {
     color: white;
-}
-
-.horizontal.EventList, .horizontal.EventManagerList, .horizontal.EventOrganiserList  {
-    width: 60%;
 }
 
 .table-nonfluid {

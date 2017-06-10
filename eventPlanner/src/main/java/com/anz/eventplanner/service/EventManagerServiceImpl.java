@@ -22,6 +22,11 @@ public class EventManagerServiceImpl implements EventManagerService{
 	}
 
 	@Override
+	public EventManager findByLANId(String LANId){
+		return dao.findByLANId(LANId);
+	}
+	
+	@Override
 	public List<EventManager> findByUserName(String userName) {
 		return dao.findByUserName(userName);
 	}

@@ -3,6 +3,8 @@ package com.anz.eventplanner.dao;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.springframework.stereotype.Repository;
 
 import com.anz.eventplanner.model.Participant;
@@ -17,6 +19,26 @@ public class ParticipantDAOImpl extends AbstractDAO<Integer, Participant> implem
 			initializeCollection(participant.getChildren());
 		}
 		return participant;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Participant> findAllParticipantByLANId(String LANId) {
+		List<Participant> participants = null;
+
+		try {
+			participants = (List<Participant>) getEntityManager()
+					.createQuery("SELECT p FROM Participant p WHERE p.LANId = :LANId ORDER BY p.LANId")
+					.setParameter("LANId", LANId).getResultList();
+		} catch (NoResultException nre) {
+
+		}
+
+		for (Participant participant : participants) {
+			initializeCollection(participant.getChildren());
+		}
+
+		return participants;
 	}
 
 	@Override

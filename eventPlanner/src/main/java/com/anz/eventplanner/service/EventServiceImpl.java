@@ -16,7 +16,6 @@ public class EventServiceImpl implements EventService {
 	@Autowired
 	private EventDAO dao;
 
-	@Override
 	public Event findById(int eventId) {
 		return dao.findById(eventId);
 	}
@@ -37,9 +36,11 @@ public class EventServiceImpl implements EventService {
 		if (entity != null) {
 			entity.setEventName(event.getEventName());
 			entity.setEventLocation(event.getEventLocation());
+			entity.setEventBranch(event.getEventBranch());
 			entity.setEventPlannedDate(event.getEventPlannedDate());
 			entity.setMaxParticipants(event.getMaxParticipants());
-			entity.setTargetAudience(event.getTargetAudience());	
+			entity.setTargetAudience(event.getTargetAudience());
+			entity.setEventDescription(event.getEventDescription());
 			entity.setAssociatedOrganisers(event.getAssociatedOrganisers());
 		}
 	}
@@ -52,11 +53,27 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void updateEventStatus(Event event) {
 		Event entity = dao.findById(event.getEventId());
-		if (entity != null) {			
+		if (entity != null) {
+			entity.setEventName(event.getEventName());
+			entity.setEventLocation(event.getEventLocation());
+			entity.setEventBranch(event.getEventBranch());
+			entity.setEventPlannedDate(event.getEventPlannedDate());
+			entity.setMaxParticipants(event.getMaxParticipants());
+			entity.setTargetAudience(event.getTargetAudience());
+			entity.setEventDescription(event.getEventDescription());
+			entity.setAssociatedOrganisers(event.getAssociatedOrganisers());
 			entity.setEventStatus(event.getEventStatus());
 		}
-	}
+	}	
 
+	@Override
+	public void updateRegisteredParticipants(Event event) {
+		Event entity = dao.findById(event.getEventId());
+		if (entity != null) {
+			entity.setRegisteredParticipants(event.getRegisteredParticipants());		
+		}
+	}	
+	
 	@Override
 	public void deleteEventById(int eventId) {
 		dao.deleteEventById(eventId);

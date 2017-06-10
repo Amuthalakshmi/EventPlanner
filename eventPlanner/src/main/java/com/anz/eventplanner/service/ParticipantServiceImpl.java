@@ -20,6 +20,11 @@ public class ParticipantServiceImpl implements ParticipantService{
 	public Participant findById(int participantId){ 
 		return dao.findById(participantId);
 	}
+	
+	@Override
+	public List<Participant> findAllParticipantByLANId(String LANId){
+		return dao.findAllParticipantByLANId(LANId);
+	}
 
 	@Override
 	public void saveParticipant(Participant participant) {
@@ -33,9 +38,16 @@ public class ParticipantServiceImpl implements ParticipantService{
 			entity.setLevel(participant.getLevel());
 			entity.setLocation(participant.getLocation());
 			entity.setNumberOfChildren(participant.getNumberOfChildren());
-			entity.setUserName(participant.getUserName());
-		}
-		
+			entity.setLANId(participant.getLANId());
+		}		
+	}
+	
+	@Override
+	public void updateRegistrationStatus(Participant participant) {
+		Participant entity = dao.findById(participant.getParticipantId());
+		if (entity != null){
+			entity.setRegistrationStatus(participant.getRegistrationStatus());
+		} 		
 	}
 
 	@Override

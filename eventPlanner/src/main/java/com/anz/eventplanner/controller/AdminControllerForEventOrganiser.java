@@ -16,7 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
+import com.anz.eventplanner.model.Participant;
 import com.anz.eventplanner.service.EventOrganiserService;
+import com.anz.eventplanner.service.ParticipantService;
 
 @Controller
 public class AdminControllerForEventOrganiser {
@@ -29,19 +31,12 @@ public class AdminControllerForEventOrganiser {
 
 	@Autowired
 	MessageSource messageSource;
-
-	/**
-	 * This method lists all Event Organisers
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = { "/listEventOrganisers" }, method = RequestMethod.GET)
-	public String listAllEventOrganisers(ModelMap model) {
-		List<EventOrganiser> eventOrganisers = eventOrganiserService.findAllEventOrganiser();
-		model.addAttribute("eventOrganisers", eventOrganisers);
-		return "listEventOrganisers";
-	}
+	
+	@Autowired
+	UserController userController;
+	
+	@Autowired
+	ParticipantService participantService;
 
 	/**
 	 * This method provide the form to add a new Event Organiser
@@ -51,6 +46,17 @@ public class AdminControllerForEventOrganiser {
 	 */
 	@RequestMapping(value = { "/newEventOrganiser" }, method = RequestMethod.GET)
 	public String newEventOrganiser(ModelMap model) {
+		String LANId = userController.user.getLANId();
+
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		EventOrganiser eventOrganiser = new EventOrganiser();
 		List<Event> events = eventController.eventService.findAllEventByStatus("Initiated");
 		model.addAttribute("eventOrganiser", eventOrganiser);
@@ -92,7 +98,7 @@ public class AdminControllerForEventOrganiser {
 		
 		redirectAttributes.addFlashAttribute("success",
 				eventOrganiser.getOrganiserName() + " added as event organiser");
-		return "redirect:/listEventOrganisers";
+		return "redirect:/admin";
 	}
 
 	/**
@@ -104,6 +110,17 @@ public class AdminControllerForEventOrganiser {
 	 */
 	@RequestMapping(value = { "/edit-{eventOrganiserId}-eventOrganiser" }, method = RequestMethod.GET)
 	public String editEventOrganiser(@PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model) {
+		String LANId = userController.user.getLANId();
+
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		EventOrganiser eventOrganiser = eventOrganiserService.findById(eventOrganiserId);
 		model.addAttribute("eventOrganiser", eventOrganiser);
 		model.addAttribute("edit", true);
@@ -132,7 +149,7 @@ public class AdminControllerForEventOrganiser {
 		eventOrganiserService.updateEventOrganiser(eventOrganiser);
 
 		redirectAttributes.addFlashAttribute("success", eventOrganiser.getOrganiserName() + " updated successfully");
-		return "redirect:/listEventOrganisers";
+		return "redirect:/admin";
 	}
 
 	@RequestMapping(value = { "/delete-{eventOrganiserId}-eventOrganiser" }, method = RequestMethod.GET)
@@ -141,7 +158,7 @@ public class AdminControllerForEventOrganiser {
 		EventOrganiser eventOrganiser = eventOrganiserService.findById(eventOrganiserId);
 		eventOrganiserService.deleteEventOrganiserById(eventOrganiserId);
 		redirectAttributes.addFlashAttribute("success", eventOrganiser.getOrganiserName() + "  removed");
-		return "redirect:/listEventOrganisers";
+		return "redirect:/admin";
 	}
 
 }

@@ -1,13 +1,3 @@
-$(document).ready(function() {
-	$('#datePicker').datepicker({
-		changeMonth : true,
-		changeYear : true,
-		format : 'dd-mm-yyyy',
-		startDate : '-0d',
-		todayHighlight : true
-	});
-});
-
 function editEventToUpdate() {
 	document.getElementById("updateBtn").style.display = 'block';
 	document.getElementById("editBtn").style.display = 'none';
@@ -31,7 +21,7 @@ function editParticipantToUpdate() {
 function editTaskToUpdate() {
 	document.getElementById("taskUpdateBtn").style.display = 'block';
 	document.getElementById("taskEditBtn").style.display = 'none';
-	
+
 	jQuery(function($) {
 		$('#TaskForm').find("*").removeAttr("disabled");
 	});
@@ -71,6 +61,7 @@ function add() {
 	var inputTypes = [ "input", "select", "textarea" ];
 
 	newChild = replaceNameAndId(newChild, numberOfChild, inputTypes);
+	newChild = replaceIdForDiv(newChild, numberOfChild, "div");
 	newChild = replaceHeading(newChild, numberOfChild);
 	newChild.attr('id', 'child' + (numberOfChild + 1));
 
@@ -88,16 +79,27 @@ function replaceNameAndId(newChild, numberOfChild, inputTypes) {
 	newChild.attr('id', 'child' + (numberOfChild + 1));
 
 	for (i = 0; i < inputTypes.length; i++) {
-		newChild.find(inputTypes[i]).each(function() {
-			this.name = this.name.replace('children[0', 'children[' + numberOfChild);
-			this.id = this.id.replace('children0', 'children' + numberOfChild);
-		});
+		newChild.find(inputTypes[i]).each(
+				function() {
+					this.name = this.name.replace('children[0', 'children['
+							+ numberOfChild);
+					this.id = this.id.replace('children0', 'children'
+							+ numberOfChild);
+				});
 	}
 	return newChild;
 }
 
+function replaceIdForDiv(newChild, numberOfChild, inputType) {
+
+	newChild.find(inputType).each(function() {
+		this.id = this.id.replace('child1', 'child' + (numberOfChild + 1));
+	});
+
+	return newChild;
+}
 function replaceHeading(newChild, numberOfChild) {
-	newChild.find('h4').each(function() {
+	newChild.find('legend').each(function() {
 		this.innerHTML = this.innerHTML.replace(1, (numberOfChild + 1));
 	});
 	return newChild;

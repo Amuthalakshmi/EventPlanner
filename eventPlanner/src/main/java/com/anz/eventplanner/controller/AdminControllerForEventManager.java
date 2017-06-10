@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.anz.eventplanner.model.EventManager;
+import com.anz.eventplanner.model.EventOrganiser;
+import com.anz.eventplanner.model.Participant;
 import com.anz.eventplanner.service.EventManagerService;
+import com.anz.eventplanner.service.ParticipantService;
 
 @Controller
 public class AdminControllerForEventManager {
@@ -24,20 +27,16 @@ public class AdminControllerForEventManager {
 	EventManagerService eventManagerService;
 
 	@Autowired
+	EventOrganiserController eventOrganiserController;
+	
+	@Autowired
 	MessageSource messageSource;
 	
-	/**
-	 * This method lists all Event Managers
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value = { "/listEventManagers" }, method = RequestMethod.GET)
-	public String listAllEventManagers(ModelMap model) {
-		List<EventManager> eventManagers = eventManagerService.findAllEventManager();
-		model.addAttribute("eventManagers", eventManagers);
-		return "listEventManagers";
-	}
+	@Autowired
+	UserController userController;
+	
+	@Autowired
+	ParticipantService participantService;
 
 	/**
 	 * This method provide the form to add a new Event Manager
@@ -47,6 +46,17 @@ public class AdminControllerForEventManager {
 	 */
 	@RequestMapping(value = { "/newEventManager" }, method = RequestMethod.GET)
 	public String newEventManager(ModelMap model) {
+		String LANId = userController.user.getLANId();
+
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		EventManager eventManager = new EventManager();
 		model.addAttribute("eventManager", eventManager);
 		model.addAttribute("edit", false);
@@ -72,7 +82,7 @@ public class AdminControllerForEventManager {
 		}
 		eventManagerService.saveEventManager(eventManager);
 		redirectAttributes.addFlashAttribute("success", eventManager.getEventManagerName() + " added as event manager");
-		return "redirect:/listEventManagers";
+		return "redirect:/admin";
 	}
 
 	/**
@@ -104,6 +114,17 @@ public class AdminControllerForEventManager {
 	public String updateEventManager(@Valid EventManager eventManager, BindingResult result, ModelMap model,
 			@PathVariable(value = "eventManagerId") int eventManagerId, RedirectAttributes redirectAttributes) {
 
+		String LANId = userController.user.getLANId();
+
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		if (result.hasErrors()) {
 			return "addEventManager";
 		}
@@ -111,7 +132,7 @@ public class AdminControllerForEventManager {
 		eventManagerService.updateEventManager(eventManager);
 
 		redirectAttributes.addFlashAttribute("success", eventManager.getEventManagerName() + " updated successfully");
-		return "redirect:/listEventManagers";
+		return "redirect:/admin";
 	}
 
 	/**
@@ -126,7 +147,7 @@ public class AdminControllerForEventManager {
 		EventManager eventManager = eventManagerService.findById(eventManagerId);
 		eventManagerService.deleteEventManagerById(eventManagerId);
 		redirectAttributes.addFlashAttribute("success", eventManager.getEventManagerName() + "  removed");
-		return "redirect:/listEventManagers";
+		return "redirect:/admin";
 	}
 
 }
