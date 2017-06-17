@@ -9,16 +9,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>
-	<c:choose>
+<title><c:choose>
 		<c:when test="${edit}">
 			Administration - ${eventManager.eventManagerName} 
 		</c:when>
 		<c:otherwise>
 			Administration - Add Event Manager
 		</c:otherwise>
-	</c:choose>
-</title>
+	</c:choose></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -49,11 +47,7 @@
 	<div class="container">
 
 		<div class="header">
-			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
-			</div>
+			<div class="heading">Technology NZ</div>
 		</div>
 
 		<div class="navigation">
@@ -75,6 +69,8 @@
 					href="<c:url value='/registration' />">Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -103,9 +99,9 @@
 										<label class="col-md-3 control-label" for="eventManagerName">Employee
 											Name </label> &nbsp; &nbsp;
 										<div class="col-md-4">
-											<form:input id="eventManagerName" class="form-control form-control-sm"
-												type="text" path="eventManagerName"
-												/>
+											<form:input id="eventManagerName"
+												class="form-control form-control-sm" type="text"
+												path="eventManagerName" />
 										</div>
 									</div>
 
@@ -113,8 +109,8 @@
 										<label class="col-md-3 control-label" for="LANID">LAN
 											ID </label> &nbsp; &nbsp;
 										<div class="col-md-4">
-											<form:input id="LANID" class="form-control form-control-sm" type="text"
-												path="LANID"/>
+											<form:input id="LANID" class="form-control form-control-sm"
+												type="text" path="LANID" />
 										</div>
 									</div>
 
@@ -122,12 +118,10 @@
 									<div class="row center">
 										<c:choose>
 											<c:when test="${edit}">
-												<input class="btn btn-primary" type="submit"
-													value="Update" />
+												<input class="btn btn-primary" type="submit" value="Update" />
 											</c:when>
 											<c:otherwise>
-												<input class="btn btn-primary" type="submit"
-													value="Add" />
+												<input class="btn btn-primary" type="submit" value="Add" />
 											</c:otherwise>
 										</c:choose>
 									</div>

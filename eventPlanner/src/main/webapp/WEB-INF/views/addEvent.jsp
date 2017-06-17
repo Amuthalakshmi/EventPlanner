@@ -65,11 +65,7 @@
 	<div class="container">
 
 		<div class="header">
-			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
-			</div>
+			<div class="heading">Technology NZ</div>
 		</div>
 
 		<div class="navigation">
@@ -92,6 +88,8 @@
 					href="<c:url value='/registration' />">Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -121,7 +119,7 @@
 							<fieldset>
 								<c:if test="${edit}">
 									<legend>
-										Event details
+										${event.eventName}
 
 										<c:choose>
 											<c:when test="${canDelete}">
@@ -199,9 +197,9 @@
 									<div class="col-md-3">
 										<form:select class="form-control form-control-sm"
 											path="eventBranch" multiple="multiple" disabled="${edit}">
-											<form:option value="170FSW" label="170FSW" />
-											<form:option value="ToryStreet" label="Tory Street" />
-											<form:option value="VivianStreet" label="Vivian Street" />
+											<form:option value="170 FSW" label="170FSW" />
+											<form:option value="Tory Street" label="Tory Street" />
+											<form:option value="Vivian Street" label="Vivian Street" />
 										</form:select>
 									</div>
 								</div>
@@ -250,64 +248,13 @@
 											value="Add" />
 									</div>
 								</c:if>
-
 							</fieldset>
 						</form:form>
 					</div>
-
-					<c:if test="${not empty event.eventStatus}">
-						<form:form class="card card-block bg-faded" modelAttribute="event">
-							<fieldset>
-								<legend> Links </legend>
-								<div class="separator"></div>
-								<div class="row forParticipants">
-									<label class="col-md-3 control-label" for="forParticipants">
-										Registration link for participants </label> &nbsp; &nbsp;
-									<div class="col-md-8">
-										<input class="form-control form-control-sm" type="text"
-											id="forParticipants"
-											value="http://localhost:8080/eventPlanner/event${event.eventId}/register"
-											readonly="readonly">
-									</div>
-								</div>
-							</fieldset>
-						</form:form>
-
-						<form:form class="card card-block bg-faded"
-							modelAttribute="eventOrganiser">
-							<fieldset>
-								<legend>
-									Event Organisers <a
-										href="<c:url value='/event${event.eventId}/addOrganisers' />">
-										<button type="button" class="btn btn-link float-right">
-											Add event specific organisers</button>
-									</a> &nbsp; &nbsp;
-								</legend>
-								<div class="separator"></div>
-								<div class="organisersOfThatEvent">
-									<ul class="list-unstyled">
-										<c:forEach items="${event.associatedOrganisers}"
-											var="eventOrganiser">
-											<li><a
-												href="<c:url value='/edit-${eventOrganiser.eventOrganiserId}-eventOrganiser' />">
-													${eventOrganiser.organiserName} </a> &nbsp; &nbsp; <c:if
-													test="${eventOrganiser.category ne 'All Event'}">
-													<a
-														href="<c:url value='/event${event.eventId}/removeOrganiser${eventOrganiser.eventOrganiserId}' />">
-														remove </a>
-												</c:if></li>
-										</c:forEach>
-									</ul>
-								</div>
-							</fieldset>
-						</form:form>
-					</c:if>
-
 				</div>
 			</div>
-
 		</div>
-
 	</div>
+
 </body>
 </html>

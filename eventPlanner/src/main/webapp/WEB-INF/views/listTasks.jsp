@@ -26,6 +26,7 @@
 							</c:forEach>
 						</ul>
 					</c:if>
+					
 					<c:if test="${not empty openTasks}">
 						<h6>
 							Open Tasks <span class="badge badge-default badge-pill">${fn:length(openTasks)}</span>
@@ -61,7 +62,7 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-
+	
 	<div class="row col-md-2">
 		<a href="<c:url value='/eo-${eoId}/event-${event.eventId}/newTask' />">
 			<button type="button" class="btn btn-primary btn-sm">New

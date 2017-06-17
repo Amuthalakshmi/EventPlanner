@@ -45,25 +45,16 @@ body,
 	height: 48px !important;
 }
 
-.nav-top {
-	position: absolute;
-	margin-top: 14px;
-	right: 20px;
+.heading {
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    padding-left: 6.5em;
+    padding-top: .2em;
 }
 
 ul {
 	list-style-type: none;
-}
-
-.nav-top li a {
-	display: block;
-	color: #fff;
-	font-size: 0.923em;
-	font-weight: bold;
-}
-
-.nav-top li a:active, .nav-top li a:hover {
-	text-decoration: underline;
 }
 
 .navigation .nav a {

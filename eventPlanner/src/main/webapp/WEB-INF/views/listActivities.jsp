@@ -6,23 +6,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<div class="container">	
+<div class="container">
 	<div class="Activities">
 		<div class="horizontal ActivityList">
 			<c:choose>
 				<c:when test="${not empty event.associatedActivities}">
 					<div>
-						<c:forEach items="${event.associatedActivities}" var="activity">
-																${activity.activityName}
-																${activity.activityDetails}
-																${activity.minAge}
-																${activity.maxAge}
-																${activity.activityLocation}
-																${activity.homeLocation}
-																<joda:format value="${activity.startTime}"
-								pattern="HH:mm" />
-							<joda:format value="${activity.endTime}" pattern="HH:mm" />
-						</c:forEach>
+
+						<ul class="list-group">
+							<c:forEach items="${event.associatedActivities}" var="activity">
+								<li class="list-group-item list-group-item-action"><a
+									href="<c:url value='/eo-${eoId}/event-${activity.event.eventId}/activity-${activity.activityId}'/>">
+										${activity.activityName} </a></li>
+							</c:forEach>
+						</ul>
+
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -37,6 +35,6 @@
 				<button type="button" class="btn btn-primary btn-sm">New
 					Activity</button>
 			</a>
-		</div>		
+		</div>
 	</div>
 </div>

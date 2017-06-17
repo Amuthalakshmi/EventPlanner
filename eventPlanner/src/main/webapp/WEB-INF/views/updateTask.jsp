@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>${event.eventName} - ${task.taskName}</title>
+<title>${event.eventName}- ${task.taskName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -39,11 +39,7 @@
 	<div class="container">
 
 		<div class="header">
-			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
-			</div>
+			<div class="heading">Technology NZ</div>
 		</div>
 
 		<div class="navigation">
@@ -66,6 +62,8 @@
 					href="<c:url value='/registration' />">Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -120,11 +118,11 @@
 					</div>
 
 					<div class="row form-group">
-						<label class="control-label col-md-3" for="taskBlog">Description on progress</label>
+						<label class="control-label col-md-3" for="taskBlog">Description
+							on progress</label>
 						<div class="col-md-4">
-							<form:textarea id="taskBlog" class="form-control form-control-sm" type="text"
-								path="taskBlog"	
-								value="" />
+							<form:textarea id="taskBlog" class="form-control form-control-sm"
+								type="text" path="taskBlog" value="" />
 						</div>
 					</div>
 

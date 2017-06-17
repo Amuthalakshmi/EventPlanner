@@ -1,6 +1,8 @@
 package com.anz.eventplanner.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
 import com.anz.eventplanner.model.Participant;
+import com.anz.eventplanner.model.Task;
 import com.anz.eventplanner.service.EventService;
 import com.anz.eventplanner.service.ParticipantService;
 
@@ -39,7 +42,7 @@ public class EventController {
 
 	@Autowired
 	MessageSource messageSource;
-	
+
 	@Autowired
 	ParticipantService participantService;
 
@@ -114,7 +117,7 @@ public class EventController {
 		}
 		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
 		model.addAttribute("participation", participation);
-		
+
 		Event event = eventService.findById(eventId);
 		model.addAttribute("event", event);
 
@@ -129,11 +132,61 @@ public class EventController {
 		Map<String, String> locations = new HashMap<String, String>();
 		locations.put("WLG", "Wellington");
 		locations.put("AUK", "Auckland");
-
 		model.put("locations", locations);
 
+		Set<Participant> participants = event.getAssociatedParticipants();
+
+		List<Participant> confirmedRegistrations = new ArrayList<Participant>();
+		List<Participant> waitListedRegisrations = new ArrayList<Participant>();
+		List<Participant> cancelledRegistrations = new ArrayList<Participant>();
+
+		for (Participant p : participants) {
+			switch (p.getRegistrationStatus()) {
+			case "Confirmed":
+				confirmedRegistrations.add(p);
+				break;
+			case "Wait-list":
+				waitListedRegisrations.add(p);
+				break;
+			case "Cancelled":
+				cancelledRegistrations.add(p);
+				break;
+			default:
+				break;
+			}
+		}
+
+		model.addAttribute("confirmedRegistrations", confirmedRegistrations);
+		model.addAttribute("waitListedRegisrations", waitListedRegisrations);
+		model.addAttribute("cancelledRegistrations", cancelledRegistrations);
+
+		Set<Task> associatedTasks = event.getAssociatedTasks();
+		Set<Task> openTasks = new HashSet<Task>();
+		Set<Task> closedTasks = new HashSet<Task>();
+		Set<Task> startedTasks = new HashSet<Task>();
+
+		for (Task task : associatedTasks) {
+			switch (task.getTaskStatus()) {
+			case "Open":
+				openTasks.add(task);
+				break;
+			case "Started":
+				startedTasks.add(task);
+				break;
+			case "Close":
+				closedTasks.add(task);
+				break;
+			default:
+				break;
+			}
+		}
+
+		model.addAttribute("openTasks", openTasks);
+		model.addAttribute("startedTasks", startedTasks);
+		model.addAttribute("closedTasks", closedTasks);
+
 		model.addAttribute("edit", true);
-		return "addEvent";
+		return "eventDetails";
 	}
 
 	/***
@@ -215,7 +268,7 @@ public class EventController {
 		}
 		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
 		model.addAttribute("participation", participation);
-		
+
 		Event event = eventService.findById(eventId);
 		List<EventOrganiser> eventSpecificOrganisers = eventOrganiserController.eventOrganiserService
 				.findAllOrganisersByCategoryAndLocation("Event Specific", event.getEventLocation());

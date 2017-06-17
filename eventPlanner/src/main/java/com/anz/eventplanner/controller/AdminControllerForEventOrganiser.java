@@ -91,7 +91,8 @@ public class AdminControllerForEventOrganiser {
 			List<Event> events = eventController.eventService.findAllEventByStatusAndLocation("Initiated",
 					eventOrganiser.getLocation());
 			for (Event event : events) {
-				event.addAssociatedOrganisers(eventOrganiser);
+				event.getAssociatedOrganisers().add(eventOrganiser);
+				//event.addAssociatedOrganisers(eventOrganiser);
 				eventController.eventService.updateEvent(event);
 			}
 		}

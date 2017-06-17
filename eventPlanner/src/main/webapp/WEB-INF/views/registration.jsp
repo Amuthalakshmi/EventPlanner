@@ -39,11 +39,7 @@
 	<div class="container">
 
 		<div class="header">
-			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
-			</div>
+			<div class="heading">Technology NZ</div>
 		</div>
 
 		<div class="navigation">
@@ -65,6 +61,8 @@
 					data-toggle="tab" href="#registration" role="tab"> Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
 			<!-- Tab panes -->

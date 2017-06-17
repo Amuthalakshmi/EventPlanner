@@ -9,16 +9,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>
-	<c:choose>
+<title><c:choose>
 		<c:when test="${edit}">
 			Administration - ${eventOrganiser.organiserName} 
 		</c:when>
 		<c:otherwise>
 			Administration - Add Event Organiser
 		</c:otherwise>
-	</c:choose>
-</title>
+	</c:choose></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -49,11 +47,7 @@
 	<div class="container">
 
 		<div class="header">
-			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
-			</div>
+			<div class="heading">Technology NZ</div>
 		</div>
 
 		<div class="navigation">
@@ -75,6 +69,8 @@
 					href="<c:url value='/registration' />">Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -84,16 +80,14 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a
 							href="<c:url value='/admin' />">Administration</a></li>
-						<li class="breadcrumb-item active">
-							<c:choose>
+						<li class="breadcrumb-item active"><c:choose>
 								<c:when test="${edit}">
 									${eventOrganiser.organiserName} 
 								</c:when>
 								<c:otherwise>
 									Add Event Organiser
 								</c:otherwise>
-							</c:choose>
-						</li>
+							</c:choose></li>
 					</ol>
 
 					<div id="eventOrganiserForm">
@@ -105,9 +99,9 @@
 										<label class="col-md-3 control-label" for="organiserName">
 											Name </label>
 										<div class="col-md-4">
-											<form:input id="organiserName" class="form-control form-control-sm"
-												type="text" path="organiserName"
-												 />
+											<form:input id="organiserName"
+												class="form-control form-control-sm" type="text"
+												path="organiserName" />
 										</div>
 									</div>
 
@@ -115,16 +109,16 @@
 										<label class="col-md-3 control-label" for="LANId">LAN
 											ID </label>
 										<div class="col-md-4">
-											<form:input id="LANId" class="form-control form-control-sm" type="text"
-												path="LANId" />
+											<form:input id="LANId" class="form-control form-control-sm"
+												type="text" path="LANId" />
 										</div>
 									</div>
 
 									<div class="row form-group">
 										<label class="col-md-3 control-label" for="location">Location</label>
 										<div class="col-md-4">
-											<form:select id="category" class="form-control form-control-sm"
-												path="location">
+											<form:select id="category"
+												class="form-control form-control-sm" path="location">
 												<form:option value="" label="-- Select a location --" />
 												<form:option value="WLG" label="Wellington" />
 												<form:option value="AUK" label="Auckland" />
@@ -135,8 +129,8 @@
 									<div class="row form-group">
 										<label class="col-md-3 control-label" for="category">Category</label>
 										<div class="col-md-4">
-											<form:select id="category" class="form-control form-control-sm"
-												path="category">
+											<form:select id="category"
+												class="form-control form-control-sm" path="category">
 												<form:option value="" label="-- Select a category --" />
 												<form:option value="All Event" label="All Event" />
 												<form:option value="Event Specific" label="Event Specific" />
@@ -149,12 +143,10 @@
 									<div class="row center">
 										<c:choose>
 											<c:when test="${edit}">
-												<input class="btn btn-primary" type="submit"
-													value="Update" />
+												<input class="btn btn-primary" type="submit" value="Update" />
 											</c:when>
 											<c:otherwise>
-												<input class="btn btn-primary" type="submit"
-													value="Add" />
+												<input class="btn btn-primary" type="submit" value="Add" />
 											</c:otherwise>
 										</c:choose>
 									</div>

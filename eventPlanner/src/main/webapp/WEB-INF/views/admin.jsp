@@ -39,9 +39,7 @@
 	<div class="container">
 		<div class="header">
 			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
+				<div class="heading">Technology NZ</div>
 			</div>
 		</div>
 
@@ -64,8 +62,10 @@
 					href="<c:url value='/registration' />">Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
-			
+
 			<div class="tab-content">
 				<div class="tab-pane fade show active" id="admin" role="tabpanel">
 					<div id="accordion" role="tablist" aria-multiselectable="true">
@@ -73,8 +73,9 @@
 							<div class="card-header" role="tab" id="eventMgrHeading">
 								<p class="mb-0">
 									<a class="collapsed" data-toggle="collapse"
-										data-parent="#accordion" href="#eventMgrs" aria-expanded="false"
-										aria-controls="eventMgrs">&nbsp;  Event Managers </a>
+										data-parent="#accordion" href="#eventMgrs"
+										aria-expanded="false" aria-controls="eventMgrs">&nbsp;
+										Event Managers </a>
 								</p>
 							</div>
 							<div id="eventMgrs" class="collapse" role="tabpanel"
@@ -84,13 +85,14 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="card">
 							<div class="card-header" role="tab" id="eventOrgHeading">
 								<p class="mb-0">
 									<a class="collapsed" data-toggle="collapse"
-										data-parent="#accordion" href="#eventOrgs" aria-expanded="false"
-										aria-controls="eventOrgs">&nbsp; Event Organisers </a>
+										data-parent="#accordion" href="#eventOrgs"
+										aria-expanded="false" aria-controls="eventOrgs">&nbsp;
+										Event Organisers </a>
 								</p>
 							</div>
 							<div id="eventOrgs" class="collapse" role="tabpanel"
@@ -100,7 +102,7 @@
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>

@@ -55,8 +55,8 @@ public class ActivityController {
 		return "redirect:/organiser{eventOrganiserId}/plan/event{eventId}";
 	}
 
-	@RequestMapping(value = { "/eo-{eventOrganiserId}/activity-{activityId}" }, method = RequestMethod.GET)
-	public String editActivity(@PathVariable(value = "eventOrganiserId") int eventOrganiserId,
+	@RequestMapping(value = { "/eo-{eventOrganiserId}/event-{eventId}/activity-{activityId}" }, method = RequestMethod.GET)
+	public String editActivity(@PathVariable(value = "eventOrganiserId") int eventOrganiserId, @PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "activityId") int activityId, ModelMap model) {
 		Activity activity = activityService.findById(activityId);
 		Event event = activity.getEvent();
@@ -67,8 +67,8 @@ public class ActivityController {
 		return "addActivity";
 	}
 
-	@RequestMapping(value = { "/eo-{eventOrganiserId}/activity-{activityId}" }, method = RequestMethod.POST)
-	public String updateActivity(@PathVariable(value = "eventOrganiserId") int eventOrganiserId,
+	@RequestMapping(value = { "/eo-{eventOrganiserId}/event-{eventId}/activity-{activityId}" }, method = RequestMethod.POST)
+	public String updateActivity(@PathVariable(value = "eventOrganiserId") int eventOrganiserId, @PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "activityId") int activityId, @Valid Activity activity, BindingResult result, ModelMap model) {
 
 		if (result.hasErrors()) {

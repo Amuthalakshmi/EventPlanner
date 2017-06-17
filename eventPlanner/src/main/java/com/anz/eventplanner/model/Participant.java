@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -38,7 +39,7 @@ public class Participant {
 	@Column(name = "registration_status")
 	private String registrationStatus;
 
-	@OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "parent", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)	
 	private List<Child> children = new ArrayList<Child>();
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})

@@ -39,11 +39,7 @@
 	<div class="container">
 
 		<div class="header">
-			<div class="nav-top">
-				<ul>
-					<li><a href="<c:url value='' />">Contact us</a></li>
-				</ul>
-			</div>
+			<div class="heading">Technology NZ</div>
 		</div>
 
 		<div class="navigation">
@@ -66,6 +62,8 @@
 					href="<c:url value='/registration' />">Registration</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='' />">Gallery</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
 			<!-- Tab panes -->
@@ -77,8 +75,8 @@
 						<div class="card">
 							<div class="card-header" role="tab" id="eventsHeading">
 								<p class="mb-0">
-									<a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-										href="#events" aria-expanded="false"
+									<a class="collapsed" data-toggle="collapse"
+										data-parent="#accordion" href="#events" aria-expanded="false"
 										aria-controls="events"> &nbsp; Events </a>
 								</p>
 							</div>
@@ -94,9 +92,8 @@
 							<div class="card-header" role="tab" id="reportHeading">
 								<p class="mb-0">
 									<a class="collapsed" data-toggle="collapse"
-										data-parent="#accordion" href="#report"
-										aria-expanded="false" aria-controls="report">
-										&nbsp; Report </a>
+										data-parent="#accordion" href="#report" aria-expanded="false"
+										aria-controls="report"> &nbsp; Report </a>
 								</p>
 							</div>
 							<div id="report" class="collapse" role="tabpanel"

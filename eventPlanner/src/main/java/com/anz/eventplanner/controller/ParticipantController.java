@@ -182,6 +182,16 @@ public class ParticipantController {
 		model.addAttribute("participation", participation);
 		
 		Participant participant = participantService.findById(participantId);
+		
+		List<Child> uniqueChildren = new ArrayList<Child>();
+		for(Child child:participant.getChildren()){
+			if(!uniqueChildren.contains(child)){
+				uniqueChildren.add(child);
+			}
+		}
+		
+		participant.setChildren(uniqueChildren);
+		
 		model.addAttribute("participant", participant);
 
 		model.addAttribute("showForm", true);
