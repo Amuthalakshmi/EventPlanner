@@ -8,10 +8,6 @@
 
 <div class="container">
 
-	<div class="row ">
-		<c:if test="${not empty success}"> ${success} </c:if>
-	</div>
-
 	<div class="horizontal EventManagerList">
 		<c:choose>
 			<c:when test="${not empty eventManagers}">

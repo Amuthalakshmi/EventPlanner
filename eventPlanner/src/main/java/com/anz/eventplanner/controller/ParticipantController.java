@@ -26,10 +26,10 @@ import com.anz.eventplanner.service.ParticipantService;
 public class ParticipantController {
 	@Autowired
 	EventController eventController;
-	
+
 	@Autowired
 	EventOrganiserController eventOrganiserController;
-	
+
 	@Autowired
 	UserController userController;
 
@@ -41,7 +41,7 @@ public class ParticipantController {
 
 	@Autowired
 	MessageSource messageSource;
-	
+
 	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
 	public String registration(ModelMap model) {
 		String LANId = userController.user.getLANId();
@@ -51,15 +51,16 @@ public class ParticipantController {
 			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
 			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
 		}
+
 		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
 		model.addAttribute("registeredEvents", participation.size());
-		
+
 		List<Participant> confirmedRegistrations = new ArrayList<Participant>();
 		List<Participant> waitListedRegisrations = new ArrayList<Participant>();
 		List<Participant> cancelledRegistrations = new ArrayList<Participant>();
-		
-		for(Participant p:participation){
-			switch(p.getRegistrationStatus()){
+
+		for (Participant p : participation) {
+			switch (p.getRegistrationStatus()) {
 			case "Confirmed":
 				confirmedRegistrations.add(p);
 				break;
@@ -73,14 +74,14 @@ public class ParticipantController {
 				break;
 			}
 		}
-		
-		model.addAttribute("confirmedRegistrations",confirmedRegistrations);
-		model.addAttribute("waitListedRegisrations",waitListedRegisrations);
-		model.addAttribute("cancelledRegistrations",cancelledRegistrations);
-		
+
+		model.addAttribute("confirmedRegistrations", confirmedRegistrations);
+		model.addAttribute("waitListedRegisrations", waitListedRegisrations);
+		model.addAttribute("cancelledRegistrations", cancelledRegistrations);
+
 		return "registration";
 	}
-	
+
 	@RequestMapping(value = { "/event{eventId}/register" }, method = RequestMethod.GET)
 	public String registration(@PathVariable(value = "eventId") int eventId, ModelMap model) {
 		String LANId = userController.user.getLANId();
@@ -92,7 +93,7 @@ public class ParticipantController {
 		}
 		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
 		model.addAttribute("participation", participation);
-		
+
 		Event event = eventController.eventService.findById(eventId);
 
 		if (event != null) {
@@ -139,31 +140,33 @@ public class ParticipantController {
 		if (participantResult.hasErrors()) {
 			return "registrationBringKidsToWork";
 		}
-		
+
 		Event event = eventController.eventService.findById(eventId);
-		participant.setEvent(event);	
-		
+		participant.setEvent(event);
+
 		event.setRegisteredParticipants(event.getRegisteredParticipants() + participant.getNumberOfChildren());
 		eventController.eventService.updateRegisteredParticipants(event);
-		
-		if(event.getRegisteredParticipants() <= event.getMaxParticipants()){
+
+		if (event.getRegisteredParticipants() <= event.getMaxParticipants()) {
 			participant.setRegistrationStatus("Confirmed");
-		} else if (event.getRegisteredParticipants() > event.getMaxParticipants()){
+		} else if (event.getRegisteredParticipants() > event.getMaxParticipants()) {
 			participant.setRegistrationStatus("Wait-list");
 		}
-		
-		for (Child child : participant.getChildren()) {			
-			child.setParent(participant);;
-		}		
+
+		for (Child child : participant.getChildren()) {
+			child.setParent(participant);
+			;
+		}
 
 		participantService.saveParticipant(participant);
 		model.addAttribute("participantId", participant.getParticipantId());
-		
+
 		return "redirect:/{participantId}";
 	}
 
 	/**
-	 * This method will provide a medium to update existing registration 
+	 * This method will provide a medium to update existing registration
+	 * 
 	 * @param participantId
 	 * @param eventId
 	 * @param model
@@ -180,18 +183,18 @@ public class ParticipantController {
 		}
 		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
 		model.addAttribute("participation", participation);
-		
+
 		Participant participant = participantService.findById(participantId);
-		
+
 		List<Child> uniqueChildren = new ArrayList<Child>();
-		for(Child child:participant.getChildren()){
-			if(!uniqueChildren.contains(child)){
+		for (Child child : participant.getChildren()) {
+			if (!uniqueChildren.contains(child)) {
 				uniqueChildren.add(child);
 			}
 		}
-		
+
 		participant.setChildren(uniqueChildren);
-		
+
 		model.addAttribute("participant", participant);
 
 		model.addAttribute("showForm", true);
@@ -207,8 +210,8 @@ public class ParticipantController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/{participantId}" }, method = RequestMethod.POST)
-	public String updateRegistration(@PathVariable(value = "participantId") int participantId, @ModelAttribute Participant participant,
-			BindingResult participantResult, ModelMap model) {
+	public String updateRegistration(@PathVariable(value = "participantId") int participantId,
+			@ModelAttribute Participant participant, BindingResult participantResult, ModelMap model) {
 
 		if (participantResult.hasErrors()) {
 			return "registrationBringKidsToWork";
@@ -218,10 +221,10 @@ public class ParticipantController {
 
 		return "redirect:/{participantId}";
 	}
-	
+
 	@RequestMapping(value = { "/{participantId}/cancel" }, method = RequestMethod.GET)
-	public String cancelRegistration(@PathVariable(value = "participantId") int participantId, @ModelAttribute Participant participant,
-			BindingResult participantResult, ModelMap model) {
+	public String cancelRegistration(@PathVariable(value = "participantId") int participantId,
+			@ModelAttribute Participant participant, BindingResult participantResult, ModelMap model) {
 
 		if (participantResult.hasErrors()) {
 			return "registrationBringKidsToWork";

@@ -39,12 +39,13 @@ public class UserController {
 	@Autowired
 	ParticipantService participantService;	
 	
-	public UserController() {
+	public UserController() {		
 		user.setLANId("USR1WLG");
 	}
 	
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
 	public String homepage(ModelMap model) {
+		
 		String LANId = user.getLANId();			
 
 		model.addAttribute("isEventManager", isEventManager(LANId));

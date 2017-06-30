@@ -62,7 +62,7 @@
 				</c:if>
 				<c:if test="${isEventOrganiser}">
 					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#eventOrganiser" role="tab"> Operation
+						data-toggle="tab" href="#eventOrganiser" role="tab"> Coordination
 					</a></li>
 				</c:if>
 				<li class="nav-item"><a class="nav-link"
@@ -80,7 +80,7 @@
 
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a
-							href="<c:url value='/organiser${eventOrganiserId}' />">Operation</a></li>
+							href="<c:url value='/organiser${eventOrganiserId}' />">Coordination</a></li>
 						<li class="breadcrumb-item"><a
 							href="<c:url value='/organiser${eventOrganiserId}/plan/event${event.eventId}' />">${event.eventName}</a></li>
 						<li class="breadcrumb-item active"><c:choose>

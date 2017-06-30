@@ -3,14 +3,15 @@ package com.anz.eventplanner.model;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class User {	 
-	
-	private String LANId;	
 
+public class User {	
+	
+	private String LANId;
+	
 	public User() {
 		setLANId(findLANId());
 	}
-
+	
 	public String getLANId() {
 		return LANId;
 	}
@@ -54,4 +55,5 @@ public class User {
 
 		return LANId;
 	}
+	
 }

@@ -55,7 +55,7 @@
 				</c:if>
 				<c:if test="${eventOrganiser != null}">
 					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#addActivity" role="tab"> Operation </a></li>
+						data-toggle="tab" href="#addActivity" role="tab"> Coordination </a></li>
 				</c:if>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='/registration' />">Registration</a></li>
