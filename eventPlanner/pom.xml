@@ -209,14 +209,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.heroku.sdk</groupId>
-				<artifactId>heroku-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<configuration>
-					<appName>anzeventplanner</appName>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 </project>

@@ -56,6 +56,9 @@ public class Event {
 	@Column(name= "event_status")
 	private String eventStatus;
 	
+	@Column(name= "activities_registration_status")
+	private String activitiesRegistrationStatus;
+	
 	@Column(name= "event_description")
 	private String eventDescription;
 	
@@ -144,6 +147,14 @@ public class Event {
 
 	public void setEventStatus(String eventStatus) {
 		this.eventStatus = eventStatus;
+	}
+
+	public String getActivitiesRegistrationStatus() {
+		return activitiesRegistrationStatus;
+	}
+
+	public void setActivitiesRegistrationStatus(String activitiesRegistrationStatus) {
+		this.activitiesRegistrationStatus = activitiesRegistrationStatus;
 	}
 
 	public String getEventDescription() {

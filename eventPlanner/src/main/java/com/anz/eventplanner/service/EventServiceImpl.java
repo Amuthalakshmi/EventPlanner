@@ -75,6 +75,14 @@ public class EventServiceImpl implements EventService {
 	}	
 	
 	@Override
+	public void updateActivitiesRegistrationStatus(Event event) {
+		Event entity = dao.findById(event.getEventId());
+		if (entity != null) {
+			entity.setActivitiesRegistrationStatus(event.getActivitiesRegistrationStatus());
+		}
+	}
+	
+	@Override
 	public void deleteEventById(int eventId) {
 		dao.deleteEventById(eventId);
 	}

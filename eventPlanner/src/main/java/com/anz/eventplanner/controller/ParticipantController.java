@@ -1,7 +1,10 @@
 package com.anz.eventplanner.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.anz.eventplanner.model.Activity;
 import com.anz.eventplanner.model.Child;
 import com.anz.eventplanner.model.Event;
 import com.anz.eventplanner.model.EventOrganiser;
@@ -38,6 +42,9 @@ public class ParticipantController {
 
 	@Autowired
 	ParticipantService participantService;
+	
+	@Autowired
+	ChildService ChildService;
 
 	@Autowired
 	MessageSource messageSource;
@@ -155,7 +162,6 @@ public class ParticipantController {
 
 		for (Child child : participant.getChildren()) {
 			child.setParent(participant);
-			;
 		}
 
 		participantService.saveParticipant(participant);
@@ -174,6 +180,7 @@ public class ParticipantController {
 	 */
 	@RequestMapping(value = { "/{participantId}" }, method = RequestMethod.GET)
 	public String editRegistration(@PathVariable(value = "participantId") int participantId, ModelMap model) {
+		/* User Control */
 		String LANId = userController.user.getLANId();
 		model.addAttribute("isEventManager", userController.isEventManager(LANId));
 		if (userController.isEventOrganiser(LANId)) {
@@ -186,15 +193,30 @@ public class ParticipantController {
 
 		Participant participant = participantService.findById(participantId);
 
+		/* Removes duplicate for view */
 		List<Child> uniqueChildren = new ArrayList<Child>();
 		for (Child child : participant.getChildren()) {
 			if (!uniqueChildren.contains(child)) {
 				uniqueChildren.add(child);
 			}
 		}
-
 		participant.setChildren(uniqueChildren);
+		
+		/* Identifies Activities for each child */
+		Event event  = participant.getEvent();
+		Set<Activity> activities = event.getAssociatedActivities();		
+		Map<Child, List<Activity>> validActivitiesForChild = new HashMap<Child, List<Activity>>();
+		for(Child child: uniqueChildren){
+			List<Activity> validActivities = new ArrayList<Activity>();
+			for(Activity activity: activities){
+				if(child.getChildAge() >= activity.getMinAge() && child.getChildAge() < (activity.getMaxAge() + 1)){
+					validActivities.add(activity);
+				}
+			}
+			validActivitiesForChild.put(child, validActivities);
+		}		
 
+		model.addAttribute("validActivities", validActivitiesForChild);
 		model.addAttribute("participant", participant);
 
 		model.addAttribute("showForm", true);
@@ -215,12 +237,18 @@ public class ParticipantController {
 
 		if (participantResult.hasErrors()) {
 			return "registrationBringKidsToWork";
+		}		
+		
+		for(Child child:participant.getChildren()){
+			childService.updateChild(child);
 		}
-
+		
 		participantService.updateParticipant(participant);
 
 		return "redirect:/{participantId}";
 	}
+	
+	
 
 	@RequestMapping(value = { "/{participantId}/cancel" }, method = RequestMethod.GET)
 	public String cancelRegistration(@PathVariable(value = "participantId") int participantId,

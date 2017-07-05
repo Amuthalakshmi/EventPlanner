@@ -30,7 +30,6 @@ public class ChildServiceImpl implements ChildService{
 	public void updateChild(Child child) {
 		Child entity = dao.findById(child.getChildId());
 		if(entity != null){
-			entity.setActivityId(child.getActivityId());
 			entity.setChildAge(child.getChildAge());
 			entity.setIsChildAllergic(child.getIsChildAllergic());
 			entity.setHasDietRequirement(child.getHasDietRequirement());
@@ -38,6 +37,7 @@ public class ChildServiceImpl implements ChildService{
 			entity.setChildGender(child.getChildGender());
 			entity.setChildName(child.getChildName());
 			entity.setOtherDetails(child.getOtherDetails());
+			entity.setActivity(child.getActivity());
 		}
 	}
 

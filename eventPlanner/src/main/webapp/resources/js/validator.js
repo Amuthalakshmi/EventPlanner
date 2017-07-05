@@ -15,11 +15,11 @@ $(document).ready(function() {
                     stringLength: {
                         min: 5,
                         max: 50,
-                        message: 'The username must be more than 5 and less than 50 characters long'
+                        message: 'The username must be more than 5 and less than 50 characters long' 
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z _\.]+$/,
-                        message: 'The event Name can only consist of alphabetical, dot and underscore'
+                        regexp: /^[a-zA-Z0-9_\.]+$/,
+                        message: 'The event Name can only consist of alphabetical, numbers, dot and underscore'
                     }
                 }
             }

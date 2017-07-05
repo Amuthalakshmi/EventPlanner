@@ -39,14 +39,15 @@ public class Child {
 	private String isChildAllergic;
 
 	@Column(name = "other_details")
-	private String otherDetails;
-
-	@Column(name = "activity_id")
-	private int activityId;	
+	private String otherDetails;	
 		
     @ManyToOne(cascade= {CascadeType.MERGE}, fetch=FetchType.EAGER, optional = false)
     @JoinColumn(name = "parent_participant_id", referencedColumnName="participant_id")    
     private Participant parent;
+    
+    @ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
+    @JoinColumn(name = "activity_id", referencedColumnName="activity_id")
+    private Activity activity;
 	
 	public int getChildId() {
 		return childId;
@@ -112,20 +113,20 @@ public class Child {
 		this.otherDetails = otherDetails;
 	}
 
-	public int getActivityId() {
-		return activityId;
-	}
-
-	public void setActivityId(int activityId) {
-		this.activityId = activityId;
-	}
-
 	public Participant getParent() {
 		return parent;
 	}
 
 	public void setParent(Participant parent) {
 		this.parent = parent;
+	}
+
+	public Activity getActivity() {
+		return activity;
+	}
+
+	public void setActivity(Activity activity) {
+		this.activity = activity;
 	}
 
 	@Override

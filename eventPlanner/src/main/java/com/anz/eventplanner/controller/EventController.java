@@ -320,5 +320,13 @@ public class EventController {
 		eventService.updateEvent(event);
 		return "redirect:/event-{eventId}";
 	}
+	
+	@RequestMapping(value = { "/event{eventId}/openActReg" }, method = RequestMethod.GET)
+	public String openActivitiesRegistration(@PathVariable(value = "eventId") int eventId, ModelMap model) {
+		Event event = eventService.findById(eventId);
+		event.setActivitiesRegistrationStatus("Open");
+		eventService.updateActivitiesRegistrationStatus(event);;
+		return "redirect:/event-{eventId}";
+	}
 
 }

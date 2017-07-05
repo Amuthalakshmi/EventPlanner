@@ -11,6 +11,7 @@ public interface EventService {
 	void updateEvent(Event event);
 	void updateEventStatus(Event event);
 	void updateRegisteredParticipants(Event event);
+	void updateActivitiesRegistrationStatus(Event event);
 	void deleteEventById(int eventId);
 	List<Event> findAllEvent();
 	List<Event> findAllEventByName(String eventName);

@@ -59,7 +59,7 @@ public class EventPlannerConfiguration extends WebMvcConfigurerAdapter {
     public ViewResolver eventExcelViewResolver() {
         return new EventExcelViewResolver();
     }	
-
+	
 	/**
 	 * Configure ViewResolvers to provide HTML output This is the default format
      * in absence of any type suffix.

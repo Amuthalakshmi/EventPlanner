@@ -9,7 +9,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>${event.eventName}-AddActivity</title>
+<title><c:choose>
+		<c:when test="${edit}">
+						${event.eventName} - ${activity.activityName}
+		</c:when>
+		<c:otherwise>
+						${event.eventName} - Add activity
+		</c:otherwise>
+	</c:choose></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -49,13 +56,16 @@
 			<ul class="nav nav-tabs justify-content-center" role="tablist">
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='/' />">Home</a></li>
-				<c:if test="${eventManager != null}">
+				<c:if test="${isEventManager}">
 					<li class="nav-item"><a class="nav-link"
-						href="<c:url value='' />">Management </a></li>
+						href="<c:url value='/manager' />">Management</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="<c:url value='/admin' />">Administration</a></li>
 				</c:if>
-				<c:if test="${eventOrganiser != null}">
+				<c:if test="${isEventOrganiser}">
 					<li class="nav-item"><a class="nav-link active"
-						data-toggle="tab" href="#addActivity" role="tab"> Coordination </a></li>
+						data-toggle="tab" href="#eventOrganiser" role="tab"> Coordination
+					</a></li>
 				</c:if>
 				<li class="nav-item"><a class="nav-link"
 					href="<c:url value='/registration' />">Registration</a></li>
@@ -65,22 +75,25 @@
 					href="<c:url value='' />">Contact Us</a></li>
 			</ul>
 
+			<!-- Tab panes -->
 			<div class="tab-content">
-				<div class="tab-pane fade show active" id="addActivity"
+				<div class="tab-pane fade show active" id="eventOrganiser"
 					role="tabpanel">
-					<div class='page-header'>
-						<h4 style="display: inline-block">
-							<c:choose>
+					
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a
+							href="<c:url value='/organiser${eventOrganiserId}' />">Coordination</a></li>
+						<li class="breadcrumb-item"><a
+							href="<c:url value='/organiser${eventOrganiserId}/plan/event${event.eventId}' />">${event.eventName}</a></li>
+						<li class="breadcrumb-item active"><c:choose>
 								<c:when test="${edit}">
-						${event.eventName} <small> - ${activity.activityName} </small>
+									${activity.activityName}
 								</c:when>
 								<c:otherwise>
-						${event.eventName} <small>- Add Activity </small>
+									Add Activity
 								</c:otherwise>
-							</c:choose>
-						</h4>
-						<div class="seperator"></div>
-					</div>
+							</c:choose></li>
+					</ol>
 
 					<div id="ActivityForm">
 						<form:form class="card card-block bg-faded" method="POST"

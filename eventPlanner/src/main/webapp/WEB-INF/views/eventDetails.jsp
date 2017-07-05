@@ -154,7 +154,7 @@
 
 															<c:if test="${edit}">
 																<a
-																	href="<c:url value='http://localhost:8080/eventPlanner/event-1.xls' />">
+																	href="<c:url value='/event-${event.eventId}.xls' />">
 																	<button type="button" class="btn btn-link float-right">
 																		Export to Excel</button>
 																</a> &nbsp; &nbsp;																
@@ -536,10 +536,40 @@
 									<div id="activities" class="collapse" role="tabpanel"
 										aria-labelledby="activitiesHeading">
 										<div class="card-block">
+
+
 											<div class="container">
-												<div class="horizontal TaskList">
+												<div class="horizontal ActivitiesList">
 													<c:choose>
-														<c:when test="${not empty event.associatedTasks}">
+														<c:when test="${not empty event.associatedActivities}">
+
+															<c:if test="${empty event.activitiesRegistrationStatus}">
+																<div class="row">
+																	&nbsp; &nbsp; &nbsp; <a class="nav-link"
+																		href="<c:url value='/event${event.eventId}/openActReg' />">
+																		<button type="button" class="btn btn-sm btn-success">
+																			Open registration for activities</button>
+																	</a>
+																</div>
+																<br>
+															</c:if>
+
+															<div class="table-responsive">
+																<table class="table table-striped table-bordered">
+																	<tr>
+																		<th>Activity</th>
+																		<th>Description</th>
+																	</tr>
+																	<c:forEach items="${event.associatedActivities}"
+																		var="activity">
+																		<tr class="data">
+																			<td>${activity.activityName}</td>
+																			<td>${activity.activityDetails}</td>
+																		</tr>
+																	</c:forEach>
+																</table>
+															</div>
+
 														</c:when>
 														<c:otherwise>
 														There are no activities

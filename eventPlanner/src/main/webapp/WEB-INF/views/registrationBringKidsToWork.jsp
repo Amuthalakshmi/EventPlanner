@@ -100,14 +100,14 @@
 											<c:if test="${edit}">
 												<c:if
 													test="${participant.registrationStatus ne 'Cancelled'}">
-													
+
 													<a href="<c:url value='/${participantId}/cancel' />">
 														<button class="btn btn-link float-right" type="button">
 															Cancel registration</button>
 													</a>&nbsp; &nbsp;
 													
 													<div id="sep" class="float-right">|</div>
-													
+
 													<button id="participantEditBtn" type="button"
 														class="btn btn-link float-right"
 														onClick="editParticipantToUpdate()">Edit</button>
@@ -184,12 +184,15 @@
 
 											<div class="foreachkid" id="foreachkid">
 
-												<c:forEach items="${participant.children}" varStatus="i">
+												<c:forEach items="${participant.children}" var="child"
+													varStatus="i">
 
 													<div class="child card card-block bg-faded"
 														id="child${i.index + 1}">
 														<legend>Child ${i.index + 1}</legend>
 														<div class="separator"></div>
+
+														<form:input type="hidden" path="children[${i.index}].childId"/>
 
 														<div class="row form-group">
 															<label class="control-label col-md-3" for="childName">Full
@@ -290,6 +293,37 @@
 																</div>
 															</div>
 														</div>
+
+
+														<c:if
+															test="${participant.event.activitiesRegistrationStatus eq 'Open'}">
+
+															<c:if test="${empty child.activity}">
+																<div class="row">
+																	&nbsp; &nbsp; &nbsp;
+																	<p class="text-warning">Register for event-day
+																		activities</p>
+																	<sub> Edit the form to register </sub>
+																</div>
+															</c:if>
+
+															<div class="row form-group">
+																<label class="control-label col-md-3">Choose an
+																	activity </label>
+																<div class="col-md-9">
+																	<c:forEach items="${validActivities[child]}"
+																		var="activity">
+																		<form:radiobutton path="children[${i.index}].activity.activityId"
+																			value="${activity.activityId}" disabled="${edit}" /> ${activity.activityName} 
+																					<br> &nbsp; &nbsp; Details: ${activity.activityDetails}
+																					<br> &nbsp; &nbsp; Time	: ${activity.startTime} - ${activity.endTime}
+																					<br>
+																	</c:forEach>
+																</div>
+															</div>
+														</c:if>
+
+
 													</div>
 												</c:forEach>
 											</div>

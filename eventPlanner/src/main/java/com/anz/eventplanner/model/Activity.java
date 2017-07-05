@@ -1,5 +1,8 @@
 package com.anz.eventplanner.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -58,6 +62,9 @@ public class Activity {
 	@ManyToOne(fetch=FetchType.EAGER, cascade= {CascadeType.MERGE})
     @JoinColumn(name = "event_id", referencedColumnName="event_id")
     private Event event;	
+	
+	@OneToMany(mappedBy = "activity", cascade = {CascadeType.MERGE }, fetch = FetchType.EAGER)
+	private Set<Child> registeredChildren = new HashSet<Child>();
 	
 	public int getActivityId() {
 		return activityId;
@@ -147,9 +154,17 @@ public class Activity {
 		this.event = event;
 	}
 
+	public Set<Child> getRegisteredChildren() {
+		return registeredChildren;
+	}
+
+	public void setRegisteredChildren(Set<Child> registeredChildren) {
+		this.registeredChildren = registeredChildren;
+	}
+
 	@Override
 	public String toString(){
-		return "Activty [Activity ID:" + activityId + ", Activity name:" + activityName + "]";
+		return "Activity [Activity ID:" + activityId + ", Activity name:" + activityName + "]";
 	}
 	
 	@Override

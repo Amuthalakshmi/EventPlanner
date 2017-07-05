@@ -40,7 +40,7 @@ public class UserController {
 	ParticipantService participantService;	
 	
 	public UserController() {		
-		user.setLANId("USR3WLG");
+		user.setLANId("USR1WLG");
 	}
 	
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)

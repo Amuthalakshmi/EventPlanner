@@ -1,5 +1,7 @@
 package com.anz.eventplanner.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.anz.eventplanner.model.Activity;
 import com.anz.eventplanner.model.Event;
+import com.anz.eventplanner.model.EventOrganiser;
+import com.anz.eventplanner.model.Participant;
 import com.anz.eventplanner.service.ActivityService;
+import com.anz.eventplanner.service.ParticipantService;
 
 @Controller
 public class ActivityController {
@@ -22,14 +27,33 @@ public class ActivityController {
 	EventController eventController;
 	
 	@Autowired
+	EventOrganiserController eventOrganiserController;
+	
+	@Autowired
 	ActivityService activityService;	
 
 	@Autowired
 	MessageSource messageSource;
+	
+	@Autowired
+	UserController userController;
+	
+	@Autowired
+	ParticipantService participantService;
 
 	@RequestMapping(value = { "/eo-{eventOrganiserId}/event-{eventId}/newActivity" }, method = RequestMethod.GET)
 	public String newActivity(@PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "eventOrganiserId") int eventOrganiserId, ModelMap model) {
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);		
+		
 		Activity activity = new Activity();
 		Event event = eventController.eventService.findById(eventId);
 		model.addAttribute("event", event);
@@ -58,6 +82,17 @@ public class ActivityController {
 	@RequestMapping(value = { "/eo-{eventOrganiserId}/event-{eventId}/activity-{activityId}" }, method = RequestMethod.GET)
 	public String editActivity(@PathVariable(value = "eventOrganiserId") int eventOrganiserId, @PathVariable(value = "eventId") int eventId,
 			@PathVariable(value = "activityId") int activityId, ModelMap model) {
+		
+		String LANId = userController.user.getLANId();
+		model.addAttribute("isEventManager", userController.isEventManager(LANId));
+		if (userController.isEventOrganiser(LANId)) {
+			EventOrganiser eventOrganiser = eventOrganiserController.eventOrganiserService.findByLANId(LANId);
+			model.addAttribute("isEventOrganiser", userController.isEventOrganiser(LANId));
+			model.addAttribute("eventOrganiserId", eventOrganiser.getEventOrganiserId());
+		}
+		List<Participant> participation = participantService.findAllParticipantByLANId(LANId);
+		model.addAttribute("participation", participation);
+		
 		Activity activity = activityService.findById(activityId);
 		Event event = activity.getEvent();
 		model.addAttribute("activity", activity);
@@ -93,4 +128,5 @@ public class ActivityController {
 		activityService.deleteActivityById(activityId);
 		return "redirect:/organiser{eventOrganiserId}/plan/event{eventId}";
 	}	
+	
 }

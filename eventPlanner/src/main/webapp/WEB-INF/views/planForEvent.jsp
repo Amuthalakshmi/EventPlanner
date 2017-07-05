@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>${event.eventName}-Eventplanning</title>
+<title>${event.eventName} - Event planning</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Bootstrap -->
@@ -81,8 +81,7 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a
 							href="<c:url value='//organiser${eventOrganiserId}' />">Coordination</a></li>
-						<li class="breadcrumb-item active">${event.eventName}-
-							planning</li>
+						<li class="breadcrumb-item active">${event.eventName}</li>
 					</ol>
 
 					<div id="accordion" role="tablist" aria-multiselectable="true">
